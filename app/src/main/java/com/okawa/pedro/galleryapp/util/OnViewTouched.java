@@ -1,4 +1,4 @@
-package com.okawa.pedro.galleryapp.control;
+package com.okawa.pedro.galleryapp.util;
 
 import android.view.View;
 

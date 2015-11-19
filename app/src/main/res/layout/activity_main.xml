@@ -4,7 +4,7 @@
     <data>
         <variable
             name="touchListener"
-            type="com.okawa.pedro.galleryapp.control.OnViewTouched"/>
+            type="com.okawa.pedro.galleryapp.util.OnViewTouched"/>
     </data>
 
     <LinearLayout

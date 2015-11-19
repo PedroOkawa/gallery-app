@@ -6,7 +6,7 @@ import android.view.View;
 import com.okawa.pedro.galleryapp.R;
 import com.okawa.pedro.galleryapp.component.ApiComponent;
 import com.okawa.pedro.galleryapp.component.DaggerApiComponent;
-import com.okawa.pedro.galleryapp.control.OnViewTouched;
+import com.okawa.pedro.galleryapp.util.OnViewTouched;
 import com.okawa.pedro.galleryapp.databinding.ActivityMainBinding;
 import com.okawa.pedro.galleryapp.module.ApiModule;
 
