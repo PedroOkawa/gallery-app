@@ -2,7 +2,7 @@ package com.okawa.pedro.galleryapp.di.component;
 
 import com.okawa.pedro.galleryapp.di.module.MainModule;
 import com.okawa.pedro.galleryapp.di.scope.Activity;
-import com.okawa.pedro.galleryapp.presenter.MainPresenter;
+import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
 import com.okawa.pedro.galleryapp.ui.main.MainActivity;
 
 import dagger.Component;

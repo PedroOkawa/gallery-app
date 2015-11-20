@@ -6,7 +6,7 @@ import com.okawa.pedro.galleryapp.di.module.AppModule;
 import com.okawa.pedro.galleryapp.di.module.RealmModule;
 import com.okawa.pedro.galleryapp.di.module.ShutterStockModule;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
-import com.okawa.pedro.galleryapp.ui.main.MainActivity;
+import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 
 import javax.inject.Singleton;
 
@@ -29,6 +29,7 @@ public interface AppComponent {
 
     Retrofit provideRetrofit();
     ShutterStockInterface provideShutterStockInterface();
+    ShutterStockPresenter provideShutterStockPresenter();
     Realm provideRealm();
 
 }

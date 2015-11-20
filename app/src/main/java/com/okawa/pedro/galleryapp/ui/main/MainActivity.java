@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.okawa.pedro.galleryapp.App;
 import com.okawa.pedro.galleryapp.R;
 import com.okawa.pedro.galleryapp.di.component.AppComponent;
 import com.okawa.pedro.galleryapp.di.component.DaggerMainComponent;
 import com.okawa.pedro.galleryapp.di.module.MainModule;
 import com.okawa.pedro.galleryapp.model.Data;
-import com.okawa.pedro.galleryapp.presenter.MainPresenter;
+import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
 import com.okawa.pedro.galleryapp.databinding.ActivityMainBinding;
 import com.okawa.pedro.galleryapp.ui.common.BaseActivity;
 import com.okawa.pedro.galleryapp.util.OnViewTouchListener;
@@ -47,8 +46,8 @@ public class MainActivity extends BaseActivity implements OnViewTouchListener, M
     @Override
     protected void doOnCreated(Bundle saveInstanceState) {
         mBinding = (ActivityMainBinding) getDataBinding();
-        mBinding.setViewTouchListener(this);
 
+        mMainPresenter.reload();
     }
 
     @Override

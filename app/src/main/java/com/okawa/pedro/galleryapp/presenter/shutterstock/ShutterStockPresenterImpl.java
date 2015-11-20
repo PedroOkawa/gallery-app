@@ -1,11 +1,11 @@
-package com.okawa.pedro.galleryapp.presenter;
+package com.okawa.pedro.galleryapp.presenter.shutterstock;
 
 import android.util.Log;
 
 import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.model.Response;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
-import com.okawa.pedro.galleryapp.ui.main.MainView;
+import com.okawa.pedro.galleryapp.util.OnDataRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,27 +20,20 @@ import rx.schedulers.Schedulers;
 /**
  * Created by pokawa on 20/11/15.
  */
-public class MainPresenterImpl implements MainPresenter {
+public class ShutterStockPresenterImpl implements ShutterStockPresenter {
 
-    private MainView mMainView;
-    private Realm mRealm;
     private ShutterStockInterface mShutterStockInterface;
+    private Realm mRealm;
 
-    public MainPresenterImpl(
-            MainView mainView,
-            Realm realm,
-            ShutterStockInterface shutterStockInterface) {
-        this.mMainView = mainView;
-        this.mRealm = realm;
+    public ShutterStockPresenterImpl(
+            ShutterStockInterface shutterStockInterface,
+            Realm realm) {
         this.mShutterStockInterface = shutterStockInterface;
+        this.mRealm = realm;
     }
 
     @Override
-    public void onResume() {
-        mMainView.showProgress();
-    }
-
-    public void loadData() {
+    public void loadData(final OnDataRequest onDataRequest) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put(ShutterStockInterface.PARAMETER_PAGE, "1");
 
@@ -59,7 +52,7 @@ public class MainPresenterImpl implements MainPresenter {
                     @Override
                     public void onCompleted() {
                         Log.d("GALLERY_APP", "COMPLETED");
-                        mMainView.hideProgress();
+                        onDataRequest.onDataCompleted();
                     }
 
                     @Override
@@ -68,7 +61,7 @@ public class MainPresenterImpl implements MainPresenter {
                             INCLUDE CRASHLYTICS (FABRIC)
                          */
                         Log.d("GALLERY_APP", "ERROR: " + e.getMessage());
-                        mMainView.hideProgress();
+                        onDataRequest.onDataError(e.getMessage());
                     }
 
                     @Override
@@ -81,7 +74,7 @@ public class MainPresenterImpl implements MainPresenter {
 
                         mRealm.close();
 
-                        mMainView.loadData(data);
+                        onDataRequest.onDataLoaded(data);
                     }
                 });
     }

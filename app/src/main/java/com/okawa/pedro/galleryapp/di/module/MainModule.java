@@ -1,13 +1,12 @@
 package com.okawa.pedro.galleryapp.di.module;
 
-import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
-import com.okawa.pedro.galleryapp.presenter.MainPresenter;
-import com.okawa.pedro.galleryapp.presenter.MainPresenterImpl;
+import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
+import com.okawa.pedro.galleryapp.presenter.main.MainPresenterImpl;
+import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.main.MainView;
 
 import dagger.Module;
 import dagger.Provides;
-import io.realm.Realm;
 
 /**
  * Created by pokawa on 20/11/15.
@@ -28,9 +27,8 @@ public class MainModule {
 
     @Provides
     public MainPresenter provideMainPresenter(MainView mainView,
-                                              Realm realm,
-                                              ShutterStockInterface shutterStockInterface) {
-        return new MainPresenterImpl(mainView, realm, shutterStockInterface);
+                                              ShutterStockPresenter shutterStockPresenter) {
+        return new MainPresenterImpl(mainView, shutterStockPresenter);
     }
 
 }
