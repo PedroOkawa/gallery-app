@@ -5,33 +5,39 @@ import android.util.Log;
 import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.model.Response;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
-import com.okawa.pedro.galleryapp.ui.MainActivity;
+import com.okawa.pedro.galleryapp.ui.main.MainView;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
+import io.realm.Realm;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
  * Created by pokawa on 20/11/15.
  */
-public class MainActivityPresenter {
+public class MainPresenterImpl implements MainPresenter {
 
-    private MainActivity mMainActivity;
+    private MainView mMainView;
+    private Realm mRealm;
     private ShutterStockInterface mShutterStockInterface;
 
-    public MainActivityPresenter(
-            MainActivity mainActivity,
+    public MainPresenterImpl(
+            MainView mainView,
+            Realm realm,
             ShutterStockInterface shutterStockInterface) {
-        this.mMainActivity = mainActivity;
+        this.mMainView = mainView;
+        this.mRealm = realm;
         this.mShutterStockInterface = shutterStockInterface;
+    }
+
+    @Override
+    public void onResume() {
+        mMainView.showProgress();
     }
 
     public void loadData() {
@@ -52,7 +58,8 @@ public class MainActivityPresenter {
                 .subscribe(new Observer<List<Data>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("GALLERY APP", "COMPLETED");
+                        Log.d("GALLERY_APP", "COMPLETED");
+                        mMainView.hideProgress();
                     }
 
                     @Override
@@ -60,15 +67,21 @@ public class MainActivityPresenter {
                         /*
                             INCLUDE CRASHLYTICS (FABRIC)
                          */
-                        Log.d("GALLERY APP", "ERROR: " + e.getMessage());
+                        Log.d("GALLERY_APP", "ERROR: " + e.getMessage());
+                        mMainView.hideProgress();
                     }
 
                     @Override
-                    public void onNext(List<Data> dataList) {
-                        for(int i = 0 ; i < dataList.size(); i++) {
-                            Log.d("GALLERY APP", "PRESENTER TEST (" + i + "): " + dataList.get(i).getAssets().getPreview().getUrl());
-                        }
-                        mMainActivity.displayData(dataList);
+                    public void onNext(List<Data> data) {
+                        mRealm.beginTransaction();
+                        mRealm.copyToRealmOrUpdate(data);
+                        mRealm.commitTransaction();
+
+                        Log.d("GALLERY_APP", "REALM: " + mRealm.where(Data.class).findAll().size());
+
+                        mRealm.close();
+
+                        mMainView.loadData(data);
                     }
                 });
     }

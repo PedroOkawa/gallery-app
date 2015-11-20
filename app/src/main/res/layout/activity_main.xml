@@ -12,7 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- ADD MAIN ACTIVITY'S LAYOUT HERE -->
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/rvMainActivityImages"-->
+            <!--android:scrollbars="vertical"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
 
     </LinearLayout>
 </layout>

@@ -6,5 +6,5 @@ import javax.inject.Scope;
  * Created by pokawa on 19/11/15.
  */
 @Scope
-public @interface AppScope {
+public @interface Activity {
 }

@@ -2,11 +2,13 @@ package com.okawa.pedro.galleryapp.di.module;
 
 import android.util.Base64;
 import android.util.Log;
+import android.util.Pair;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.okawa.pedro.galleryapp.App;
 import com.okawa.pedro.galleryapp.BuildConfig;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -38,25 +40,44 @@ public class ApiModule {
     private static final String VERSION = "v2/";
     private static final String BASE_URL = PREFIX.concat(URL).concat(VERSION);
 
-    private String mUsername;
-    private String mPassword;
+    @Singleton
+    @Provides
+    Pair<String, String> provideCredentials(App app) {
+        String username = "";
+        String password = "";
 
-    public ApiModule(String username, String password) {
-        this.mUsername = username;
-        this.mPassword = password;
+        Properties properties = new Properties();
+        try {
+            InputStream inputStream = app.getAssets().open("api.properties");
+            properties.load(inputStream);
+
+            username = properties.getProperty("username");
+            password = properties.getProperty("password");
+        } catch (IOException e) {
+            /*
+                INCLUDE CRASHLYTICS (FABRIC)
+             */
+            e.printStackTrace();
+        }
+
+        return new Pair<>(username, password);
     }
 
-    @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient() {
+    @Provides
+    OkHttpClient provideOkHttpClient(final Pair<String, String> credentials) {
         OkHttpClient client = new OkHttpClient();
 
         client.setConnectTimeout(0, TimeUnit.MILLISECONDS);
         client.interceptors().add(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
-                String credentials = (mUsername).concat(":").concat(mPassword);
-                String basic = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+                String basic = "Basic " +
+                        Base64
+                        .encodeToString((credentials.first)
+                        .concat(":")
+                        .concat(credentials.second)
+                        .getBytes(), Base64.NO_WRAP);
 
                 Request original = chain.request();
                 Request request = original.newBuilder()
@@ -80,8 +101,8 @@ public class ApiModule {
         return client;
     }
 
-    @Provides
     @Singleton
+    @Provides
     GsonConverterFactory provideGsonConverterFactory() {
         Gson gson = new GsonBuilder()
                 .setExclusionStrategies(new ExclusionStrategy() {
@@ -99,8 +120,8 @@ public class ApiModule {
         return GsonConverterFactory.create(gson);
     }
 
-    @Provides
     @Singleton
+    @Provides
     Retrofit provideRetrofit(OkHttpClient client, GsonConverterFactory gsonConverterFactory) {
         return new Retrofit
                 .Builder()

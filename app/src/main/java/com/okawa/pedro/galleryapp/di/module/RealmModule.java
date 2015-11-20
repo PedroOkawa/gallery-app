@@ -1,10 +1,14 @@
 package com.okawa.pedro.galleryapp.di.module;
 
+import com.okawa.pedro.galleryapp.BuildConfig;
+import com.okawa.pedro.galleryapp.App;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by pokawa on 20/11/15.
@@ -12,15 +16,18 @@ import io.realm.Realm;
 @Module
 public class RealmModule {
 
-    private Realm mRealm;
+    private static final String DATABASE_NAME = "gallery.realm";
 
-    public RealmModule(Realm realm) {
-        this.mRealm = realm;
-    }
-
-    @Provides
     @Singleton
-    Realm provideRealm() {
-        return mRealm;
+    @Provides
+    Realm provideRealm(App app) {
+        RealmConfiguration.Builder builder = new RealmConfiguration.Builder(app);
+        builder.name(DATABASE_NAME);
+        if(BuildConfig.DEBUG) {
+            builder.deleteRealmIfMigrationNeeded();
+        }
+        Realm.setDefaultConfiguration(builder.build());
+
+        return Realm.getDefaultInstance();
     }
 }

@@ -4,11 +4,13 @@ import com.google.gson.annotations.Expose;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by pokawa on 19/11/15.
  */
 public class Data extends RealmObject {
+    @PrimaryKey
     @Expose private long id;
     @Expose private Assets assets;
     @Expose private RealmList<Categories> categories;
