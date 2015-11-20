@@ -1,4 +1,4 @@
-package com.okawa.pedro.galleryapp.view;
+package com.okawa.pedro.galleryapp.ui;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;

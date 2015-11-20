@@ -4,31 +4,31 @@ package com.okawa.pedro.galleryapp.model;
  * Created by pokawa on 19/11/15.
  */
 public class Assets {
-    private Image preview;
-    private Image smallThumb;
-    private Image largeThumb;
+    private Content preview;
+    private Content smallThumb;
+    private Content largeThumb;
 
-    public Image getPreview() {
+    public Content getPreview() {
         return preview;
     }
 
-    public void setPreview(Image preview) {
+    public void setPreview(Content preview) {
         this.preview = preview;
     }
 
-    public Image getSmallThumb() {
+    public Content getSmallThumb() {
         return smallThumb;
     }
 
-    public void setSmallThumb(Image smallThumb) {
+    public void setSmallThumb(Content smallThumb) {
         this.smallThumb = smallThumb;
     }
 
-    public Image getLargeThumb() {
+    public Content getLargeThumb() {
         return largeThumb;
     }
 
-    public void setLargeThumb(Image largeThumb) {
+    public void setLargeThumb(Content largeThumb) {
         this.largeThumb = largeThumb;
     }
 }
