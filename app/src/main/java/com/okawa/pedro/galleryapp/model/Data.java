@@ -1,16 +1,19 @@
 package com.okawa.pedro.galleryapp.model;
 
-import java.util.List;
+import com.google.gson.annotations.Expose;
+
+import io.realm.RealmList;
+import io.realm.RealmObject;
 
 /**
  * Created by pokawa on 19/11/15.
  */
-public class Data {
-    private long id;
-    private Assets assets;
-    private List<Categories> categories;
-    private Contributor contributor;
-    private String imageType;
+public class Data extends RealmObject {
+    @Expose private long id;
+    @Expose private Assets assets;
+    @Expose private RealmList<Categories> categories;
+    @Expose private Contributor contributor;
+    @Expose private String imageType;
 
     public long getId() {
         return id;
@@ -28,11 +31,11 @@ public class Data {
         this.assets = assets;
     }
 
-    public List<Categories> getCategories() {
+    public RealmList<Categories> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Categories> categories) {
+    public void setCategories(RealmList<Categories> categories) {
         this.categories = categories;
     }
 

@@ -3,8 +3,8 @@
 
     <data>
         <variable
-            name="touchListener"
-            type="com.okawa.pedro.galleryapp.util.OnViewTouched"/>
+            name="viewTouchListener"
+            type="com.okawa.pedro.galleryapp.util.OnViewTouchListener"/>
     </data>
 
     <LinearLayout

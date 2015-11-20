@@ -21,6 +21,7 @@ public class GalleryApp extends Application {
 
     private ApiComponent mApiComponent;
     private ShutterStockComponent mShutterStockComponent;
+
     private String username;
     private String password;
 
@@ -29,20 +30,6 @@ public class GalleryApp extends Application {
         super.onCreate();
         retrieveApiCredentials();
         defineComponents();
-    }
-
-    private void defineComponents() {
-        mApiComponent = DaggerApiComponent
-                .builder()
-                .galleryAppModule(new GalleryAppModule(this))
-                .apiModule(new ApiModule(username, password))
-                .build();
-
-        mShutterStockComponent = DaggerShutterStockComponent
-                .builder()
-                .apiComponent(mApiComponent)
-                .shutterStockModule(new ShutterStockModule())
-                .build();
     }
 
     private void retrieveApiCredentials() {
@@ -54,8 +41,26 @@ public class GalleryApp extends Application {
             username = properties.getProperty("username");
             password = properties.getProperty("password");
         } catch (IOException e) {
+            /*
+                INCLUDE CRASHLYTICS (FABRIC)
+             */
             e.printStackTrace();
         }
+    }
+
+    private void defineComponents() {
+
+        mApiComponent = DaggerApiComponent
+                .builder()
+                .galleryAppModule(new GalleryAppModule(this))
+                .apiModule(new ApiModule(username, password))
+                .build();
+
+        mShutterStockComponent = DaggerShutterStockComponent
+                .builder()
+                .apiComponent(mApiComponent)
+                .shutterStockModule(new ShutterStockModule())
+                .build();
     }
 
     public ApiComponent getApiComponent() {

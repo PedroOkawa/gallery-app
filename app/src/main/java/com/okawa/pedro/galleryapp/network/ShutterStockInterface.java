@@ -3,7 +3,6 @@ package com.okawa.pedro.galleryapp.network;
 import com.okawa.pedro.galleryapp.model.Contributor;
 import com.okawa.pedro.galleryapp.model.Response;
 
-import java.util.List;
 import java.util.Map;
 
 import retrofit.http.GET;

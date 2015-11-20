@@ -1,6 +1,6 @@
 package com.okawa.pedro.galleryapp.di.module;
 
-import com.okawa.pedro.galleryapp.di.scope.UserScope;
+import com.okawa.pedro.galleryapp.di.scope.AppScope;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
 
 import dagger.Module;
@@ -13,7 +13,7 @@ import retrofit.Retrofit;
 @Module
 public class ShutterStockModule {
 
-    @UserScope
+    @AppScope
     @Provides
     ShutterStockInterface provideShutterStockService(Retrofit retrofit) {
         return retrofit.create(ShutterStockInterface.class);

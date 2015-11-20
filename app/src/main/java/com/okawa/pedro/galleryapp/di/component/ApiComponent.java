@@ -7,6 +7,7 @@ import com.squareup.okhttp.OkHttpClient;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
 /**
@@ -18,5 +19,6 @@ public interface ApiComponent {
 
     Retrofit retrofit();
     OkHttpClient okHttpClient();
+    GsonConverterFactory gsonConverterFactory();
 
 }

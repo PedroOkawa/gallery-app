@@ -1,7 +1,7 @@
 package com.okawa.pedro.galleryapp.di.component;
 
 import com.okawa.pedro.galleryapp.di.module.ShutterStockModule;
-import com.okawa.pedro.galleryapp.di.scope.UserScope;
+import com.okawa.pedro.galleryapp.di.scope.AppScope;
 import com.okawa.pedro.galleryapp.ui.MainActivity;
 
 import dagger.Component;
@@ -9,7 +9,7 @@ import dagger.Component;
 /**
  * Created by pokawa on 19/11/15.
  */
-@UserScope
+@AppScope
 @Component(dependencies = ApiComponent.class, modules = ShutterStockModule.class)
 public interface ShutterStockComponent {
 

@@ -1,12 +1,16 @@
 package com.okawa.pedro.galleryapp.model;
 
+import com.google.gson.annotations.Expose;
+
+import io.realm.RealmObject;
+
 /**
  * Created by pokawa on 19/11/15.
  */
-public class Assets {
-    private Content preview;
-    private Content smallThumb;
-    private Content largeThumb;
+public class Assets extends RealmObject {
+    @Expose private Content preview;
+    @Expose private Content smallThumb;
+    @Expose private Content largeThumb;
 
     public Content getPreview() {
         return preview;

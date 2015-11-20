@@ -5,7 +5,7 @@ import android.view.View;
 /**
  * Created by pokawa on 19/11/15.
  */
-public interface OnViewTouched {
+public interface OnViewTouchListener {
 
     void onViewTouched(View view);
 

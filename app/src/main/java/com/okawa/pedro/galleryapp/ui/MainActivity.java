@@ -6,26 +6,23 @@ import android.view.View;
 
 import com.okawa.pedro.galleryapp.GalleryApp;
 import com.okawa.pedro.galleryapp.R;
-import com.okawa.pedro.galleryapp.model.Response;
+import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
-import com.okawa.pedro.galleryapp.util.OnViewTouched;
+import com.okawa.pedro.galleryapp.presenter.MainActivityPresenter;
 import com.okawa.pedro.galleryapp.databinding.ActivityMainBinding;
+import com.okawa.pedro.galleryapp.util.OnViewTouchListener;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.inject.Inject;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by pokawa on 19/11/15.
  */
-public class MainActivity extends BaseActivity implements OnViewTouched {
+public class MainActivity extends BaseActivity implements OnViewTouchListener {
 
     private ActivityMainBinding mBinding;
+    private MainActivityPresenter mMainActivityPresenter;
 
     @Inject
     ShutterStockInterface mShutterStockInterface;
@@ -38,31 +35,21 @@ public class MainActivity extends BaseActivity implements OnViewTouched {
     @Override
     protected void doOnCreated(Bundle saveInstanceState) {
         mBinding = (ActivityMainBinding) getDataBinding();
-        mBinding.setTouchListener(this);
+        mBinding.setViewTouchListener(this);
 
         ((GalleryApp)getApplication()).getShutterStockComponent().inject(this);
-
-        Map<String, String> parameters = new HashMap<>();
-
-        parameters.put(ShutterStockInterface.PARAMETER_PAGE, "1");
-
-        mShutterStockInterface
-                .imageList(parameters)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Response>() {
-                    @Override
-                    public void call(Response response) {
-                        int index = 0;
-                        for(int i = 0; i < response.getData().size(); i++) {
-                            Log.d("GALLERY TEST", "IMAGE (" + (index++) + "): " + response.getData().get(i).getAssets().getPreview().getUrl());
-                        }
-                    }
-                });
+        mMainActivityPresenter = new MainActivityPresenter(this, mShutterStockInterface);
+        mMainActivityPresenter.loadData();
     }
 
     @Override
     public void onViewTouched(View view) {
 
+    }
+
+    public void displayData(List<Data> dataList) {
+        for(int i = 0 ; i < dataList.size(); i++) {
+            Log.d("GALLERY APP", "TEST (" + i + "): " + dataList.get(i).getAssets().getPreview().getUrl());
+        }
     }
 }
