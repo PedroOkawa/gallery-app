@@ -9,7 +9,7 @@ import io.realm.RealmObject;
  */
 public class Contributor extends RealmObject {
     @Expose private String id;
-    @Expose private String name;
+    @Expose private String display_name;
 
     public String getId() {
         return id;
@@ -19,11 +19,11 @@ public class Contributor extends RealmObject {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getDisplay_name() {
+        return display_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDisplay_name(String display_name) {
+        this.display_name = display_name;
     }
 }

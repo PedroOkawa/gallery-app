@@ -9,8 +9,8 @@ import java.util.List;
  */
 public interface OnDataRequest {
 
-    void onDataLoaded(List<Data> data);
+    void onDataLoaded(List<Data> dataList);
     void onDataError(String message);
-    void onDataCompleted();
+    void onCompleted();
 
 }

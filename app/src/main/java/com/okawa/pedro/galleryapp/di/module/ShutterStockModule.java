@@ -26,8 +26,7 @@ public class ShutterStockModule {
     @Singleton
     @Provides
     public ShutterStockPresenter provideShutterStockPresenter(
-            ShutterStockInterface shutterStockInterface,
-            Realm realm) {
-        return new ShutterStockPresenterImpl(shutterStockInterface, realm);
+            ShutterStockInterface shutterStockInterface) {
+        return new ShutterStockPresenterImpl(shutterStockInterface);
     }
 }

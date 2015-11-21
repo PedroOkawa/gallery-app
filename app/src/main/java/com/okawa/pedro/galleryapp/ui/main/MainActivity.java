@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity implements OnViewTouchListener, M
     @Override
     public void loadData(List<Data> data) {
         for(int i = 0 ; i < data.size(); i++) {
-            Log.d("GALLERY_APP", "TEST (" + i + "): " + data.get(i).getAssets().getPreview().getUrl());
+            Log.d("GALLERY_APP", "TEST (" + i + "): " + data.get(i).getAssets().getPreview().getUrl() + " - " + data.get(i).getContributor().getDisplay_name());
         }
     }
 }

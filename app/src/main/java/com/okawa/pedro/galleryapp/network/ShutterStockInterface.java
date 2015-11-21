@@ -22,7 +22,7 @@ public interface ShutterStockInterface {
 
     @GET(IMAGE_LIST)
     Observable<Response> imageList(
-            @QueryMap Map<String, String> parameters
+            @QueryMap Map<String, Long> parameters
     );
 
     @GET(CONTRIBUTOR_DETAILS)

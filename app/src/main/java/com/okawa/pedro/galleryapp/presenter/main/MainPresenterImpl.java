@@ -1,5 +1,7 @@
 package com.okawa.pedro.galleryapp.presenter.main;
 
+import android.util.Log;
+
 import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.main.MainView;
@@ -22,7 +24,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequest {
 
     @Override
     public void reload() {
-        mShutterStockPresenter.loadData(this);
+        mShutterStockPresenter.loadData(this, 1, "");
     }
 
     @Override
@@ -31,8 +33,9 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequest {
     }
 
     @Override
-    public void onDataLoaded(List<Data> data) {
-        mMainView.loadData(data);
+    public void onDataLoaded(List<Data> dataList) {
+        mMainView.loadData(dataList);
+        mMainView.hideProgress();
     }
 
     @Override
@@ -41,7 +44,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequest {
     }
 
     @Override
-    public void onDataCompleted() {
-        mMainView.showProgress();
+    public void onCompleted() {
+
     }
 }
