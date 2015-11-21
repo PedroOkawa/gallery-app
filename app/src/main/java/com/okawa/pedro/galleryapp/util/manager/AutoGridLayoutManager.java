@@ -1,0 +1,29 @@
+package com.okawa.pedro.galleryapp.util.manager;
+
+import android.content.Context;
+import android.content.res.Configuration;
+import android.support.v7.widget.GridLayoutManager;
+import android.util.AttributeSet;
+
+/**
+ * Created by pokawa on 21/11/15.
+ */
+public class AutoGridLayoutManager extends GridLayoutManager {
+    public AutoGridLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    public AutoGridLayoutManager(Context context) {
+        super(context,
+                context.getResources().getConfiguration().orientation ==
+                        Configuration.ORIENTATION_PORTRAIT ? 1 : 2);
+    }
+
+    public AutoGridLayoutManager(Context context, int orientation, boolean reverseLayout) {
+        super(context,
+                context.getResources().getConfiguration().orientation ==
+                        Configuration.ORIENTATION_PORTRAIT ? 1 : 2,
+                orientation,
+                reverseLayout);
+    }
+}

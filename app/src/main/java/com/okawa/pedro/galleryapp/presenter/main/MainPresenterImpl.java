@@ -1,23 +1,30 @@
 package com.okawa.pedro.galleryapp.presenter.main;
 
+import android.support.v7.widget.RecyclerView;
+
+import com.okawa.pedro.galleryapp.App;
 import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.main.MainView;
-import com.okawa.pedro.galleryapp.util.OnDataRequest;
+import com.okawa.pedro.galleryapp.util.listener.OnDataRequestListener;
 
 import java.util.List;
 
 /**
  * Created by pokawa on 20/11/15.
  */
-public class MainPresenterImpl implements MainPresenter, OnDataRequest {
+public class MainPresenterImpl implements MainPresenter, OnDataRequestListener {
 
     private MainView mMainView;
+    private RecyclerView mRecyclerView;
     private ShutterStockPresenter mShutterStockPresenter;
 
-    public MainPresenterImpl(MainView mainView, ShutterStockPresenter shutterStockPresenter) {
+    public MainPresenterImpl(MainView mainView,
+                             RecyclerView recyclerView,
+                             ShutterStockPresenter shutterStockPresenter) {
         this.mMainView = mainView;
+        this.mRecyclerView = recyclerView;
         this.mShutterStockPresenter = shutterStockPresenter;
     }
 
@@ -33,7 +40,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequest {
 
     @Override
     public void onDataLoaded(List<Data> dataList) {
-        mMainView.loadData(dataList);
+        mMainView.loadData();
         mMainView.hideProgress();
     }
 

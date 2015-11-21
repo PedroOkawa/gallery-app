@@ -1,4 +1,4 @@
-package com.okawa.pedro.galleryapp.util;
+package com.okawa.pedro.galleryapp.util.listener;
 
 import android.view.View;
 

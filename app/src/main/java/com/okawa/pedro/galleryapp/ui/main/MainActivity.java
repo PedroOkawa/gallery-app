@@ -1,7 +1,6 @@
 package com.okawa.pedro.galleryapp.ui.main;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.okawa.pedro.galleryapp.R;
@@ -12,11 +11,16 @@ import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
 import com.okawa.pedro.galleryapp.databinding.ActivityMainBinding;
 import com.okawa.pedro.galleryapp.ui.common.BaseActivity;
-import com.okawa.pedro.galleryapp.util.OnViewTouchListener;
+import com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener;
+import com.okawa.pedro.galleryapp.util.adapter.main.MainImagesAdapter;
+import com.okawa.pedro.galleryapp.util.manager.AutoGridLayoutManager;
 
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by pokawa on 19/11/15.
@@ -24,6 +28,8 @@ import javax.inject.Inject;
 public class MainActivity extends BaseActivity implements OnViewTouchListener, MainView {
 
     private ActivityMainBinding mBinding;
+
+    private MainImagesAdapter mMainImagesAdapter;
 
     @Inject
     MainPresenter mMainPresenter;
@@ -34,19 +40,26 @@ public class MainActivity extends BaseActivity implements OnViewTouchListener, M
     }
 
     @Override
-    protected void initializeComponent(AppComponent appComponent) {
+    protected void initialize(AppComponent appComponent) {
+        mBinding = (ActivityMainBinding) getDataBinding();
+
+        Realm realm = Realm.getDefaultInstance();
+
+        mMainImagesAdapter = new MainImagesAdapter(this, realm.where(Data.class).findAll());
+
+        mBinding.rvMainActivityImages.setLayoutManager(new AutoGridLayoutManager(this));
+        mBinding.rvMainActivityImages.setAdapter(mMainImagesAdapter);
+
         DaggerMainComponent
                 .builder()
                 .appComponent(appComponent)
-                .mainModule(new MainModule(this))
+                .mainModule(new MainModule(this, mBinding.rvMainActivityImages))
                 .build()
                 .inject(this);
     }
 
     @Override
     protected void doOnCreated(Bundle saveInstanceState) {
-        mBinding = (ActivityMainBinding) getDataBinding();
-
         mMainPresenter.reload();
     }
 
@@ -72,9 +85,7 @@ public class MainActivity extends BaseActivity implements OnViewTouchListener, M
     }
 
     @Override
-    public void loadData(List<Data> data) {
-        for(int i = 0 ; i < data.size(); i++) {
-            Log.d("GALLERY_APP", "TEST (" + i + "): " + data.get(i).getAssets().getPreview().getUrl() + " - " + data.get(i).getContributor().getDisplay_name());
-        }
+    public void loadData() {
+
     }
 }

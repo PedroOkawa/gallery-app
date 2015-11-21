@@ -14,11 +14,8 @@ import io.realm.RealmResults;
  */
 public class MainImagesAdapter extends SimpleRealmAdapter<Data, AdapterMainImagesBinding> {
 
-    public MainImagesAdapter(
-            Context context,
-            RealmResults<Data> realmResults,
-            boolean automaticUpdate) {
-        super(context, realmResults, automaticUpdate);
+    public MainImagesAdapter(Context context, RealmResults<Data> realmResults) {
+        super(context, realmResults, false);
     }
 
     @Override

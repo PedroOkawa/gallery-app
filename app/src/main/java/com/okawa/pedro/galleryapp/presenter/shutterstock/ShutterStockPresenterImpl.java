@@ -6,7 +6,7 @@ import com.okawa.pedro.galleryapp.model.Contributor;
 import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.model.Response;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
-import com.okawa.pedro.galleryapp.util.OnDataRequest;
+import com.okawa.pedro.galleryapp.util.listener.OnDataRequestListener;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +32,7 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
     }
 
     @Override
-    public void loadData(final OnDataRequest onDataRequest, long page, long categoryId) {
+    public void loadData(final OnDataRequestListener onDataRequestListener, long page, long categoryId) {
         /*
          PARAMETERS TO REQUEST DATA
              # CURRENT PAGE: PARAMETER NAME:
@@ -77,7 +77,7 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                                 .doOnError(new Action1<Throwable>() {
                                     @Override
                                     public void call(Throwable throwable) {
-                                        onDataRequest.onDataError(throwable.getMessage());
+                                        onDataRequestListener.onDataError(throwable.getMessage());
                                     }
                                 });
                     }
@@ -91,19 +91,19 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                 .subscribe(new Observer<List<Data>>() {
                     @Override
                     public void onCompleted() {
-                        onDataRequest.onCompleted();
+                        onDataRequestListener.onCompleted();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        onDataRequest.onDataError(e.getMessage());
+                        onDataRequestListener.onDataError(e.getMessage());
                         Log.d("GALLERY_APP", "ERROR SECOND: " + e.getMessage());
                     }
 
                     @Override
                     public void onNext(List<Data> dataList) {
                         persistOnDatabase(dataList);
-                        onDataRequest.onDataLoaded(dataList);
+                        onDataRequestListener.onDataLoaded(dataList);
                     }
                 });
     }

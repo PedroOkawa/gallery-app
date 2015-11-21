@@ -24,6 +24,7 @@ import retrofit.Retrofit;
 public interface AppComponent {
     void inject(App app);
 
+    App provideApp();
     Retrofit provideRetrofit();
     ShutterStockInterface provideShutterStockInterface();
     ShutterStockPresenter provideShutterStockPresenter();

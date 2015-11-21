@@ -1,5 +1,7 @@
 package com.okawa.pedro.galleryapp.di.module;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenterImpl;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
@@ -15,20 +17,28 @@ import dagger.Provides;
 public class MainModule {
 
     private MainView mMainView;
+    private RecyclerView mRecyclerView;
 
-    public MainModule(MainView mainView) {
+    public MainModule(MainView mainView, RecyclerView recyclerView) {
         this.mMainView = mainView;
+        this.mRecyclerView = recyclerView;
     }
 
     @Provides
-    MainView provideMainView() {
+    public MainView provideMainView() {
         return mMainView;
     }
 
     @Provides
+    public RecyclerView provideRecyclerView() {
+        return mRecyclerView;
+    }
+
+    @Provides
     public MainPresenter provideMainPresenter(MainView mainView,
+                                              RecyclerView recyclerView,
                                               ShutterStockPresenter shutterStockPresenter) {
-        return new MainPresenterImpl(mainView, shutterStockPresenter);
+        return new MainPresenterImpl(mainView, recyclerView, shutterStockPresenter);
     }
 
 }
