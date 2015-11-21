@@ -7,6 +7,6 @@ import com.okawa.pedro.galleryapp.util.OnDataRequest;
  */
 public interface ShutterStockPresenter {
 
-    void loadData(OnDataRequest onDataRequest, long page, String category);
+    void loadData(OnDataRequest onDataRequest, long page, long category);
 
 }

@@ -32,14 +32,20 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
     }
 
     @Override
-    public void loadData(final OnDataRequest onDataRequest, long page, String category) {
+    public void loadData(final OnDataRequest onDataRequest, long page, long categoryId) {
         /*
-         PARAMETERS TO LOAD THE LIST
-         CURRENT PAGE: PARAMETER NAME - PAGE (ShutterStockInterface.PARAMETER_PAGE)
+         PARAMETERS TO REQUEST DATA
+             # CURRENT PAGE: PARAMETER NAME:
+                * PAGE (ShutterStockInterface.PARAMETER_PAGE)
+             # CATEGORY SELECTED: PARAMETER NAME:
+                * CATEGORY (ShutterStockInterface.PARAMETER_CATEGORY)
          */
 
         Map<String, Long> parameters = new HashMap<>();
         parameters.put(ShutterStockInterface.PARAMETER_PAGE, page);
+        if(categoryId != ShutterStockInterface.PARAMETER_CATEGORY_ALL) {
+            parameters.put(ShutterStockInterface.PARAMETER_CATEGORY, categoryId);
+        }
 
         /* REQUESTS THE IMAGE'S DATA */
         mShutterStockInterface

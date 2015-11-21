@@ -1,8 +1,7 @@
 package com.okawa.pedro.galleryapp.presenter.main;
 
-import android.util.Log;
-
 import com.okawa.pedro.galleryapp.model.Data;
+import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.main.MainView;
 import com.okawa.pedro.galleryapp.util.OnDataRequest;
@@ -24,7 +23,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequest {
 
     @Override
     public void reload() {
-        mShutterStockPresenter.loadData(this, 1, "");
+        mShutterStockPresenter.loadData(this, 1, ShutterStockInterface.PARAMETER_CATEGORY_ALL);
     }
 
     @Override

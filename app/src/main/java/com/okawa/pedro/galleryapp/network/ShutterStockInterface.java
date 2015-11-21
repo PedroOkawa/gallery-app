@@ -14,6 +14,8 @@ import rx.Observable;
  * Created by pokawa on 19/11/15.
  */
 public interface ShutterStockInterface {
+    long PARAMETER_CATEGORY_ALL = -1;
+
     String IMAGE_LIST = "images/search";
     String PARAMETER_PAGE = "page";
     String PARAMETER_CATEGORY = "category";
