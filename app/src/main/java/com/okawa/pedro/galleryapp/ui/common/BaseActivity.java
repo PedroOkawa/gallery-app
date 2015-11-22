@@ -20,13 +20,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, layoutToInflate());
-        initialize(((App) getApplication()).getAppComponent());
-        doOnCreated(savedInstanceState);
+        doOnCreated(((App) getApplication()).getAppComponent(), savedInstanceState);
     }
 
     protected abstract @LayoutRes int layoutToInflate();
-    protected abstract void initialize(AppComponent appComponent);
-    protected abstract void doOnCreated(Bundle saveInstanceState);
+    protected abstract void doOnCreated(AppComponent appComponent, Bundle saveInstanceState);
 
     protected ViewDataBinding getDataBinding() {
         return binding;

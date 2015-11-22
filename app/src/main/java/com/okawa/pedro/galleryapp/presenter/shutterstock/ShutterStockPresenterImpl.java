@@ -95,12 +95,13 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
     /* PARSE DATA AND PERSIST THE CATEGORY ON DATABASE */
     private ImageData parseData(Data data) {
         /* PERSIST CATEGORY ON DATABASE */
-        new Thread(new CategoryPersistence(mCategoryRepository, data)).start();
+        new Thread(new CategoryPersistence(data)).start();
 
         /* PARSE DATA RETRIEVED TO IMAGE DATA */
         ImageData imageData = new ImageData();
 
-        imageData.setImageID(data.getId());
+        imageData.setImageId(data.getId());
+        imageData.setDescription(data.getDescription());
         imageData.setImageType(data.getImage_type());
         imageData.setContributor(data.getContributor().getDisplay_name());
         imageData.setImageURL(data.getAssets().getPreview().getUrl());
@@ -113,26 +114,24 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
      */
     public class CategoryPersistence implements Runnable {
 
-        private CategoryRepository mCategoryRepository;
         private Data mData;
 
-        public CategoryPersistence(CategoryRepository categoryRepository, Data data) {
-            this.mCategoryRepository = categoryRepository;
+        public CategoryPersistence(Data data) {
             this.mData = data;
         }
 
         @Override
         public void run() {
-                List<CategoryData> categories = new ArrayList<>();
-                for(Categories category : mData.getCategories()) {
-                    CategoryData categoryData = new CategoryData();
-                    categoryData.setCategoryId(category.getId());
-                    categoryData.setName(category.getName());
-                    categoryData.setImageId(mData.getId());
-                    categories.add(categoryData);
-                }
+            List<CategoryData> categories = new ArrayList<>();
+            for(Categories category : mData.getCategories()) {
+                CategoryData categoryData = new CategoryData();
+                categoryData.setCategoryId(category.getId());
+                categoryData.setName(category.getName());
+                categoryData.setImageId(mData.getId());
+                categories.add(categoryData);
+            }
 
-                mCategoryRepository.insertOrReplaceInTx(categories);
+            mCategoryRepository.insertOrReplaceInTx(categories);
         }
     }
 }

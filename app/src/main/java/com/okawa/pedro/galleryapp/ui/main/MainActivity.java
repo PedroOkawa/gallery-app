@@ -2,7 +2,6 @@ package com.okawa.pedro.galleryapp.ui.main;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.View;
 
 import com.okawa.pedro.galleryapp.R;
 import com.okawa.pedro.galleryapp.di.component.AppComponent;
@@ -12,7 +11,6 @@ import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
 import com.okawa.pedro.galleryapp.databinding.ActivityMainBinding;
 import com.okawa.pedro.galleryapp.ui.common.BaseActivity;
 import com.okawa.pedro.galleryapp.util.adapter.main.MainAdapter;
-import com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener;
 import com.okawa.pedro.galleryapp.util.manager.AutoGridLayoutManager;
 
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ import greendao.ImageData;
 /**
  * Created by pokawa on 19/11/15.
  */
-public class MainActivity extends BaseActivity implements OnViewTouchListener, MainView {
+public class MainActivity extends BaseActivity implements MainView {
 
     private ActivityMainBinding mBinding;
     private AutoGridLayoutManager mAutoGridLayoutManager;
@@ -38,8 +36,14 @@ public class MainActivity extends BaseActivity implements OnViewTouchListener, M
     }
 
     @Override
-    protected void initialize(AppComponent appComponent) {
+    protected void doOnCreated(AppComponent appComponent, Bundle saveInstanceState) {
         mBinding = (ActivityMainBinding) getDataBinding();
+
+        mBinding.srActivityMainImages.setColorSchemeResources(
+                R.color.color_primary,
+                R.color.color_primary_dark,
+                R.color.color_accent);
+
         mAutoGridLayoutManager = new AutoGridLayoutManager(this);
         mBinding.rvActivityMainImages.setLayoutManager(mAutoGridLayoutManager);
         mBinding.rvActivityMainImages.setAdapter(new MainAdapter(this, new ArrayList<ImageData>()));
@@ -50,21 +54,6 @@ public class MainActivity extends BaseActivity implements OnViewTouchListener, M
                 .mainModule(new MainModule(this, mBinding.rvActivityMainImages))
                 .build()
                 .inject(this);
-    }
-
-    @Override
-    protected void doOnCreated(Bundle saveInstanceState) {
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mMainPresenter.onResume();
-    }
-
-    @Override
-    public void onViewTouched(View view) {
-
     }
 
     @Override

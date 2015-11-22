@@ -49,15 +49,11 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener {
                 (mImageRepository.countImageData() - OnMainRecyclerViewListener.LIST_THRESHOLD)) {
             loadData(mImageRepository.getPagedImageData(mMainAdapter.getItemCount()));
         } else {
+            mMainView.showProgress();
             mShutterStockPresenter.loadData(this,
                     mImageRepository.getCurrentPage(mMainAdapter.getItemCount()),
                     ShutterStockInterface.PARAMETER_CATEGORY_ALL);
         }
-    }
-
-    @Override
-    public void onResume() {
-        mMainView.showProgress();
     }
 
     @Override

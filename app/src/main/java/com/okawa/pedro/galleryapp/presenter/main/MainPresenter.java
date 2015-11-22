@@ -6,6 +6,5 @@ package com.okawa.pedro.galleryapp.presenter.main;
 public interface MainPresenter {
 
     void reload();
-    void onResume();
 
 }

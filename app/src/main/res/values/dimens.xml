@@ -2,6 +2,6 @@
 <resources>
     <!-- MAIN ADAPTER -->
     <dimen name="adapter_main_card_height">300dp</dimen>
-    <dimen name="adapter_main_card_margin">8dp</dimen>
-    <dimen name="adapter_main_card_elevation">8dp</dimen>
+    <dimen name="adapter_main_card_margin">6dp</dimen>
+    <dimen name="adapter_main_card_elevation">4dp</dimen>
 </resources>

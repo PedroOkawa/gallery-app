@@ -36,6 +36,10 @@ public class CategoryRepository {
         return mDaoSession.getCategoryDataDao().loadAll();
     }
 
+    public List<CategoryData> getImagesForId(long id) {
+        return mDaoSession.getCategoryDataDao()._queryImageData_CategoryDataList(id);
+    }
+
     public CategoryData getCategoryDataForId(long id) {
         return mDaoSession.getCategoryDataDao().load(id);
     }

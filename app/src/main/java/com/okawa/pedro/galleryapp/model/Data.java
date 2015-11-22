@@ -11,6 +11,7 @@ public class Data {
     private List<Categories> categories;
     private Contributor contributor;
     private String image_type;
+    private String description;
 
     public long getId() {
         return id;
@@ -50,5 +51,13 @@ public class Data {
 
     public void setImage_type(String image_type) {
         this.image_type = image_type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

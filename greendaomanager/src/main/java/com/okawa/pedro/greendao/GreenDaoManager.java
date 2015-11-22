@@ -4,6 +4,7 @@ import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
+import de.greenrobot.daogenerator.ToMany;
 
 public class GreenDaoManager {
 
@@ -12,11 +13,11 @@ public class GreenDaoManager {
     private static final int DATABASE_VERSION = 1;
 
     private static final String IMAGE_TABLE = "ImageData";
-    private static final String IMAGE_COLUMN_ID = "ImageID";
-    private static final String IMAGE_COLUMN_TYPE = "ImageType";
+    private static final String IMAGE_COLUMN_ID = "imageId";
+    private static final String IMAGE_COLUMN_TYPE = "imageType";
     private static final String IMAGE_COLUMN_URL = "imageURL";
     private static final String IMAGE_COLUMN_CONTRIBUTOR = "contributor";
-    private static final String IMAGE_COLUMN_DESCRIOTION = "description";
+    private static final String IMAGE_COLUMN_DESCRIPTION = "description";
 
     private static final String CATEGORY_TABLE = "CategoryData";
     private static final String CATEGORY_COLUMN_IMAGE_ID = "imageId";
@@ -38,7 +39,9 @@ public class GreenDaoManager {
         image.addStringProperty(IMAGE_COLUMN_TYPE);
         image.addStringProperty(IMAGE_COLUMN_URL);
         image.addStringProperty(IMAGE_COLUMN_CONTRIBUTOR);
-        image.addStringProperty(IMAGE_COLUMN_DESCRIOTION);
+        image.addStringProperty(IMAGE_COLUMN_DESCRIPTION);
+
+        image.setHasKeepSections(true);
 
         /* CATEGORY TABLE */
         Entity category = schema.addEntity(CATEGORY_TABLE);
