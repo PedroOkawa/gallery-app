@@ -8,7 +8,7 @@ import java.util.List;
 public class Response {
     private List<Data> data;
 
-    public List<Data> getData() {
+    public List<Data> getDataParser() {
         return data;
     }
 

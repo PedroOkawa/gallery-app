@@ -7,20 +7,13 @@ import com.okawa.pedro.galleryapp.R;
 import com.okawa.pedro.galleryapp.di.component.AppComponent;
 import com.okawa.pedro.galleryapp.di.component.DaggerMainComponent;
 import com.okawa.pedro.galleryapp.di.module.MainModule;
-import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
 import com.okawa.pedro.galleryapp.databinding.ActivityMainBinding;
 import com.okawa.pedro.galleryapp.ui.common.BaseActivity;
 import com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener;
-import com.okawa.pedro.galleryapp.util.adapter.main.MainImagesAdapter;
 import com.okawa.pedro.galleryapp.util.manager.AutoGridLayoutManager;
 
-import java.util.List;
-
 import javax.inject.Inject;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * Created by pokawa on 19/11/15.
@@ -28,8 +21,6 @@ import io.realm.RealmResults;
 public class MainActivity extends BaseActivity implements OnViewTouchListener, MainView {
 
     private ActivityMainBinding mBinding;
-
-    private MainImagesAdapter mMainImagesAdapter;
 
     @Inject
     MainPresenter mMainPresenter;
@@ -42,18 +33,13 @@ public class MainActivity extends BaseActivity implements OnViewTouchListener, M
     @Override
     protected void initialize(AppComponent appComponent) {
         mBinding = (ActivityMainBinding) getDataBinding();
-
-        Realm realm = Realm.getDefaultInstance();
-
-        mMainImagesAdapter = new MainImagesAdapter(this, realm.where(Data.class).findAll());
-
-        mBinding.rvMainActivityImages.setLayoutManager(new AutoGridLayoutManager(this));
-        mBinding.rvMainActivityImages.setAdapter(mMainImagesAdapter);
+//        mBinding.rvMainActivityImages.setLayoutManager(new AutoGridLayoutManager(this));
+//        mBinding.rvMainActivityImages.setAdapter(mMainImagesAdapter);
 
         DaggerMainComponent
                 .builder()
                 .appComponent(appComponent)
-                .mainModule(new MainModule(this, mBinding.rvMainActivityImages))
+                .mainModule(new MainModule(this, null))
                 .build()
                 .inject(this);
     }

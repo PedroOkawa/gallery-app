@@ -1,15 +1,15 @@
 package com.okawa.pedro.galleryapp.util.listener;
 
-import com.okawa.pedro.galleryapp.model.Data;
-
 import java.util.List;
+
+import greendao.ImageData;
 
 /**
  * Created by pokawa on 20/11/15.
  */
 public interface OnDataRequestListener {
 
-    void onDataLoaded(List<Data> dataList);
+    void onDataLoaded(List<ImageData> dataList);
     void onDataError(String message);
     void onCompleted();
 

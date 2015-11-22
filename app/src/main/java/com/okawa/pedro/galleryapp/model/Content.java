@@ -1,16 +1,12 @@
 package com.okawa.pedro.galleryapp.model;
 
-import com.google.gson.annotations.Expose;
-
-import io.realm.RealmObject;
-
 /**
  * Created by pokawa on 19/11/15.
  */
-public class Content extends RealmObject {
-    @Expose private int width;
-    @Expose private int height;
-    @Expose private String url;
+public class Content {
+    private int width;
+    private int height;
+    private String url;
 
     public int getWidth() {
         return width;

@@ -1,21 +1,17 @@
 package com.okawa.pedro.galleryapp.model;
 
-import com.google.gson.annotations.Expose;
-
-import io.realm.RealmObject;
-
 /**
  * Created by pokawa on 19/11/15.
  */
-public class Contributor extends RealmObject {
-    @Expose private String id;
-    @Expose private String display_name;
+public class Contributor {
+    private long id;
+    private String display_name;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

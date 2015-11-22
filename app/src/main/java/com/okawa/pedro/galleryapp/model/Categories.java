@@ -1,15 +1,11 @@
 package com.okawa.pedro.galleryapp.model;
 
-import com.google.gson.annotations.Expose;
-
-import io.realm.RealmObject;
-
 /**
  * Created by pokawa on 19/11/15.
  */
-public class Categories extends RealmObject {
-    @Expose private long id;
-    @Expose private String name;
+public class Categories {
+    private long id;
+    private String name;
 
     public long getId() {
         return id;

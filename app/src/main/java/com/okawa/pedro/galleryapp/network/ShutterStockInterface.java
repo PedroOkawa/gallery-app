@@ -17,6 +17,9 @@ public interface ShutterStockInterface {
     long PARAMETER_CATEGORY_ALL = -1;
 
     String IMAGE_LIST = "images/search";
+    String PARAMETER_VIEW = "view";
+    String PARAMETER_FULL_VALUE = "full";
+    String PARAMETER_MINI_VALUE = "minimal";
     String PARAMETER_PAGE = "page";
     String PARAMETER_CATEGORY = "category";
 
@@ -24,11 +27,11 @@ public interface ShutterStockInterface {
 
     @GET(IMAGE_LIST)
     Observable<Response> imageList(
-            @QueryMap Map<String, Long> parameters
+            @QueryMap Map<String, String> parameters
     );
 
     @GET(CONTRIBUTOR_DETAILS)
     Observable<Contributor> contributorDetails(
-            @Path("contributor_id") String contributor_id
+            @Path("contributor_id") long contributor_id
     );
 }

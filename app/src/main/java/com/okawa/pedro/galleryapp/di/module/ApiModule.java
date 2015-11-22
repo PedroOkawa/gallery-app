@@ -4,10 +4,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.okawa.pedro.galleryapp.App;
 import com.okawa.pedro.galleryapp.BuildConfig;
 import com.squareup.okhttp.Interceptor;
@@ -25,7 +21,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.realm.RealmObject;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
@@ -103,31 +98,12 @@ public class ApiModule {
 
     @Singleton
     @Provides
-    GsonConverterFactory provideGsonConverterFactory() {
-        Gson gson = new GsonBuilder()
-                .setExclusionStrategies(new ExclusionStrategy() {
-                    @Override
-                    public boolean shouldSkipField(FieldAttributes f) {
-                        return f.getDeclaringClass().equals(RealmObject.class);
-                    }
-
-                    @Override
-                    public boolean shouldSkipClass(Class<?> clazz) {
-                        return false;
-                    }
-                })
-                .create();
-        return GsonConverterFactory.create(gson);
-    }
-
-    @Singleton
-    @Provides
-    Retrofit provideRetrofit(OkHttpClient client, GsonConverterFactory gsonConverterFactory) {
+    Retrofit provideRetrofit(OkHttpClient client) {
         return new Retrofit
                 .Builder()
                 .client(client)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(gsonConverterFactory)
+                .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(BASE_URL)
                 .build();
     }

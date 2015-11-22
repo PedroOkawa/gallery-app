@@ -19,6 +19,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java', 'src/main/java-gen']
+            res.srcDirs = ['src/main/res']
+        }
+    }
     lintOptions {
         abortOnError false
     }
@@ -30,7 +37,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
 
-    compile 'io.realm:realm-android:0.85.0'
+    compile 'de.greenrobot:greendao:2.1.0'
 
     apt "com.google.dagger:dagger-compiler:2.0.1"
     compile 'com.google.dagger:dagger:2.0.1'
