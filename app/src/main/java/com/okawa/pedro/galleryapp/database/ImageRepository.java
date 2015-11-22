@@ -33,6 +33,10 @@ public class ImageRepository {
         return mDaoSession.getImageDataDao().count();
     }
 
+    public void clearImageData() {
+        mDaoSession.getImageDataDao().deleteAll();
+    }
+
     public int getCurrentPage(int itemCount) {
         if (itemCount == 0) return 1;
         return (itemCount / SELECT_LIMIT) + 1;

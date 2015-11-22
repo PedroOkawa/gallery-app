@@ -49,6 +49,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter {
         notifyItemRemoved(getItemPosition(item));
     }
 
+    public void reset() {
+        mData.clear();
+        notifyDataSetChanged();
+    }
+
     public int getItemPosition(T itemToFind) {
         return mData.indexOf(itemToFind);
     }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="onViewTouchListener"
+            type="com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:background="@drawable/background_touchable"
+        android:onClick="@{onViewTouchListener.onViewTouched}">
+
+        <TextView
+            style="@style/AppTextView"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="@dimen/navigation_view_footer_text_margin"
+            android:drawablePadding="@dimen/navigation_view_footer_drawable_padding"
+            android:drawableStart="@mipmap/ic_github"
+            android:text="@string/navigation_view_footer_text"/>
+
+    </LinearLayout>
+</layout>

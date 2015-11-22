@@ -8,7 +8,6 @@ import com.okawa.pedro.galleryapp.di.module.ImageRepositoryModule;
 import com.okawa.pedro.galleryapp.di.module.ApiModule;
 import com.okawa.pedro.galleryapp.di.module.AppModule;
 import com.okawa.pedro.galleryapp.di.module.DatabaseModule;
-import com.okawa.pedro.galleryapp.di.module.ShutterStockModule;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 
@@ -25,7 +24,6 @@ import retrofit.Retrofit;
 @Component(modules = {
         AppModule.class,
         ApiModule.class,
-        ShutterStockModule.class,
         DatabaseModule.class,
         ImageRepositoryModule.class,
         CategoryRepositoryModule.class

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="onViewTouchListener"
+            type="com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
+
+        <include
+            android:id="@+id/headerNavigationView"
+            layout="@layout/navigation_header"/>
+
+        <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/rvNavigationView"-->
+        <!--android:scrollbars="vertical"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/headerNavigationView"-->
+        <!--android:layout_above="@+id/footerNavigationView"/>-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/headerNavigationView"
+            android:layout_above="@+id/footerNavigationView"
+            android:background="@color/color_accent"/>
+
+        <include
+            android:id="@+id/footerNavigationView"
+            layout="@layout/navigation_footer"
+            bind:onViewTouchListener="@{onViewTouchListener}"/>
+
+    </RelativeLayout>
+
+</layout>

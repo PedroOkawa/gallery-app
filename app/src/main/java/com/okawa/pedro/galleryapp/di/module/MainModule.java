@@ -1,13 +1,13 @@
 package com.okawa.pedro.galleryapp.di.module;
 
-import android.support.v7.widget.RecyclerView;
+import android.databinding.ViewDataBinding;
 
+import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenterImpl;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.main.MainView;
-import com.okawa.pedro.galleryapp.util.listener.OnRecyclerViewThresholdListener;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,11 +18,11 @@ import dagger.Provides;
 @Module
 public class MainModule {
     private MainView mMainView;
-    private RecyclerView mRecyclerView;
+    private ViewDataBinding mViewDataBinding;
 
-    public MainModule(MainView mainView, RecyclerView recyclerView) {
+    public MainModule(MainView mainView, ViewDataBinding activityMainBinding) {
         this.mMainView = mainView;
-        this.mRecyclerView = recyclerView;
+        this.mViewDataBinding = activityMainBinding;
     }
 
     @Provides
@@ -31,18 +31,20 @@ public class MainModule {
     }
 
     @Provides
-    public RecyclerView provideRecyclerView() {
-        return mRecyclerView;
+    public ViewDataBinding provideActivityMainBinding() {
+        return mViewDataBinding;
     }
 
     @Provides
     public MainPresenter provideMainPresenter(MainView mainView,
                                               ImageRepository imageRepository,
+                                              CategoryRepository categoryRepository,
                                               ShutterStockPresenter shutterStockPresenter,
-                                              RecyclerView recyclerView) {
+                                              ViewDataBinding viewDataBinding) {
         return new MainPresenterImpl(mainView,
                 imageRepository,
+                categoryRepository,
                 shutterStockPresenter,
-                recyclerView);
+                viewDataBinding);
     }
 }

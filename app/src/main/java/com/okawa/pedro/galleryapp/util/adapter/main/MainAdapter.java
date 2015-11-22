@@ -37,7 +37,7 @@ public class MainAdapter extends SimpleAdapter<ImageData, AdapterMainBinding> {
         Glide.with(mContext)
                 .load(imageData.getImageURL())
                 .thumbnail(Glide.with(mContext).load(imageData.getImageURL()).centerCrop())
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.mipmap.ic_placeholder)
                 .dontAnimate()
                 .centerCrop()
                 .into(binding.ivAdapterMainImage);
@@ -50,10 +50,14 @@ public class MainAdapter extends SimpleAdapter<ImageData, AdapterMainBinding> {
 
         Glide.with(mContext)
                 .load(iconResource)
-                .thumbnail(Glide.with(mContext).load(iconResource).centerCrop())
+                .thumbnail(Glide.with(mContext).load(iconResource).fitCenter())
                 .dontAnimate()
-                .centerCrop()
+                .fitCenter()
                 .into(binding.ivAdapterMainType);
+
+        StringBuffer stringBuffer = new StringBuffer().append("ID: ").append(imageData.getImageId());
+
+        binding.tvAdapterMainId.setText(stringBuffer.toString());
 
         binding.setImageData(imageData);
     }

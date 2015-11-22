@@ -1,7 +1,14 @@
 package com.okawa.pedro.galleryapp.ui.main;
 
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.View;
 
 import com.okawa.pedro.galleryapp.R;
 import com.okawa.pedro.galleryapp.di.component.AppComponent;
@@ -11,6 +18,7 @@ import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
 import com.okawa.pedro.galleryapp.databinding.ActivityMainBinding;
 import com.okawa.pedro.galleryapp.ui.common.BaseActivity;
 import com.okawa.pedro.galleryapp.util.adapter.main.MainAdapter;
+import com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener;
 import com.okawa.pedro.galleryapp.util.manager.AutoGridLayoutManager;
 
 import java.util.ArrayList;
@@ -39,6 +47,11 @@ public class MainActivity extends BaseActivity implements MainView {
     protected void doOnCreated(AppComponent appComponent, Bundle saveInstanceState) {
         mBinding = (ActivityMainBinding) getDataBinding();
 
+        setSupportActionBar(mBinding.toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_menu);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         mBinding.srActivityMainImages.setColorSchemeResources(
                 R.color.color_primary,
                 R.color.color_primary_dark,
@@ -51,7 +64,7 @@ public class MainActivity extends BaseActivity implements MainView {
         DaggerMainComponent
                 .builder()
                 .appComponent(appComponent)
-                .mainModule(new MainModule(this, mBinding.rvActivityMainImages))
+                .mainModule(new MainModule(this, mBinding))
                 .build()
                 .inject(this);
     }
@@ -72,8 +85,23 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     @Override
+    public void openGithub(Intent intent) {
+        startActivity(intent);
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         mAutoGridLayoutManager.changeColumnsNumber(newConfig.orientation);
         super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            mBinding.drawerLayout.openDrawer(GravityCompat.START);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

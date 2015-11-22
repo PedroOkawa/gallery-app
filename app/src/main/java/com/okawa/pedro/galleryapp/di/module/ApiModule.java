@@ -6,6 +6,11 @@ import android.util.Pair;
 
 import com.okawa.pedro.galleryapp.App;
 import com.okawa.pedro.galleryapp.BuildConfig;
+import com.okawa.pedro.galleryapp.database.CategoryRepository;
+import com.okawa.pedro.galleryapp.database.ImageRepository;
+import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
+import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
+import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenterImpl;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -114,5 +119,22 @@ public class ApiModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(BASE_URL)
                 .build();
+    }
+
+    @Singleton
+    @Provides
+    public ShutterStockInterface provideShutterStockInterface(Retrofit retrofit) {
+        return retrofit.create(ShutterStockInterface.class);
+    }
+
+    @Singleton
+    @Provides
+    public ShutterStockPresenter provideShutterStockPresenter(
+            ShutterStockInterface shutterStockInterface,
+            ImageRepository imageRepository,
+            CategoryRepository categoryRepository) {
+        return new ShutterStockPresenterImpl(shutterStockInterface,
+                imageRepository,
+                categoryRepository);
     }
 }

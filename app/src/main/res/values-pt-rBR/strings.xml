@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- APP -->
+    <string name="app_name">App Galeria</string>
+
+    <!-- NAVIGATION VIEW (FOOTER) -->
+    <string name="navigation_view_footer_text">GIT DO PROJETO</string>
+</resources>

@@ -3,5 +3,19 @@
     <!-- MAIN ADAPTER -->
     <dimen name="adapter_main_card_height">300dp</dimen>
     <dimen name="adapter_main_card_margin">6dp</dimen>
-    <dimen name="adapter_main_card_elevation">4dp</dimen>
+    <dimen name="adapter_main_card_elevation">8dp</dimen>
+    <dimen name="adapter_main_icon_type_size">32dp</dimen>
+    <dimen name="adapter_main_icon_type_margin">6dp</dimen>
+    <dimen name="adapter_main_details_margin">6dp</dimen>
+
+    <!-- NAVIGATION VIEW (HEADER) -->
+    <dimen name="navigation_view_header_content_margin_top">20dp</dimen>
+    <dimen name="navigation_view_header_content_margin_bottom">20dp</dimen>
+
+    <!-- NAVIGATION VIEW (FOOTER) -->
+    <dimen name="navigation_view_footer_drawable_padding">10dp</dimen>
+    <dimen name="navigation_view_footer_text_margin">10dp</dimen>
+
+    <!-- TEXT VIEW STYLE -->
+    <dimen name="app_text_size">20sp</dimen>
 </resources>

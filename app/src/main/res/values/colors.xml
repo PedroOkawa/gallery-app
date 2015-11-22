@@ -2,8 +2,10 @@
 <resources>
     <color name="color_primary">#BF5282</color>
     <color name="color_primary_dark">#B73B71</color>
-    <color name="color_accent">#F7DEE8</color>
+    <color name="color_accent">#49495B</color>
+    <color name="color_toolbar">@android:color/transparent</color>
+    <color name="color_image_details">@color/color_black_alpha_77</color>
 
-    <color name="color_black_alpha_55">#55000000</color>
+    <color name="color_black_alpha_77">#77000000</color>
 
 </resources>

@@ -1,3 +1,13 @@
 <resources>
+    <!-- APP -->
     <string name="app_name">Gallery App</string>
+
+    <!-- NAVIGATION VIEW (HEADER) -->
+    <string name="navigation_view_header_text">UPDAY</string>
+
+    <!-- NAVIGATION VIEW (FOOTER) -->
+    <string name="navigation_view_footer_text">PROJECT\'S GIT</string>
+
+    <!-- MISC -->
+    <string name="github_uri">https://github.com/PedroOkawa/gallery-app</string>
 </resources>

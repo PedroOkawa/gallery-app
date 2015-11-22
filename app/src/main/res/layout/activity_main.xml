@@ -1,32 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <data>
+        <variable
+            name="onViewTouchListener"
+            type="com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener"/>
+    </data>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_accent">
+        android:fitsSystemWindows="true"
+        tools:context=".MainActivity">
 
-        <android.support.v7.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/toolbar"
-            android:layout_height="@dimen/abc_action_bar_default_height_material"
+        <!-- MAIN CONTENT -->
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:minHeight="?attr/actionBarSize"
-            android:background="@color/color_primary"/>
+            android:layout_height="match_parent"
+            android:background="@color/color_accent">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/srActivityMainImages"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvActivityMainImages"
-                android:scrollbars="vertical"
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/srActivityMainImages"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+                <!-- IMAGES LIST -->
 
-    </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvActivityMainImages"
+                    android:scrollbars="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+            <!-- TOOLBAR -->
+
+            <android.support.v7.widget.Toolbar
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/toolbar"
+                android:layout_height="@dimen/abc_action_bar_default_height_material"
+                android:layout_width="match_parent"
+                android:minHeight="?attr/actionBarSize"
+                android:background="@color/color_toolbar"/>
+
+        </RelativeLayout>
+
+        <!-- NAVIGATION VIEW -->
+
+        <include
+            android:id="@+id/nvLayout"
+            layout="@layout/navigation_view"
+            bind:onViewTouchListener="@{onViewTouchListener}"/>
+
+    </android.support.v4.widget.DrawerLayout>
 </layout>
