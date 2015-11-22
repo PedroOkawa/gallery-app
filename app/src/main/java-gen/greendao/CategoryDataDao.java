@@ -26,8 +26,8 @@ public class CategoryDataDao extends AbstractDao<CategoryData, Long> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property ImageId = new Property(0, long.class, "imageId", false, "IMAGE_ID");
-        public final static Property Id = new Property(1, Long.class, "id", true, "_id");
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
+        public final static Property ImageId = new Property(1, long.class, "imageId", false, "IMAGE_ID");
         public final static Property CategoryId = new Property(2, long.class, "categoryId", false, "CATEGORY_ID");
         public final static Property Name = new Property(3, String.class, "name", false, "NAME");
     };
@@ -46,8 +46,8 @@ public class CategoryDataDao extends AbstractDao<CategoryData, Long> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'CATEGORY_DATA' (" + //
-                "'IMAGE_ID' INTEGER NOT NULL ," + // 0: imageId
-                "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 1: id
+                "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
+                "'IMAGE_ID' INTEGER NOT NULL ," + // 1: imageId
                 "'CATEGORY_ID' INTEGER NOT NULL ," + // 2: categoryId
                 "'NAME' TEXT NOT NULL );"); // 3: name
     }
@@ -62,12 +62,12 @@ public class CategoryDataDao extends AbstractDao<CategoryData, Long> {
     @Override
     protected void bindValues(SQLiteStatement stmt, CategoryData entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getImageId());
  
         Long id = entity.getId();
         if (id != null) {
-            stmt.bindLong(2, id);
+            stmt.bindLong(1, id);
         }
+        stmt.bindLong(2, entity.getImageId());
         stmt.bindLong(3, entity.getCategoryId());
         stmt.bindString(4, entity.getName());
     }
@@ -75,15 +75,15 @@ public class CategoryDataDao extends AbstractDao<CategoryData, Long> {
     /** @inheritdoc */
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1);
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     /** @inheritdoc */
     @Override
     public CategoryData readEntity(Cursor cursor, int offset) {
         CategoryData entity = new CategoryData( //
-            cursor.getLong(offset + 0), // imageId
-            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // id
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+            cursor.getLong(offset + 1), // imageId
             cursor.getLong(offset + 2), // categoryId
             cursor.getString(offset + 3) // name
         );
@@ -93,8 +93,8 @@ public class CategoryDataDao extends AbstractDao<CategoryData, Long> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, CategoryData entity, int offset) {
-        entity.setImageId(cursor.getLong(offset + 0));
-        entity.setId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setImageId(cursor.getLong(offset + 1));
         entity.setCategoryId(cursor.getLong(offset + 2));
         entity.setName(cursor.getString(offset + 3));
      }

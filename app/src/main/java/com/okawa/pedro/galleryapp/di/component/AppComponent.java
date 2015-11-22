@@ -38,7 +38,7 @@ public interface AppComponent {
     ShutterStockInterface provideShutterStockInterface();
     ShutterStockPresenter provideShutterStockPresenter();
     DaoSession provideDaoSession();
-    ImageRepository provideDataRepository();
+    ImageRepository provideImageRepository();
     CategoryRepository provideCategoryRepository();
 
 }

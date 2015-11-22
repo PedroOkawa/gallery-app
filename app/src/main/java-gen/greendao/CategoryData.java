@@ -6,8 +6,8 @@ package greendao;
  */
 public class CategoryData {
 
-    private long imageId;
     private Long id;
+    private long imageId;
     private long categoryId;
     /** Not-null value. */
     private String name;
@@ -19,19 +19,11 @@ public class CategoryData {
         this.id = id;
     }
 
-    public CategoryData(long imageId, Long id, long categoryId, String name) {
-        this.imageId = imageId;
+    public CategoryData(Long id, long imageId, long categoryId, String name) {
         this.id = id;
+        this.imageId = imageId;
         this.categoryId = categoryId;
         this.name = name;
-    }
-
-    public long getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(long imageId) {
-        this.imageId = imageId;
     }
 
     public Long getId() {
@@ -40,6 +32,14 @@ public class CategoryData {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(long imageId) {
+        this.imageId = imageId;
     }
 
     public long getCategoryId() {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <FrameLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/adapter_main_card_height"
+        android:layout_margin="@dimen/adapter_main_card_margin"
+        android:elevation="@dimen/adapter_main_card_elevation"
+        android:clipToPadding="false"
+        android:outlineProvider="bounds"
+        android:foreground="?android:attr/selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/ivAdapterMainImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <RelativeLayout
+            android:id="@+id/rlInfo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:background="@android:color/darker_gray"/>
+
+    </FrameLayout>
+
+</layout>

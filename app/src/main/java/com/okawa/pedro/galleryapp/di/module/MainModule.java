@@ -7,6 +7,7 @@ import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenterImpl;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.main.MainView;
+import com.okawa.pedro.galleryapp.util.listener.OnRecyclerViewThresholdListener;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,31 +17,32 @@ import dagger.Provides;
  */
 @Module
 public class MainModule {
-
     private MainView mMainView;
-//    private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
 
     public MainModule(MainView mainView, RecyclerView recyclerView) {
         this.mMainView = mainView;
-//        this.mRecyclerView = recyclerView;
+        this.mRecyclerView = recyclerView;
     }
 
     @Provides
     public MainView provideMainView() {
         return mMainView;
     }
-//
-//    @Provides
-//    public RecyclerView provideRecyclerView() {
-//        return mRecyclerView;
-//    }
+
+    @Provides
+    public RecyclerView provideRecyclerView() {
+        return mRecyclerView;
+    }
 
     @Provides
     public MainPresenter provideMainPresenter(MainView mainView,
-//                                              RecyclerView recyclerView,
                                               ImageRepository imageRepository,
-                                              ShutterStockPresenter shutterStockPresenter) {
-        return new MainPresenterImpl(mainView, imageRepository, shutterStockPresenter);
+                                              ShutterStockPresenter shutterStockPresenter,
+                                              RecyclerView recyclerView) {
+        return new MainPresenterImpl(mainView,
+                imageRepository,
+                shutterStockPresenter,
+                recyclerView);
     }
-
 }

@@ -3,11 +3,9 @@ package com.okawa.pedro.galleryapp.network;
 import com.okawa.pedro.galleryapp.model.Contributor;
 import com.okawa.pedro.galleryapp.model.Response;
 
-import java.util.Map;
-
 import retrofit.http.GET;
 import retrofit.http.Path;
-import retrofit.http.QueryMap;
+import retrofit.http.Query;
 import rx.Observable;
 
 /**
@@ -19,15 +17,16 @@ public interface ShutterStockInterface {
     String IMAGE_LIST = "images/search";
     String PARAMETER_VIEW = "view";
     String PARAMETER_FULL_VALUE = "full";
-    String PARAMETER_MINI_VALUE = "minimal";
     String PARAMETER_PAGE = "page";
+    String PARAMETER_PER_PAGE = "per_page";
     String PARAMETER_CATEGORY = "category";
 
     String CONTRIBUTOR_DETAILS = "contributors/{contributor_id}";
 
     @GET(IMAGE_LIST)
     Observable<Response> imageList(
-            @QueryMap Map<String, String> parameters
+            @Query(PARAMETER_VIEW) String view,
+            @Query(PARAMETER_PAGE) long page
     );
 
     @GET(CONTRIBUTOR_DETAILS)

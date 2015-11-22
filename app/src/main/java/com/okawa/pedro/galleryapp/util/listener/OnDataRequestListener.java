@@ -9,7 +9,7 @@ import greendao.ImageData;
  */
 public interface OnDataRequestListener {
 
-    void onDataLoaded(List<ImageData> dataList);
+    void onDataLoaded(List<ImageData> dataSet);
     void onDataError(String message);
     void onCompleted();
 

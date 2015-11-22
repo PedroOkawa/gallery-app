@@ -7,9 +7,21 @@ import de.greenrobot.daogenerator.Schema;
 
 public class GreenDaoManager {
 
-    private static String OUTPUT_DIR = "../app/src/main/java-gen";
-    private static String PACKAGE_NAME = "greendao";
-    private static int DATABASE_VERSION = 1;
+    private static final String OUTPUT_DIR = "../app/src/main/java-gen";
+    private static final String PACKAGE_NAME = "greendao";
+    private static final int DATABASE_VERSION = 1;
+
+    private static final String IMAGE_TABLE = "ImageData";
+    private static final String IMAGE_COLUMN_ID = "ImageID";
+    private static final String IMAGE_COLUMN_TYPE = "ImageType";
+    private static final String IMAGE_COLUMN_URL = "imageURL";
+    private static final String IMAGE_COLUMN_CONTRIBUTOR = "contributor";
+    private static final String IMAGE_COLUMN_DESCRIOTION = "description";
+
+    private static final String CATEGORY_TABLE = "CategoryData";
+    private static final String CATEGORY_COLUMN_IMAGE_ID = "imageId";
+    private static final String CATEGORY_COLUMN_ID = "categoryId";
+    private static final String CATEGORY_COLUMN_NAME = "name";
 
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(DATABASE_VERSION, PACKAGE_NAME);
@@ -18,23 +30,25 @@ public class GreenDaoManager {
     }
 
     private static void createTables(Schema schema) {
-        /* DATA TABLE */
-        Entity data = schema.addEntity("ImageData");
+        /* IMAGE TABLE */
+        Entity image = schema.addEntity(IMAGE_TABLE);
 
-        data.addIdProperty().primaryKey();
-        data.addStringProperty("imageType");
-        data.addStringProperty("imageURL");
-        data.addStringProperty("contributor");
+        image.addIdProperty().primaryKey().autoincrement();
+        image.addLongProperty(IMAGE_COLUMN_ID).notNull();
+        image.addStringProperty(IMAGE_COLUMN_TYPE);
+        image.addStringProperty(IMAGE_COLUMN_URL);
+        image.addStringProperty(IMAGE_COLUMN_CONTRIBUTOR);
+        image.addStringProperty(IMAGE_COLUMN_DESCRIOTION);
 
-        /* CATEGORIES TABLE */
-        Entity categories = schema.addEntity("CategoryData");
+        /* CATEGORY TABLE */
+        Entity category = schema.addEntity(CATEGORY_TABLE);
 
-        Property imageIdProperty = categories.addLongProperty("imageId").notNull().getProperty();
-        categories.addIdProperty().primaryKey().autoincrement();
-        categories.addLongProperty("categoryId").notNull();
-        categories.addStringProperty("name").notNull();
+        category.addIdProperty().primaryKey().autoincrement();
+        Property imageIdProperty = category.addLongProperty(CATEGORY_COLUMN_IMAGE_ID).notNull().getProperty();
+        category.addLongProperty(CATEGORY_COLUMN_ID).notNull();
+        category.addStringProperty(CATEGORY_COLUMN_NAME).notNull();
 
         /* RELATIONSHIP BETWEEN CATEGORIES AND DATA*/
-        data.addToMany(categories, imageIdProperty);
+        image.addToMany(category, imageIdProperty);
     }
 }

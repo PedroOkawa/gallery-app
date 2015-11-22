@@ -75,13 +75,21 @@ public class ApiModule {
                         .getBytes(), Base64.NO_WRAP);
 
                 Request original = chain.request();
+
                 Request request = original.newBuilder()
                         .header("Authorization", basic)
                         .header("Accept", "application/json")
                         .method(original.method(), original.body())
                         .build();
 
+                /* RETRY CALL FOR 3 TIMES */
+
                 Response response = chain.proceed(request);
+                int tryCount = 0;
+                while (!response.isSuccessful() && tryCount < 3) {
+                    tryCount++;
+                    response = chain.proceed(request);
+                }
 
                 if (BuildConfig.DEBUG) {
                     String bodyString = response.body().string();

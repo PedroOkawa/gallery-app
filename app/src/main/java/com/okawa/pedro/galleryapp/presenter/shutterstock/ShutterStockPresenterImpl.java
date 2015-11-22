@@ -1,34 +1,31 @@
 package com.okawa.pedro.galleryapp.presenter.shutterstock;
 
-import android.util.Log;
-
 import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.model.Categories;
-import com.okawa.pedro.galleryapp.model.Contributor;
 import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.model.Response;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
 import com.okawa.pedro.galleryapp.util.listener.OnDataRequestListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import greendao.CategoryData;
 import greendao.ImageData;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 /**
  * Created by pokawa on 20/11/15.
  */
 public class ShutterStockPresenterImpl implements ShutterStockPresenter {
+
+    private static final int TOTAL_RETRIES = 3;
 
     private ShutterStockInterface mShutterStockInterface;
     private ImageRepository mImageRepository;
@@ -44,26 +41,9 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
 
     @Override
     public void loadData(final OnDataRequestListener onDataRequestListener, long page, long categoryId) {
-        /*
-         PARAMETERS TO REQUEST DATA
-             # VIEW TYPE: PARAMETER NAME:
-                * VIEW (ShutterStockInterface.PARAMETER_VIEW)
-             # CURRENT PAGE: PARAMETER NAME:
-                * PAGE (ShutterStockInterface.PARAMETER_PAGE)
-             # CATEGORY SELECTED: PARAMETER NAME:
-                * CATEGORY (ShutterStockInterface.PARAMETER_CATEGORY)
-         */
-
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put(ShutterStockInterface.PARAMETER_VIEW, ShutterStockInterface.PARAMETER_FULL_VALUE);
-        parameters.put(ShutterStockInterface.PARAMETER_PAGE, String.valueOf(page));
-        if(categoryId != ShutterStockInterface.PARAMETER_CATEGORY_ALL) {
-            parameters.put(ShutterStockInterface.PARAMETER_CATEGORY, String.valueOf(categoryId));
-        }
-
         /* REQUESTS THE IMAGE'S DATA */
         mShutterStockInterface
-                .imageList(parameters)
+                .imageList(ShutterStockInterface.PARAMETER_FULL_VALUE, page)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 /* SEPARATES THE IMAGES LIST FROM THE RESPONSE */
@@ -73,28 +53,18 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                         return Observable.from(responseParser.getDataParser());
                     }
                 })
-                /* COMBINES THE IMAGE'S DATA WITH CONTRIBUTOR'S DATA RETRIEVING FROM ANOTHER CALL */
-                .flatMap(new Func1<Data, Observable<Data>>() {
+                /* TRANSFORMS THE DATA INTO AN IMAGE DATA OBSERVABLE */
+                .flatMap(new Func1<Data, Observable<ImageData>>() {
                     @Override
-                    public Observable<Data> call(final Data data) {
-                        /* REQUESTS THE CONTRIBUTOR'S DATA */
-                        return mShutterStockInterface
-                                .contributorDetails(data.getContributor().getId())
-                                .subscribeOn(Schedulers.newThread())
-                                .flatMap(new Func1<Contributor, Observable<Data>>() {
-                                    @Override
-                                    public Observable<Data> call(Contributor contributor) {
-                                        data.setContributor(contributor);
-                                        persistOnDatabase(data);
-                                        return Observable.just(data);
-                                    }
-                                })
-                                .doOnError(new Action1<Throwable>() {
-                                    @Override
-                                    public void call(Throwable throwable) {
-                                        onDataRequestListener.onDataError(throwable.getMessage());
-                                    }
-                                });
+                    public Observable<ImageData> call(Data data) {
+                        return Observable.just(parseData(data));
+                    }
+                })
+                /* DEFINE RETRY (3 TIMES) */
+                .retry(new Func2<Integer, Throwable, Boolean>() {
+                    @Override
+                    public Boolean call(Integer attempts, Throwable throwable) {
+                        return attempts <= TOTAL_RETRIES;
                     }
                 })
                 /*
@@ -103,7 +73,7 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                  */
                 .toList()
                 /* SENDS THE DATA TO THE MAIN PRESENTER */
-                .subscribe(new Observer<List<Data>>() {
+                .subscribe(new Observer<List<ImageData>>() {
                     @Override
                     public void onCompleted() {
                         onDataRequestListener.onCompleted();
@@ -112,32 +82,57 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                     @Override
                     public void onError(Throwable e) {
                         onDataRequestListener.onDataError(e.getMessage());
-                        Log.d("GALLERY_APP", "ERROR SECOND: " + e.getMessage());
                     }
 
                     @Override
-                    public void onNext(List<Data> dataList) {
-//                        onDataRequestListener.onDataLoaded(dataList);
+                    public void onNext(List<ImageData> imageDataSet) {
+                        onDataRequestListener.onDataLoaded(imageDataSet);
+                        mImageRepository.insertOrReplaceInTx(imageDataSet);
                     }
                 });
     }
 
-    private void persistOnDatabase(Data data) {
+    /* PARSE DATA AND PERSIST THE CATEGORY ON DATABASE */
+    private ImageData parseData(Data data) {
+        /* PERSIST CATEGORY ON DATABASE */
+        new Thread(new CategoryPersistence(mCategoryRepository, data)).start();
+
+        /* PARSE DATA RETRIEVED TO IMAGE DATA */
         ImageData imageData = new ImageData();
 
-        imageData.setId(data.getId());
+        imageData.setImageID(data.getId());
         imageData.setImageType(data.getImage_type());
         imageData.setContributor(data.getContributor().getDisplay_name());
         imageData.setImageURL(data.getAssets().getPreview().getUrl());
 
-        mImageRepository.insertOrUpdate(imageData);
+        return imageData;
+    }
 
-        for(Categories category : data.getCategories()) {
-            CategoryData categoryData = new CategoryData();
-            categoryData.setCategoryId(category.getId());
-            categoryData.setName(category.getName());
-            categoryData.setImageId(data.getId());
-            mCategoryRepository.insertOrUpdate(categoryData);
+    /*
+     THREAD CREATED TO SAVE THE IMAGE'S CATEGORIES INTO THE DATABASE
+     */
+    public class CategoryPersistence implements Runnable {
+
+        private CategoryRepository mCategoryRepository;
+        private Data mData;
+
+        public CategoryPersistence(CategoryRepository categoryRepository, Data data) {
+            this.mCategoryRepository = categoryRepository;
+            this.mData = data;
+        }
+
+        @Override
+        public void run() {
+                List<CategoryData> categories = new ArrayList<>();
+                for(Categories category : mData.getCategories()) {
+                    CategoryData categoryData = new CategoryData();
+                    categoryData.setCategoryId(category.getId());
+                    categoryData.setName(category.getName());
+                    categoryData.setImageId(mData.getId());
+                    categories.add(categoryData);
+                }
+
+                mCategoryRepository.insertOrReplaceInTx(categories);
         }
     }
 }

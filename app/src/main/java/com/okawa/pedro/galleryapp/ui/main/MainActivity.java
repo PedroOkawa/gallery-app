@@ -1,5 +1,6 @@
 package com.okawa.pedro.galleryapp.ui.main;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 
@@ -10,10 +11,15 @@ import com.okawa.pedro.galleryapp.di.module.MainModule;
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
 import com.okawa.pedro.galleryapp.databinding.ActivityMainBinding;
 import com.okawa.pedro.galleryapp.ui.common.BaseActivity;
+import com.okawa.pedro.galleryapp.util.adapter.main.MainAdapter;
 import com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener;
 import com.okawa.pedro.galleryapp.util.manager.AutoGridLayoutManager;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
+
+import greendao.ImageData;
 
 /**
  * Created by pokawa on 19/11/15.
@@ -21,6 +27,7 @@ import javax.inject.Inject;
 public class MainActivity extends BaseActivity implements OnViewTouchListener, MainView {
 
     private ActivityMainBinding mBinding;
+    private AutoGridLayoutManager mAutoGridLayoutManager;
 
     @Inject
     MainPresenter mMainPresenter;
@@ -33,20 +40,20 @@ public class MainActivity extends BaseActivity implements OnViewTouchListener, M
     @Override
     protected void initialize(AppComponent appComponent) {
         mBinding = (ActivityMainBinding) getDataBinding();
-//        mBinding.rvMainActivityImages.setLayoutManager(new AutoGridLayoutManager(this));
-//        mBinding.rvMainActivityImages.setAdapter(mMainImagesAdapter);
+        mAutoGridLayoutManager = new AutoGridLayoutManager(this);
+        mBinding.rvActivityMainImages.setLayoutManager(mAutoGridLayoutManager);
+        mBinding.rvActivityMainImages.setAdapter(new MainAdapter(this, new ArrayList<ImageData>()));
 
         DaggerMainComponent
                 .builder()
                 .appComponent(appComponent)
-                .mainModule(new MainModule(this, null))
+                .mainModule(new MainModule(this, mBinding.rvActivityMainImages))
                 .build()
                 .inject(this);
     }
 
     @Override
     protected void doOnCreated(Bundle saveInstanceState) {
-        mMainPresenter.reload();
     }
 
     @Override
@@ -62,16 +69,22 @@ public class MainActivity extends BaseActivity implements OnViewTouchListener, M
 
     @Override
     public void showProgress() {
-
+        mBinding.srActivityMainImages.setRefreshing(true);
     }
 
     @Override
     public void hideProgress() {
-
+        mBinding.srActivityMainImages.setRefreshing(false);
     }
 
     @Override
     public void loadData() {
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        mAutoGridLayoutManager.changeColumnsNumber(newConfig.orientation);
+        super.onConfigurationChanged(newConfig);
     }
 }

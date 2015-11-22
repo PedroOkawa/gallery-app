@@ -16,12 +16,8 @@ public class CategoryRepository {
         this.mDaoSession = daoSession;
     }
 
-    public void insertInTx(List<CategoryData> category) {
-        mDaoSession.getCategoryDataDao().insertInTx(category);
-    }
-
-    public void insertInTx(CategoryData... category) {
-        mDaoSession.getCategoryDataDao().insertInTx(category);
+    public void insertOrReplaceInTx(List<CategoryData> category) {
+        mDaoSession.getCategoryDataDao().insertOrReplaceInTx(category);
     }
 
     public void insertOrUpdate(CategoryData CategoryData) {

@@ -11,9 +11,11 @@ import de.greenrobot.dao.DaoException;
 public class ImageData {
 
     private Long id;
-    private String imageType;
+    private long ImageID;
+    private String ImageType;
     private String imageURL;
     private String contributor;
+    private String description;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -30,11 +32,13 @@ public class ImageData {
         this.id = id;
     }
 
-    public ImageData(Long id, String imageType, String imageURL, String contributor) {
+    public ImageData(Long id, long ImageID, String ImageType, String imageURL, String contributor, String description) {
         this.id = id;
-        this.imageType = imageType;
+        this.ImageID = ImageID;
+        this.ImageType = ImageType;
         this.imageURL = imageURL;
         this.contributor = contributor;
+        this.description = description;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -51,12 +55,20 @@ public class ImageData {
         this.id = id;
     }
 
-    public String getImageType() {
-        return imageType;
+    public long getImageID() {
+        return ImageID;
     }
 
-    public void setImageType(String imageType) {
-        this.imageType = imageType;
+    public void setImageID(long ImageID) {
+        this.ImageID = ImageID;
+    }
+
+    public String getImageType() {
+        return ImageType;
+    }
+
+    public void setImageType(String ImageType) {
+        this.ImageType = ImageType;
     }
 
     public String getImageURL() {
@@ -73,6 +85,14 @@ public class ImageData {
 
     public void setContributor(String contributor) {
         this.contributor = contributor;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
