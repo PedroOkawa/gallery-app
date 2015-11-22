@@ -9,6 +9,7 @@ import android.util.AttributeSet;
  * Created by pokawa on 21/11/15.
  */
 public class AutoGridLayoutManager extends GridLayoutManager {
+
     public AutoGridLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -25,5 +26,13 @@ public class AutoGridLayoutManager extends GridLayoutManager {
                         Configuration.ORIENTATION_PORTRAIT ? 1 : 2,
                 orientation,
                 reverseLayout);
+    }
+
+    public void changeColumnsNumber(int orientation) {
+        if(orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setSpanCount(1);
+        } else {
+            setSpanCount(2);
+        }
     }
 }
