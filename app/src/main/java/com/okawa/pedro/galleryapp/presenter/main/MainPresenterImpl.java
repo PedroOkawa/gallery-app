@@ -84,6 +84,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
                             public void onRefresh() {
                                 mImageRepository.clearImageData();
                                 mCategoryRepository.clearCategoryData();
+                                mShutterStockPresenter.resetPageSearch();
                                 resetAdapter();
                             }
                         });
@@ -147,7 +148,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
     public void onTypeTouched(String type) {
         if(!this.mType.equals(type)) {
             this.mType = type;
-            mShutterStockPresenter.resetSearch(type, mImageRepository.getCurrentPage(type));
+            mShutterStockPresenter.definePageSearch(type, mImageRepository.getCurrentPage(type));
             resetAdapter();
 
             reload();

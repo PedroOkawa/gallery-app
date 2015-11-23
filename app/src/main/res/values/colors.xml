@@ -5,7 +5,9 @@
     <color name="color_accent">#49495B</color>
     <color name="color_toolbar">@android:color/transparent</color>
     <color name="color_image_details">@color/color_black_alpha_77</color>
+    <color name="color_progress_background">@color/color_grey_9494B2</color>
 
     <color name="color_black_alpha_77">#77000000</color>
+    <color name="color_grey_9494B2">#9494B2</color>
 
 </resources>

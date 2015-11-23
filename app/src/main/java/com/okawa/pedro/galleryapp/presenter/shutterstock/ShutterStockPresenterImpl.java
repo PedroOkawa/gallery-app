@@ -27,14 +27,15 @@ import rx.schedulers.Schedulers;
  */
 public class ShutterStockPresenterImpl implements ShutterStockPresenter {
 
+    private static final long INITIAL_PAGE = 1;
     private static final int TOTAL_RETRIES = 3;
 
     /*
      CREATED A DIFFERENT INDEX PAGE FOR ALL OBJECTS BECAUSE IT COULD NOT BE RELATED TO THE SIZE OF
      THE TABLE, BECAUSE OTHER TYPES COULD LOAD OBJECTS
      */
-    private long mCurrentPageAllObjects = 1;
-    private long mCurrentPage = 1;
+    private long mCurrentPageAllObjects = INITIAL_PAGE;
+    private long mCurrentPage = INITIAL_PAGE;
 
     private ShutterStockInterface mShutterStockInterface;
     private ImageRepository mImageRepository;
@@ -96,7 +97,7 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                 })
                 /*
                  TRANSFORMS THE DATA INTO A LIST TO RECEIVE THE ANSWER JUST WHEN THE ENTIRE LIST
-                 ARE LOADED
+                 IS LOADED
                  */
                 .toList()
                 /* SENDS THE DATA TO THE MAIN PRESENTER */
@@ -139,12 +140,18 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
     }
 
     @Override
-    public void resetSearch(String type, long page) {
+    public void definePageSearch(String type, long page) {
         if(type.equals(ImageData.TYPE_ALL)) {
             this.mCurrentPage = mCurrentPageAllObjects;
         } else {
             this.mCurrentPage = page;
         }
+    }
+
+    @Override
+    public void resetPageSearch() {
+        mCurrentPage = INITIAL_PAGE;
+        mCurrentPageAllObjects = INITIAL_PAGE;
     }
 
     /* PARSE DATA AND PERSIST THE CATEGORY ON DATABASE */

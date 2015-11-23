@@ -60,6 +60,8 @@ public class MainActivity extends BaseActivity implements MainView {
                 R.color.color_primary_dark,
                 R.color.color_accent);
 
+        mBinding.setLoading(true);
+
         mAutoGridLayoutManager = new AutoGridLayoutManager(this);
         mBinding.rvActivityMainImages.setLayoutManager(mAutoGridLayoutManager);
         mBinding.rvActivityMainImages.setAdapter(new ImageAdapter(this, new ArrayList<ImageData>()));
@@ -90,6 +92,7 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     public void hideProgress() {
+        mBinding.setLoading(false);
         mBinding.srActivityMainImages.setRefreshing(false);
     }
 
