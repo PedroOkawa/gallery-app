@@ -14,7 +14,19 @@ android:
     - sys-img-armeabi-v7a-android-21
 
 before_install:
-  - chmod +x gradlew
+  # Disable services enabled by default
+  # http://docs.travis-ci.com/user/database-setup/#MySQL
+  - sudo /etc/init.d/mysql stop
+  - sudo /etc/init.d/postgresql stop
+  # The following did not work reliable
+  # - sudo service mysql stop
+  # - sudo service postgresql stop
+
+install:
+  # Ensure Gradle wrapper is executable, download wrapper and show version
+  - chmod +x ./gradlew; ls -l gradlew; ./gradlew wrapper -v
+  # Download and show android dependencies
+  # - ./gradlew androidDependencies
 
 before_script:
   - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
