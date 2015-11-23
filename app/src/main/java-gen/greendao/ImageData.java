@@ -33,7 +33,6 @@ public class ImageData {
     public static final String TYPE_PHOTO = "photo";
     public static final String TYPE_ILLUSTRATION = "illustration";
     public static final String TYPE_VECTOR = "vector";
-
     // KEEP FIELDS END
 
     public ImageData() {
@@ -153,6 +152,6 @@ public class ImageData {
         }
         return categoryDataList;
     }
-
     // KEEP METHODS END
+
 }

@@ -1,7 +1,5 @@
 package com.okawa.pedro.galleryapp.di.component;
 
-import android.databinding.ViewDataBinding;
-
 import com.okawa.pedro.galleryapp.di.module.MainModule;
 import com.okawa.pedro.galleryapp.di.scope.Activity;
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
@@ -15,9 +13,9 @@ import dagger.Component;
 @Activity
 @Component(dependencies = AppComponent.class, modules = MainModule.class)
 public interface MainComponent {
+
     void inject(MainActivity mainActivity);
 
     MainPresenter provideMainPresenter();
-    ViewDataBinding provideViewDataBinding();
 
 }

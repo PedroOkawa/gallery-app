@@ -8,8 +8,10 @@ import com.okawa.pedro.galleryapp.di.module.ImageRepositoryModule;
 import com.okawa.pedro.galleryapp.di.module.ApiModule;
 import com.okawa.pedro.galleryapp.di.module.AppModule;
 import com.okawa.pedro.galleryapp.di.module.DatabaseModule;
+import com.okawa.pedro.galleryapp.di.module.TransitionModule;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
+import com.okawa.pedro.galleryapp.util.manager.CallManager;
 
 import javax.inject.Singleton;
 
@@ -24,6 +26,7 @@ import retrofit.Retrofit;
 @Component(modules = {
         AppModule.class,
         ApiModule.class,
+        TransitionModule.class,
         DatabaseModule.class,
         ImageRepositoryModule.class,
         CategoryRepositoryModule.class
@@ -32,6 +35,7 @@ public interface AppComponent {
     void inject(App app);
 
     App provideApp();
+    CallManager provideCallManager();
     Retrofit provideRetrofit();
     ShutterStockInterface provideShutterStockInterface();
     ShutterStockPresenter provideShutterStockPresenter();

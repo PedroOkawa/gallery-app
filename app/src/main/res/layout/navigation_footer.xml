@@ -16,6 +16,8 @@
         android:background="@drawable/background_touchable"
         android:onClick="@{onViewTouchListener.onViewTouched}">
 
+        <!-- GITHUB BUTTON -->
+
         <TextView
             style="@style/AppTextView"
             android:layout_gravity="center"

@@ -35,7 +35,7 @@ public class GreenDaoManager {
         Entity image = schema.addEntity(IMAGE_TABLE);
 
         image.addIdProperty().primaryKey().autoincrement();
-        image.addLongProperty(IMAGE_COLUMN_ID).notNull();
+        image.addLongProperty(IMAGE_COLUMN_ID).notNull().unique();
         image.addStringProperty(IMAGE_COLUMN_TYPE);
         image.addStringProperty(IMAGE_COLUMN_URL);
         image.addStringProperty(IMAGE_COLUMN_CONTRIBUTOR);

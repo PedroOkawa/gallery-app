@@ -48,7 +48,7 @@ public class ImageDataDao extends AbstractDao<ImageData, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'IMAGE_DATA' (" + //
                 "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "'IMAGE_ID' INTEGER NOT NULL ," + // 1: imageId
+                "'IMAGE_ID' INTEGER NOT NULL UNIQUE ," + // 1: imageId
                 "'IMAGE_TYPE' TEXT," + // 2: imageType
                 "'IMAGE_URL' TEXT," + // 3: imageURL
                 "'CONTRIBUTOR' TEXT," + // 4: contributor

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.util.Log;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import com.okawa.pedro.galleryapp.ui.common.BaseActivity;
 import com.okawa.pedro.galleryapp.util.adapter.main.MainAdapter;
 import com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener;
 import com.okawa.pedro.galleryapp.util.manager.AutoGridLayoutManager;
+import com.okawa.pedro.galleryapp.util.manager.CallManager;
 
 import java.util.ArrayList;
 
@@ -34,6 +36,9 @@ public class MainActivity extends BaseActivity implements MainView {
 
     private ActivityMainBinding mBinding;
     private AutoGridLayoutManager mAutoGridLayoutManager;
+
+    @Inject
+    CallManager mCallManager;
 
     @Inject
     MainPresenter mMainPresenter;
@@ -64,9 +69,11 @@ public class MainActivity extends BaseActivity implements MainView {
         DaggerMainComponent
                 .builder()
                 .appComponent(appComponent)
-                .mainModule(new MainModule(this, mBinding))
+                .mainModule(new MainModule(this))
                 .build()
                 .inject(this);
+
+        mMainPresenter.defineViewsBehaviour(mBinding);
     }
 
     @Override
@@ -80,8 +87,8 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     @Override
-    public void loadData() {
-
+    public void openDetails(long imageId, Pair<View, String> ... params) {
+        mCallManager.startDetailsActivity(this, imageId, params);
     }
 
     @Override

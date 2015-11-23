@@ -23,6 +23,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.details.DetailsActivity"
+            android:configChanges="orientation|screenSize"/>
+
     </application>
 
 </manifest>

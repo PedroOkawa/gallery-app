@@ -3,6 +3,7 @@ package com.okawa.pedro.galleryapp.presenter.main;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.main.MainView;
 import com.okawa.pedro.galleryapp.util.adapter.main.MainAdapter;
 import com.okawa.pedro.galleryapp.util.listener.OnDataRequestListener;
+import com.okawa.pedro.galleryapp.util.listener.OnImageTouchListener;
 import com.okawa.pedro.galleryapp.util.listener.OnRecyclerViewThresholdListener;
 import com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener;
 
@@ -26,35 +28,40 @@ import greendao.ImageData;
 /**
  * Created by pokawa on 20/11/15.
  */
-public class MainPresenterImpl implements MainPresenter, OnDataRequestListener, OnViewTouchListener {
+public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
+        OnViewTouchListener, OnImageTouchListener {
 
     private MainView mMainView;
     private ImageRepository mImageRepository;
     private CategoryRepository mCategoryRepository;
     private ShutterStockPresenter mShutterStockPresenter;
     private MainAdapter mMainAdapter;
-    private ActivityMainBinding mActivityMainBinding;
     private OnMainRecyclerViewListener mOnMainRecyclerViewListener;
 
-    public MainPresenterImpl(MainView mainView,
-                             ImageRepository imageRepository,
+    public MainPresenterImpl(MainView mainView, ImageRepository imageRepository,
                              CategoryRepository categoryRepository,
-                             ShutterStockPresenter shutterStockPresenter,
-                             ViewDataBinding activityMainBinding) {
+                             ShutterStockPresenter shutterStockPresenter) {
+
         this.mMainView = mainView;
         this.mImageRepository = imageRepository;
         this.mCategoryRepository = categoryRepository;
         this.mShutterStockPresenter = shutterStockPresenter;
-        this.mActivityMainBinding = (ActivityMainBinding)activityMainBinding;
-        defineViewsBehaviour();
     }
 
-    private void defineViewsBehaviour() {
+    @Override
+    public void defineViewsBehaviour(ViewDataBinding viewDataBinding) {
+        ActivityMainBinding mActivityMainBinding = (ActivityMainBinding) viewDataBinding;
         mActivityMainBinding.setOnViewTouchListener(this);
+
         mMainAdapter = (MainAdapter) mActivityMainBinding.rvActivityMainImages.getAdapter();
-        mOnMainRecyclerViewListener = new OnMainRecyclerViewListener(
-                (GridLayoutManager) mActivityMainBinding
-                        .rvActivityMainImages.getLayoutManager());
+
+        mMainAdapter.setOnImageTouchListener(this);
+
+        mOnMainRecyclerViewListener =
+                new OnMainRecyclerViewListener(
+                        (GridLayoutManager) mActivityMainBinding
+                                .rvActivityMainImages.getLayoutManager());
+
         mActivityMainBinding.rvActivityMainImages.addOnScrollListener(mOnMainRecyclerViewListener);
 
         mActivityMainBinding
@@ -77,12 +84,16 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener, 
     public void reload() {
         if(mMainAdapter.getItemCount() <
                 (mImageRepository.countImageData() - OnMainRecyclerViewListener.LIST_THRESHOLD)) {
+
             loadData(mImageRepository.getPagedImageData(mMainAdapter.getItemCount()));
+
         } else {
+
             mMainView.showProgress();
             mShutterStockPresenter.loadData(this,
                     mImageRepository.getCurrentPage(mMainAdapter.getItemCount()),
                     ShutterStockInterface.PARAMETER_CATEGORY_ALL);
+
         }
     }
 
@@ -104,7 +115,6 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener, 
     private void loadData(List<ImageData> imageDataList) {
         mMainAdapter.addDataSet(imageDataList);
         mMainAdapter.notifyDataSetChanged();
-        mMainView.loadData();
         mMainView.hideProgress();
     }
 
@@ -115,6 +125,11 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener, 
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             mMainView.openGithub(intent);
         }
+    }
+
+    @Override
+    public void onImageTouched(long imageId, Pair<View, String> ... params) {
+        mMainView.openDetails(imageId, params);
     }
 
     public class OnMainRecyclerViewListener extends OnRecyclerViewThresholdListener {

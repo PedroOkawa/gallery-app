@@ -18,11 +18,9 @@ import dagger.Provides;
 @Module
 public class MainModule {
     private MainView mMainView;
-    private ViewDataBinding mViewDataBinding;
 
-    public MainModule(MainView mainView, ViewDataBinding activityMainBinding) {
+    public MainModule(MainView mainView) {
         this.mMainView = mainView;
-        this.mViewDataBinding = activityMainBinding;
     }
 
     @Provides
@@ -31,20 +29,13 @@ public class MainModule {
     }
 
     @Provides
-    public ViewDataBinding provideActivityMainBinding() {
-        return mViewDataBinding;
-    }
-
-    @Provides
     public MainPresenter provideMainPresenter(MainView mainView,
                                               ImageRepository imageRepository,
                                               CategoryRepository categoryRepository,
-                                              ShutterStockPresenter shutterStockPresenter,
-                                              ViewDataBinding viewDataBinding) {
+                                              ShutterStockPresenter shutterStockPresenter) {
         return new MainPresenterImpl(mainView,
                 imageRepository,
                 categoryRepository,
-                shutterStockPresenter,
-                viewDataBinding);
+                shutterStockPresenter);
     }
 }

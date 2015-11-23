@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- MAIN ADAPTER -->
-    <dimen name="adapter_main_card_height">300dp</dimen>
     <dimen name="adapter_main_card_margin">6dp</dimen>
     <dimen name="adapter_main_card_elevation">8dp</dimen>
-    <dimen name="adapter_main_icon_type_size">32dp</dimen>
-    <dimen name="adapter_main_icon_type_margin">6dp</dimen>
-    <dimen name="adapter_main_details_margin">6dp</dimen>
+
+    <!-- VIEW IMAGE DETAILS -->
+    <dimen name="view_image_card_height">300dp</dimen>
+    <dimen name="view_image_icon_type_size">32dp</dimen>
+    <dimen name="view_image_icon_type_margin">6dp</dimen>
+    <dimen name="view_image_details_margin">6dp</dimen>
 
     <!-- NAVIGATION VIEW (HEADER) -->
     <dimen name="navigation_view_header_content_margin_top">20dp</dimen>

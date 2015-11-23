@@ -4,6 +4,7 @@ import java.util.List;
 
 import greendao.DaoSession;
 import greendao.ImageData;
+import greendao.ImageDataDao;
 
 /**
  * Created by pokawa on 21/11/15.
@@ -21,12 +22,14 @@ public class ImageRepository {
         mDaoSession.getImageDataDao().insertOrReplaceInTx(ImageData);
     }
 
-    public void insertOrUpdate(ImageData ImageData) {
-        mDaoSession.getImageDataDao().insertOrReplace(ImageData);
+    public ImageData getImageDataById(long imageId) {
+        return mDaoSession.getImageDataDao()
+                .queryBuilder().where(ImageDataDao.Properties.ImageId.eq(imageId)).unique();
     }
 
     public List<ImageData> getPagedImageData(int offset) {
-        return mDaoSession.getImageDataDao().queryBuilder().limit(SELECT_LIMIT).offset(offset).list();
+        return mDaoSession.getImageDataDao()
+                .queryBuilder().limit(SELECT_LIMIT).offset(offset).list();
     }
 
     public long countImageData() {

@@ -8,23 +8,16 @@
             type="greendao.ImageData"/>
     </data>
 
-    <!-- CARD LAYOUT -->
-
-    <FrameLayout
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/adapter_main_card_margin"
-        android:elevation="@dimen/adapter_main_card_elevation"
-        android:clipToPadding="false"
-        android:outlineProvider="bounds"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/viewImageDetails"
             layout="@layout/view_image_details"
             bind:imageData="@{imageData}"/>
 
-    </FrameLayout>
+    </LinearLayout>
 
 </layout>

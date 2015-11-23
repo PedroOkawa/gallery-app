@@ -1,6 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- BASE APPLICATION THEME -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/color_primary</item>
@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/color_accent</item>
     </style>
 
+    <!-- BASE APPLICATION TEXT VIEW THEME -->
     <style name="AppTextView">
         <item name="android:textSize">@dimen/app_text_size</item>
         <item name="android:layout_width">wrap_content</item>
