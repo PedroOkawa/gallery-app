@@ -3,21 +3,69 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+        <import
+            type="android.view.View"/>
+
         <variable
             name="imageData"
             type="greendao.ImageData"/>
+
+        <variable
+            name="loading"
+            type="boolean"/>
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/color_primary">
 
-        <include
-            android:id="@+id/viewImageDetails"
-            layout="@layout/view_image_details"
-            bind:imageData="@{imageData}"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_primary">
 
-    </LinearLayout>
+            <include
+                android:id="@+id/viewImageDetails"
+                layout="@layout/view_image_details"
+                bind:imageData="@{imageData}"/>
+
+            <!-- LOADING LAYOUT (IT SHOW WHEN THE LIST IS EMPTY) -->
+
+            <include
+                android:id="@+id/loadingLayout"
+                layout="@layout/view_initial_loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_details_content_loading_margin"
+                bind:visible="@{loading}"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{loading ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:id="@+id/tvActivityDetailsContributor"
+                    style="@style/AppTextView"
+                    android:layout_margin="@dimen/activity_details_content_text_margin"/>
+
+                <TextView
+                    android:id="@+id/tvActivityDetailsCategories"
+                    style="@style/AppTextView"
+                    android:layout_margin="@dimen/activity_details_content_text_margin"/>
+
+                <TextView
+                    style="@style/AppTextView"
+                    android:text="@{imageData.description}"
+                    android:layout_margin="@dimen/activity_details_content_text_margin"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </layout>

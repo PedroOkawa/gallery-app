@@ -1,46 +1,54 @@
 package com.okawa.pedro.galleryapp.presenter.details;
 
-import android.content.Context;
-import android.databinding.ViewDataBinding;
-import android.support.annotation.IntegerRes;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.okawa.pedro.galleryapp.R;
-import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
-import com.okawa.pedro.galleryapp.databinding.ActivityDetailsBinding;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.details.DetailsView;
+import com.okawa.pedro.galleryapp.util.listener.OnDataRequestListener;
 
 import greendao.ImageData;
 
 /**
  * Created by pokawa on 23/11/15.
  */
-public class DetailsPresenterImpl implements DetailsPresenter {
+public class DetailsPresenterImpl implements DetailsPresenter, OnDataRequestListener {
+
+    private ImageData mImageData;
 
     private DetailsView mDetailsView;
     private ImageRepository mImageRepository;
-    private CategoryRepository mCategoryRepository;
     private ShutterStockPresenter mShutterStockPresenter;
 
     public DetailsPresenterImpl(DetailsView detailsView, ImageRepository imageRepository,
-                                CategoryRepository categoryRepository,
                                 ShutterStockPresenter shutterStockPresenter) {
 
         this.mDetailsView = detailsView;
         this.mImageRepository = imageRepository;
-        this.mCategoryRepository = categoryRepository;
         this.mShutterStockPresenter = shutterStockPresenter;
     }
 
     @Override
-    public void defineViewsBehaviour(long imageId, ViewDataBinding viewDataBinding) {
-        ActivityDetailsBinding activityDetailsBinding = (ActivityDetailsBinding) viewDataBinding;
+    public void defineViewsBehaviour(long imageId) {
+        mDetailsView.showProgress();
+        mImageData = mImageRepository.getImageDataById(imageId);
 
-        ImageData imageData = mImageRepository.getImageDataById(imageId);
+        mDetailsView.loadImageData(mImageData);
+        requestData();
+    }
 
-        mDetailsView.loadData(imageData);
+    @Override
+    public void onDataError(String message) {
+        mDetailsView.onError(message);
+    }
+
+    @Override
+    public void requestData() {
+        mShutterStockPresenter.loadContributorData(this,
+                mImageData.getImageId(), mImageData.getContributorId());
+    }
+
+    @Override
+    public void onCompleted() {
+        mDetailsView.loadContributorsData(mImageData.getContributor());
+        mDetailsView.hideProgress();
     }
 }

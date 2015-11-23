@@ -5,4 +5,8 @@
 
     <!-- NAVIGATION VIEW (FOOTER) -->
     <string name="navigation_view_footer_text">GIT DO PROJETO</string>
+
+    <!-- MISC -->
+    <string name="contributor_label">Contributor: </string>
+    <string name="category_label">Categorias: </string>
 </resources>

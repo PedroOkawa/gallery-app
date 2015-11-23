@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#BF5282</color>
-    <color name="color_primary_dark">#B73B71</color>
-    <color name="color_accent">#49495B</color>
+    <color name="color_primary">#49495B</color>
+    <color name="color_primary_dark">#272733</color>
+    <color name="color_accent">#B73B71</color>
     <color name="color_toolbar">@android:color/transparent</color>
     <color name="color_image_details">@color/color_black_alpha_77</color>
     <color name="color_progress_background">@color/color_grey_9494B2</color>

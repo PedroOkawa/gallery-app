@@ -27,6 +27,9 @@
             android:name=".ui.details.DetailsActivity"
             android:configChanges="orientation|screenSize"/>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="ba5c840c3dcb3f0734c1922eae67b9846f4e0ee6" />
     </application>
 
 </manifest>

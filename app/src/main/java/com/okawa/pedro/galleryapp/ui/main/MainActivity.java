@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.okawa.pedro.galleryapp.R;
 import com.okawa.pedro.galleryapp.di.component.AppComponent;
@@ -94,6 +95,11 @@ public class MainActivity extends BaseActivity implements MainView {
     public void hideProgress() {
         mBinding.setLoading(false);
         mBinding.srActivityMainImages.setRefreshing(false);
+    }
+
+    @Override
+    public void onError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

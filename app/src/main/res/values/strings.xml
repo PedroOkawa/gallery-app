@@ -10,4 +10,7 @@
 
     <!-- MISC -->
     <string name="github_uri">https://github.com/PedroOkawa/gallery-app</string>
+    <string name="contributor_label">Contributor: </string>
+    <string name="id_label">ID: </string>
+    <string name="category_label">Categories: </string>
 </resources>

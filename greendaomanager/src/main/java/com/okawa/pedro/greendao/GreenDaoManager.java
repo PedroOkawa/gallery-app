@@ -16,6 +16,7 @@ public class GreenDaoManager {
     private static final String IMAGE_COLUMN_ID = "imageId";
     private static final String IMAGE_COLUMN_TYPE = "imageType";
     private static final String IMAGE_COLUMN_URL = "imageURL";
+    private static final String IMAGE_COLUMN_CONTRIBUTOR_ID = "contributorId";
     private static final String IMAGE_COLUMN_CONTRIBUTOR = "contributor";
     private static final String IMAGE_COLUMN_DESCRIPTION = "description";
 
@@ -38,6 +39,7 @@ public class GreenDaoManager {
         image.addLongProperty(IMAGE_COLUMN_ID).notNull().unique();
         image.addStringProperty(IMAGE_COLUMN_TYPE);
         image.addStringProperty(IMAGE_COLUMN_URL);
+        image.addLongProperty(IMAGE_COLUMN_CONTRIBUTOR_ID).notNull();
         image.addStringProperty(IMAGE_COLUMN_CONTRIBUTOR);
         image.addStringProperty(IMAGE_COLUMN_DESCRIPTION);
 

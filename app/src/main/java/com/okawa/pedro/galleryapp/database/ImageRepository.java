@@ -10,12 +10,16 @@ import greendao.ImageDataDao;
  * Created by pokawa on 21/11/15.
  */
 public class ImageRepository {
-    private static final int SELECT_LIMIT = 20;
+    public static final int SELECT_LIMIT = 20;
 
     private DaoSession mDaoSession;
 
     public ImageRepository(DaoSession daoSession) {
         this.mDaoSession = daoSession;
+    }
+
+    public void insertOrReplace(ImageData imageData) {
+        mDaoSession.getImageDataDao().insertOrReplace(imageData);
     }
 
     public void insertOrReplaceInTx(List<ImageData> ImageData) {

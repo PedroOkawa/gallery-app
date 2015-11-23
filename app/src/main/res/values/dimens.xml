@@ -23,6 +23,10 @@
     <dimen name="navigation_view_footer_drawable_padding">10dp</dimen>
     <dimen name="navigation_view_footer_text_margin">10dp</dimen>
 
+    <!-- DETAILS ACTIVITY -->
+    <dimen name="activity_details_content_loading_margin">28dp</dimen>
+    <dimen name="activity_details_content_text_margin">10dp</dimen>
+
     <!-- TEXT VIEW STYLE -->
     <dimen name="app_text_size">20sp</dimen>
 </resources>

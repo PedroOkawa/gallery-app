@@ -1,8 +1,5 @@
 package com.okawa.pedro.galleryapp.di.module;
 
-import android.databinding.ViewDataBinding;
-
-import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.presenter.details.DetailsPresenter;
 import com.okawa.pedro.galleryapp.presenter.details.DetailsPresenterImpl;
@@ -31,11 +28,9 @@ public class DetailsModule {
     @Provides
     public DetailsPresenter provideMainPresenter(DetailsView detailsView,
                                                  ImageRepository imageRepository,
-                                                 CategoryRepository categoryRepository,
                                                  ShutterStockPresenter shutterStockPresenter) {
         return new DetailsPresenterImpl(detailsView,
                 imageRepository,
-                categoryRepository,
                 shutterStockPresenter);
     }
 }

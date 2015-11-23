@@ -8,6 +8,6 @@ import android.databinding.ViewDataBinding;
 public interface MainPresenter {
 
     void defineViewsBehaviour(ViewDataBinding viewDataBinding);
-    void reload();
+    void loadNextPage();
 
 }

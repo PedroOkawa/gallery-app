@@ -9,6 +9,8 @@ public interface DetailsView {
 
     void showProgress();
     void hideProgress();
-    void loadData(ImageData imageData);
+    void onError(String message);
+    void loadImageData(ImageData imageData);
+    void loadContributorsData(String contributor);
 
 }

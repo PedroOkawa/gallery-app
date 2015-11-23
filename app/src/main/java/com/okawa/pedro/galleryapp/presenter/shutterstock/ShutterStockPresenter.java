@@ -7,7 +7,9 @@ import com.okawa.pedro.galleryapp.util.listener.OnDataRequestListener;
  */
 public interface ShutterStockPresenter {
 
-    void loadDataFromApi(OnDataRequestListener onDataRequestListener, String type);
+    void loadImageData(OnDataRequestListener onDataRequestListener, String type);
+    void loadContributorData(OnDataRequestListener onDataRequestListener,
+                             long imageId, long contributorId);
     void definePageSearch(String type, long page);
     void resetPageSearch();
 

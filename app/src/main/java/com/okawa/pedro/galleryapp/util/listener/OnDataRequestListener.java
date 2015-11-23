@@ -6,7 +6,7 @@ package com.okawa.pedro.galleryapp.util.listener;
 public interface OnDataRequestListener {
 
     void onDataError(String message);
-    void onRecall();
+    void requestData();
     void onCompleted();
 
 }

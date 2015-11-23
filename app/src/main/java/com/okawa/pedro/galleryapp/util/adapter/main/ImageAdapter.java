@@ -3,12 +3,11 @@ package com.okawa.pedro.galleryapp.util.adapter.main;
 import android.content.Context;
 import android.support.annotation.IntegerRes;
 import android.support.v4.util.Pair;
-import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.okawa.pedro.galleryapp.R;
-import com.okawa.pedro.galleryapp.databinding.AdapterMainBinding;
+import com.okawa.pedro.galleryapp.databinding.AdapterImagesBinding;
 import com.okawa.pedro.galleryapp.util.adapter.commun.SimpleAdapter;
 import com.okawa.pedro.galleryapp.util.listener.OnImageTouchListener;
 import com.okawa.pedro.galleryapp.util.manager.CallManager;
@@ -20,7 +19,7 @@ import greendao.ImageData;
 /**
  * Created by pokawa on 22/11/15.
  */
-public class ImageAdapter extends SimpleAdapter<ImageData, AdapterMainBinding> {
+public class ImageAdapter extends SimpleAdapter<ImageData, AdapterImagesBinding> {
 
     private Context mContext;
     private OnImageTouchListener mOnImageTouchListener;
@@ -36,12 +35,12 @@ public class ImageAdapter extends SimpleAdapter<ImageData, AdapterMainBinding> {
 
     @Override
     public int layoutToInflate() {
-        return R.layout.adapter_main;
+        return R.layout.adapter_images;
     }
 
     @Override
     protected void doOnBindViewHolder(SimpleViewHolder holder,
-                                      final AdapterMainBinding binding,
+                                      final AdapterImagesBinding binding,
                                       int position, final ImageData imageData) {
 
         if(mOnImageTouchListener != null) {
@@ -91,7 +90,9 @@ public class ImageAdapter extends SimpleAdapter<ImageData, AdapterMainBinding> {
                 .into(binding.viewImageDetails.ivViewImageType);
 
         /* ID */
-        StringBuffer stringBuffer = new StringBuffer().append("ID: ").append(imageData.getImageId());
+        StringBuffer stringBuffer = new StringBuffer()
+                .append(mContext.getString(R.string.id_label))
+                .append(" ").append(imageData.getImageId());
         binding.viewImageDetails.tvViewImageId.setText(stringBuffer.toString());
 
         binding.setImageData(imageData);

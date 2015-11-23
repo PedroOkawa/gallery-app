@@ -17,6 +17,7 @@ public class ImageData {
     private long imageId;
     private String imageType;
     private String imageURL;
+    private long contributorId;
     private String contributor;
     private String description;
 
@@ -43,11 +44,12 @@ public class ImageData {
         this.id = id;
     }
 
-    public ImageData(Long id, long imageId, String imageType, String imageURL, String contributor, String description) {
+    public ImageData(Long id, long imageId, String imageType, String imageURL, long contributorId, String contributor, String description) {
         this.id = id;
         this.imageId = imageId;
         this.imageType = imageType;
         this.imageURL = imageURL;
+        this.contributorId = contributorId;
         this.contributor = contributor;
         this.description = description;
     }
@@ -88,6 +90,14 @@ public class ImageData {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public long getContributorId() {
+        return contributorId;
+    }
+
+    public void setContributorId(long contributorId) {
+        this.contributorId = contributorId;
     }
 
     public String getContributor() {

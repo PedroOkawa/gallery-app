@@ -3,6 +3,7 @@ package com.okawa.pedro.galleryapp.ui.details;
 import android.os.Bundle;
 import android.support.annotation.IntegerRes;
 import android.support.v4.view.ViewCompat;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -17,6 +18,7 @@ import com.okawa.pedro.galleryapp.util.manager.CallManager;
 
 import javax.inject.Inject;
 
+import greendao.CategoryData;
 import greendao.ImageData;
 
 /**
@@ -46,7 +48,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         ViewCompat.setTransitionName(mBinding
                 .viewImageDetails.llViewImageDetails, CallManager.DETAILS);
 
-
         DaggerDetailsComponent
                 .builder()
                 .appComponent(appComponent)
@@ -54,21 +55,27 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 .build()
                 .inject(this);
 
-        mDetailsPresenter.defineViewsBehaviour(imageId, mBinding);
+        mDetailsPresenter.defineViewsBehaviour(imageId);
     }
 
     @Override
     public void showProgress() {
-
+        mBinding.setLoading(true);
     }
 
     @Override
     public void hideProgress() {
-
+        mBinding.setLoading(false);
     }
 
     @Override
-    public void loadData(ImageData imageData) {
+    public void onError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void loadImageData(ImageData imageData) {
         /* IMAGE */
         Glide.with(this)
                 .load(imageData.getImageURL())
@@ -94,9 +101,32 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 .into(mBinding.viewImageDetails.ivViewImageType);
 
         /* ID */
-        StringBuffer stringBuffer = new StringBuffer().append("ID: ").append(imageData.getImageId());
-        mBinding.viewImageDetails.tvViewImageId.setText(stringBuffer.toString());
+        StringBuffer imageIdBuffer = new StringBuffer()
+                .append(getString(R.string.id_label))
+                .append(" ").append(imageData.getImageId());
+        mBinding.viewImageDetails.tvViewImageId.setText(imageIdBuffer.toString());
+
+        /* CATEGORIES */
+        String divider = "";
+        StringBuffer categoriesBuffer = new StringBuffer()
+                .append(getString(R.string.category_label))
+                .append(" ");
+        for(CategoryData categoryData : imageData.getCategoryDataList()) {
+            categoriesBuffer.append(divider).append(categoryData.getName());
+            divider = ", ";
+        }
+
+        mBinding.tvActivityDetailsCategories.setText(categoriesBuffer.toString());
 
         mBinding.setImageData(imageData);
+    }
+
+    @Override
+    public void loadContributorsData(String contributor) {
+        /* CONTRIBUTOR */
+        StringBuffer contributorBuffer = new StringBuffer()
+                .append(getString(R.string.contributor_label))
+                .append(" ").append(contributor);
+        mBinding.tvActivityDetailsContributor.setText(contributorBuffer.toString());
     }
 }

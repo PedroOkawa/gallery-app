@@ -27,8 +27,9 @@ public class ImageDataDao extends AbstractDao<ImageData, Long> {
         public final static Property ImageId = new Property(1, long.class, "imageId", false, "IMAGE_ID");
         public final static Property ImageType = new Property(2, String.class, "imageType", false, "IMAGE_TYPE");
         public final static Property ImageURL = new Property(3, String.class, "imageURL", false, "IMAGE_URL");
-        public final static Property Contributor = new Property(4, String.class, "contributor", false, "CONTRIBUTOR");
-        public final static Property Description = new Property(5, String.class, "description", false, "DESCRIPTION");
+        public final static Property ContributorId = new Property(4, long.class, "contributorId", false, "CONTRIBUTOR_ID");
+        public final static Property Contributor = new Property(5, String.class, "contributor", false, "CONTRIBUTOR");
+        public final static Property Description = new Property(6, String.class, "description", false, "DESCRIPTION");
     };
 
     private DaoSession daoSession;
@@ -51,8 +52,9 @@ public class ImageDataDao extends AbstractDao<ImageData, Long> {
                 "'IMAGE_ID' INTEGER NOT NULL UNIQUE ," + // 1: imageId
                 "'IMAGE_TYPE' TEXT," + // 2: imageType
                 "'IMAGE_URL' TEXT," + // 3: imageURL
-                "'CONTRIBUTOR' TEXT," + // 4: contributor
-                "'DESCRIPTION' TEXT);"); // 5: description
+                "'CONTRIBUTOR_ID' INTEGER NOT NULL ," + // 4: contributorId
+                "'CONTRIBUTOR' TEXT," + // 5: contributor
+                "'DESCRIPTION' TEXT);"); // 6: description
     }
 
     /** Drops the underlying database table. */
@@ -81,15 +83,16 @@ public class ImageDataDao extends AbstractDao<ImageData, Long> {
         if (imageURL != null) {
             stmt.bindString(4, imageURL);
         }
+        stmt.bindLong(5, entity.getContributorId());
  
         String contributor = entity.getContributor();
         if (contributor != null) {
-            stmt.bindString(5, contributor);
+            stmt.bindString(6, contributor);
         }
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(6, description);
+            stmt.bindString(7, description);
         }
     }
 
@@ -113,8 +116,9 @@ public class ImageDataDao extends AbstractDao<ImageData, Long> {
             cursor.getLong(offset + 1), // imageId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // imageType
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // imageURL
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // contributor
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // description
+            cursor.getLong(offset + 4), // contributorId
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // contributor
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // description
         );
         return entity;
     }
@@ -126,8 +130,9 @@ public class ImageDataDao extends AbstractDao<ImageData, Long> {
         entity.setImageId(cursor.getLong(offset + 1));
         entity.setImageType(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setImageURL(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setContributor(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setDescription(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setContributorId(cursor.getLong(offset + 4));
+        entity.setContributor(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setDescription(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
      }
     
     /** @inheritdoc */

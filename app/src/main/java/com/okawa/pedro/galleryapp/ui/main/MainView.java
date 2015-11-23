@@ -11,6 +11,7 @@ public interface MainView {
 
     void showProgress();
     void hideProgress();
+    void onError(String message);
     void closeNavigation();
     void openDetails(long imageId, Pair<View, String>... params);
     void openGithub(Intent intent);

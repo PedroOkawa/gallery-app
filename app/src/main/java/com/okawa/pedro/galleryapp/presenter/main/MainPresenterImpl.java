@@ -96,15 +96,16 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
     }
 
     @Override
-    public void reload() {
-        if(mImageAdapter.getItemCount() < (mImageRepository.countImageDataByType(mType))) {
+    public void loadNextPage() {
+        if((mImageAdapter.getItemCount()) < (mImageRepository.countImageDataByType(mType)) &&
+                (mImageRepository.countImageDataByType(mType) > ImageRepository.SELECT_LIMIT)) {
 
                 loadDataFromDB(mImageRepository.getPagedImageData(mImageAdapter.getItemCount(), mType));
 
         } else {
 
             mMainView.showProgress();
-            mShutterStockPresenter.loadDataFromApi(this, mType);
+            mShutterStockPresenter.loadImageData(this, mType);
 
         }
     }
@@ -112,11 +113,12 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
     @Override
     public void onDataError(String message) {
         mMainView.hideProgress();
+        mMainView.onError(message);
     }
 
     @Override
-    public void onRecall() {
-        reload();
+    public void requestData() {
+        loadNextPage();
     }
 
     @Override
@@ -151,7 +153,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
             mShutterStockPresenter.definePageSearch(type, mImageRepository.getCurrentPage(type));
             resetAdapter();
 
-            reload();
+            loadNextPage();
         }
         mMainView.closeNavigation();
     }
@@ -172,7 +174,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
 
         @Override
         public void onVisibleThreshold() {
-            reload();
+            loadNextPage();
         }
     }
 }

@@ -23,6 +23,7 @@ public interface ShutterStockInterface {
     String PARAMETER_TYPE = "image_type";
 
     String CONTRIBUTOR_DETAILS = "contributors/{contributor_id}";
+    String PARAMETER_CONTRIBUTOR_ID = "contributor_id";
 
     @GET(IMAGE_LIST)
     Observable<Response> imageList(
@@ -31,6 +32,6 @@ public interface ShutterStockInterface {
 
     @GET(CONTRIBUTOR_DETAILS)
     Observable<Contributor> contributorDetails(
-            @Path("contributor_id") long contributor_id
+            @Path(PARAMETER_CONTRIBUTOR_ID) long contributor_id
     );
 }

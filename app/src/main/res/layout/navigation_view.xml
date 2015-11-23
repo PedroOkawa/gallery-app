@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/headerNavigationView"
             android:layout_above="@+id/footerNavigationView"
-            android:background="@color/color_accent"/>
+            android:background="@color/color_primary"/>
 
         <include
             android:id="@+id/footerNavigationView"

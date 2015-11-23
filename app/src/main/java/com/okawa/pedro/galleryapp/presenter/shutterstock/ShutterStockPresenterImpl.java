@@ -3,6 +3,7 @@ package com.okawa.pedro.galleryapp.presenter.shutterstock;
 import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.model.Categories;
+import com.okawa.pedro.galleryapp.model.Contributor;
 import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.model.Response;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
@@ -49,8 +50,12 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
         this.mCategoryRepository = categoryRepository;
     }
 
+    /*
+     IMAGE SEARCH SECTION
+     */
+
     @Override
-    public void loadDataFromApi(final OnDataRequestListener onDataRequestListener, String type) {
+    public void loadImageData(final OnDataRequestListener onDataRequestListener, String type) {
 
         /*
          PARAMETERS USED TO LOAD IMAGES FROM SHUTTER STOCK API
@@ -109,7 +114,7 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                     public void onCompleted() {
                         if(recall) {
                             /* RECALLS THE SERVICE INSIDE THE SAME THREAD */
-                            onDataRequestListener.onRecall();
+                            onDataRequestListener.requestData();
                         } else {
                             onDataRequestListener.onCompleted();
                         }
@@ -135,6 +140,47 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                         if(previousTotal == currentTotal) {
                             recall = true;
                         }
+                    }
+                });
+    }
+
+    /*
+     CONTRIBUTOR SEARCH SECTION
+     */
+
+    @Override
+    public void loadContributorData(final OnDataRequestListener onDataRequestListener,
+                                    final long imageId, long contributorId) {
+
+        /*
+         PARAMETER USED TO LOAD CONTRIBUTOR'S DATA FROM SHUTTER STOCK API
+         ID: CONTRIBUTOR ID
+         */
+
+        mShutterStockInterface
+                .contributorDetails(contributorId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Contributor>() {
+                    @Override
+                    public void onCompleted() {
+                        onDataRequestListener.onCompleted();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        onDataRequestListener.onDataError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Contributor contributor) {
+                        /*
+                         UPDATES DATABASE IMAGE DATA
+                         */
+
+                        ImageData imageData = mImageRepository.getImageDataById(imageId);
+                        imageData.setContributor(contributor.getDisplay_name());
+                        mImageRepository.insertOrReplace(imageData);
                     }
                 });
     }
@@ -165,7 +211,7 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
         imageData.setImageId(data.getId());
         imageData.setDescription(data.getDescription());
         imageData.setImageType(data.getImage_type());
-        imageData.setContributor(data.getContributor().getDisplay_name());
+        imageData.setContributorId(data.getContributor().getId());
         imageData.setImageURL(data.getAssets().getPreview().getUrl());
 
         return imageData;
