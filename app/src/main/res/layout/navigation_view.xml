@@ -15,16 +15,12 @@
 
         <include
             android:id="@+id/headerNavigationView"
-            layout="@layout/navigation_header"/>
+            layout="@layout/navigation_header"
+            bind:onViewTouchListener="@{onViewTouchListener}"/>
 
-        <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/rvNavigationView"-->
-        <!--android:scrollbars="vertical"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@+id/headerNavigationView"-->
-        <!--android:layout_above="@+id/footerNavigationView"/>-->
-        <View
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvNavigationView"
+            android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/headerNavigationView"

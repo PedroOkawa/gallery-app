@@ -36,39 +36,11 @@ public class DetailsPresenterImpl implements DetailsPresenter {
     }
 
     @Override
-    public void defineViewsBehaviour(Context context, long imageId, ViewDataBinding viewDataBinding) {
+    public void defineViewsBehaviour(long imageId, ViewDataBinding viewDataBinding) {
         ActivityDetailsBinding activityDetailsBinding = (ActivityDetailsBinding) viewDataBinding;
 
         ImageData imageData = mImageRepository.getImageDataById(imageId);
 
-        /* IMAGE */
-        Glide.with(context)
-                .load(imageData.getImageURL())
-                .thumbnail(Glide.with(context).load(imageData.getImageURL()).centerCrop().dontAnimate())
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .dontAnimate()
-                .centerCrop()
-                .into(activityDetailsBinding.viewImageDetails.ivViewImageCard);
-
-        /* TYPE */
-        @IntegerRes int iconResource = imageData.getImageType().equals(ImageData.TYPE_PHOTO) ?
-                R.mipmap.ic_photo :
-                imageData.getImageType().equals(ImageData.TYPE_ILLUSTRATION) ?
-                        R.mipmap.ic_illustration:
-                        R.mipmap.ic_vector;
-
-        Glide.with(context)
-                .load(iconResource)
-                .thumbnail(Glide.with(context).load(iconResource).fitCenter())
-                .dontAnimate()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .fitCenter()
-                .into(activityDetailsBinding.viewImageDetails.ivViewImageType);
-
-        /* ID */
-        StringBuffer stringBuffer = new StringBuffer().append("ID: ").append(imageData.getImageId());
-        activityDetailsBinding.viewImageDetails.tvViewImageId.setText(stringBuffer.toString());
-
-        activityDetailsBinding.setImageData(imageData);
+        mDetailsView.loadData(imageData);
     }
 }

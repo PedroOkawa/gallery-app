@@ -48,6 +48,8 @@ public abstract class OnRecyclerViewThresholdListener extends RecyclerView.OnScr
     }
 
     public void reset() {
+        mVisibleItemCount = 0;
+        mTotalItemCount = 0;
         mPreviousTotal = 0;
     }
 }

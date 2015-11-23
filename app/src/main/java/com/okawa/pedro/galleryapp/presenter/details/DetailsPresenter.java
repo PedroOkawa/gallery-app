@@ -1,6 +1,5 @@
 package com.okawa.pedro.galleryapp.presenter.details;
 
-import android.content.Context;
 import android.databinding.ViewDataBinding;
 
 /**
@@ -8,6 +7,6 @@ import android.databinding.ViewDataBinding;
  */
 public interface DetailsPresenter {
 
-    void defineViewsBehaviour(Context context, long imageId, ViewDataBinding viewDataBinding);
+    void defineViewsBehaviour(long imageId, ViewDataBinding viewDataBinding);
 
 }

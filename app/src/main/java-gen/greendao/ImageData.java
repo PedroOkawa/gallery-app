@@ -30,6 +30,7 @@ public class ImageData {
 
     // KEEP FIELDS - put your custom fields here
 
+    public static final String TYPE_ALL = "all";
     public static final String TYPE_PHOTO = "photo";
     public static final String TYPE_ILLUSTRATION = "illustration";
     public static final String TYPE_VECTOR = "vector";

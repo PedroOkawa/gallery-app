@@ -2,13 +2,11 @@ package com.okawa.pedro.galleryapp.ui.main;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 
 import com.okawa.pedro.galleryapp.R;
@@ -18,8 +16,8 @@ import com.okawa.pedro.galleryapp.di.module.MainModule;
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
 import com.okawa.pedro.galleryapp.databinding.ActivityMainBinding;
 import com.okawa.pedro.galleryapp.ui.common.BaseActivity;
-import com.okawa.pedro.galleryapp.util.adapter.main.MainAdapter;
-import com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener;
+import com.okawa.pedro.galleryapp.util.adapter.main.TypeAdapter;
+import com.okawa.pedro.galleryapp.util.adapter.main.ImageAdapter;
 import com.okawa.pedro.galleryapp.util.manager.AutoGridLayoutManager;
 import com.okawa.pedro.galleryapp.util.manager.CallManager;
 
@@ -64,7 +62,16 @@ public class MainActivity extends BaseActivity implements MainView {
 
         mAutoGridLayoutManager = new AutoGridLayoutManager(this);
         mBinding.rvActivityMainImages.setLayoutManager(mAutoGridLayoutManager);
-        mBinding.rvActivityMainImages.setAdapter(new MainAdapter(this, new ArrayList<ImageData>()));
+        mBinding.rvActivityMainImages.setAdapter(new ImageAdapter(this, new ArrayList<ImageData>()));
+
+        ArrayList<String> types = new ArrayList<>();
+        types.add(ImageData.TYPE_ALL);
+        types.add(ImageData.TYPE_PHOTO);
+        types.add(ImageData.TYPE_ILLUSTRATION);
+        types.add(ImageData.TYPE_VECTOR);
+
+        mBinding.nvLayout.rvNavigationView.setLayoutManager(new LinearLayoutManager(this));
+        mBinding.nvLayout.rvNavigationView.setAdapter(new TypeAdapter(this, types));
 
         DaggerMainComponent
                 .builder()
@@ -84,6 +91,11 @@ public class MainActivity extends BaseActivity implements MainView {
     @Override
     public void hideProgress() {
         mBinding.srActivityMainImages.setRefreshing(false);
+    }
+
+    @Override
+    public void closeNavigation() {
+        mBinding.drawerLayout.closeDrawers();
     }
 
     @Override

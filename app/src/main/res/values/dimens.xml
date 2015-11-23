@@ -4,6 +4,11 @@
     <dimen name="adapter_main_card_margin">6dp</dimen>
     <dimen name="adapter_main_card_elevation">8dp</dimen>
 
+    <!-- TYPE ADAPTER -->
+    <dimen name="adapter_type_item_margin">10dp</dimen>
+    <dimen name="adapter_type_icon_type_size">32dp</dimen>
+    <dimen name="adapter_type_icon_type_margin">6dp</dimen>
+
     <!-- VIEW IMAGE DETAILS -->
     <dimen name="view_image_card_height">300dp</dimen>
     <dimen name="view_image_icon_type_size">32dp</dimen>

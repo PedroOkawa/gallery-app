@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:background="@color/color_primary_dark">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- UPDAY LOGO -->
+    <data>
+        <variable
+            name="onViewTouchListener"
+            type="com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener"/>
+    </data>
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/navigation_view_header_content_margin_top"
-        android:scaleType="center"
-        android:src="@mipmap/ic_launcher"/>
+        android:layout_alignParentTop="true"
+        android:background="@color/color_primary_dark"
+        android:onClick="@{onViewTouchListener.onViewTouched}">
 
-    <!-- UPDAY TEXT -->
+        <!-- UPDAY LOGO -->
 
-    <TextView
-        style="@style/AppTextView"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginBottom="@dimen/navigation_view_header_content_margin_bottom"
-        android:text="@string/navigation_view_header_text"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/navigation_view_header_content_margin_top"
+            android:scaleType="center"
+            android:src="@mipmap/ic_launcher"/>
 
-</LinearLayout>
+        <!-- UPDAY TEXT -->
+
+        <TextView
+            style="@style/AppTextView"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/navigation_view_header_content_margin_bottom"
+            android:text="@string/navigation_view_header_text"/>
+
+    </LinearLayout>
+</layout>

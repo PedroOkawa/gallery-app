@@ -9,7 +9,9 @@ import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
 import com.okawa.pedro.galleryapp.util.listener.OnDataRequestListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import greendao.CategoryData;
 import greendao.ImageData;
@@ -27,6 +29,13 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
 
     private static final int TOTAL_RETRIES = 3;
 
+    /*
+     CREATED A DIFFERENT INDEX PAGE FOR ALL OBJECTS BECAUSE IT COULD NOT BE RELATED TO THE SIZE OF
+     THE TABLE, BECAUSE OTHER TYPES COULD LOAD OBJECTS
+     */
+    private long mCurrentPageAllObjects = 1;
+    private long mCurrentPage = 1;
+
     private ShutterStockInterface mShutterStockInterface;
     private ImageRepository mImageRepository;
     private CategoryRepository mCategoryRepository;
@@ -40,10 +49,28 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
     }
 
     @Override
-    public void loadData(final OnDataRequestListener onDataRequestListener, long page, long categoryId) {
+    public void loadDataFromApi(final OnDataRequestListener onDataRequestListener, String type) {
+
+        /*
+         PARAMETERS USED TO LOAD IMAGES FROM SHUTTER STOCK API
+         VIEW TYPE: ALWAYS FULL
+         PAGE: CURRENT PAGE VARIABLE
+         TYPE: PHOTO / ILLUSTRATION / PHOTO
+         */
+        Map<String, String> parameters = new HashMap<>();
+
+        parameters.put(ShutterStockInterface.PARAMETER_VIEW, ShutterStockInterface.PARAMETER_FULL_VALUE);
+        parameters.put(ShutterStockInterface.PARAMETER_PAGE, String.valueOf(mCurrentPage++));
+        if(!type.equals(ImageData.TYPE_ALL)) {
+            parameters.put(ShutterStockInterface.PARAMETER_TYPE, type);
+        } else {
+            /* KEEP THE ALL OBJECTS INDEX PAGE UPDATED */
+            mCurrentPageAllObjects = mCurrentPage;
+        }
+
         /* REQUESTS THE IMAGE'S DATA */
         mShutterStockInterface
-                .imageList(ShutterStockInterface.PARAMETER_FULL_VALUE, page)
+                .imageList(parameters)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 /* SEPARATES THE IMAGES LIST FROM THE RESPONSE */
@@ -74,9 +101,17 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                 .toList()
                 /* SENDS THE DATA TO THE MAIN PRESENTER */
                 .subscribe(new Observer<List<ImageData>>() {
+
+                    private boolean recall = false;
+
                     @Override
                     public void onCompleted() {
-                        onDataRequestListener.onCompleted();
+                        if(recall) {
+                            /* RECALLS THE SERVICE INSIDE THE SAME THREAD */
+                            onDataRequestListener.onRecall();
+                        } else {
+                            onDataRequestListener.onCompleted();
+                        }
                     }
 
                     @Override
@@ -86,10 +121,30 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
 
                     @Override
                     public void onNext(List<ImageData> imageDataSet) {
-                        onDataRequestListener.onDataLoaded(imageDataSet);
+                        long previousTotal = mImageRepository.countImageData();
+                        /* PERSIST DATA ON DATABASE TO REQUEST AFTER COMPLETED */
                         mImageRepository.insertOrReplaceInTx(imageDataSet);
+                        long currentTotal = mImageRepository.countImageData();
+
+                        /*
+                         CHECK IF WAS ADDED NEW RECORDS
+                         BECAUSE IT'S POSSIBLE LOAD AN ALREADY RECORDED PAGE CONSIDERING THE FILTERS
+                         IN THAT CASE MAKES ANOTHER SEARCH
+                        */
+                        if(previousTotal == currentTotal) {
+                            recall = true;
+                        }
                     }
                 });
+    }
+
+    @Override
+    public void resetSearch(String type, long page) {
+        if(type.equals(ImageData.TYPE_ALL)) {
+            this.mCurrentPage = mCurrentPageAllObjects;
+        } else {
+            this.mCurrentPage = page;
+        }
     }
 
     /* PARSE DATA AND PERSIST THE CATEGORY ON DATABASE */

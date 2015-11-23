@@ -20,12 +20,12 @@ import greendao.ImageData;
 /**
  * Created by pokawa on 22/11/15.
  */
-public class MainAdapter extends SimpleAdapter<ImageData, AdapterMainBinding> {
+public class ImageAdapter extends SimpleAdapter<ImageData, AdapterMainBinding> {
 
     private Context mContext;
     private OnImageTouchListener mOnImageTouchListener;
 
-    public MainAdapter(Context context, List<ImageData> data) {
+    public ImageAdapter(Context context, List<ImageData> data) {
         super(data);
         this.mContext = context;
     }
