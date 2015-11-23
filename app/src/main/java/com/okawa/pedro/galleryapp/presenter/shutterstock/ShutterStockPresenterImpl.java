@@ -230,6 +230,8 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
 
         @Override
         public void run() {
+            mCategoryRepository.deleteCategoryDataForImageId(mData.getId());
+            
             List<CategoryData> categories = new ArrayList<>();
             for(Categories category : mData.getCategories()) {
                 CategoryData categoryData = new CategoryData();

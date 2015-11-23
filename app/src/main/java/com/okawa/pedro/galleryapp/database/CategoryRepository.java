@@ -3,6 +3,7 @@ package com.okawa.pedro.galleryapp.database;
 import java.util.List;
 
 import greendao.CategoryData;
+import greendao.CategoryDataDao;
 import greendao.DaoSession;
 
 /**
@@ -20,23 +21,13 @@ public class CategoryRepository {
         mDaoSession.getCategoryDataDao().insertOrReplaceInTx(category);
     }
 
-    public void insertOrUpdate(CategoryData CategoryData) {
-        mDaoSession.getCategoryDataDao().insertOrReplace(CategoryData);
-    }
-
     public void clearCategoryData() {
         mDaoSession.getCategoryDataDao().deleteAll();
     }
 
-    public List<CategoryData> getPagedCategoryData(int offset) {
-        return mDaoSession.getCategoryDataDao().queryBuilder().limit(SELECT_LIMIT).offset(offset).list();
-    }
-
-    public List<CategoryData> getAllCategoryData() {
-        return mDaoSession.getCategoryDataDao().loadAll();
-    }
-
-    public CategoryData getCategoryDataForId(long id) {
-        return mDaoSession.getCategoryDataDao().load(id);
+    public void deleteCategoryDataForImageId(long imageId) {
+        mDaoSession.getCategoryDataDao()
+                .deleteInTx(mDaoSession.getCategoryDataDao().queryBuilder()
+                        .where(CategoryDataDao.Properties.ImageId.eq(imageId)).list());
     }
 }
