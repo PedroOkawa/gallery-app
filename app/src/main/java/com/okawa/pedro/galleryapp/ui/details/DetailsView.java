@@ -1,7 +1,5 @@
 package com.okawa.pedro.galleryapp.ui.details;
 
-import android.content.Context;
-
 import greendao.ImageData;
 
 /**

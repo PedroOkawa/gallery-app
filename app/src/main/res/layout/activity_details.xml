@@ -104,10 +104,12 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_height="@dimen/abc_action_bar_default_height_material"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:minHeight="?attr/actionBarSize"
-            android:background="@android:color/transparent"/>
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:background="@android:color/transparent"
+            android:fitsSystemWindows="true"/>
 
     </RelativeLayout>
 
