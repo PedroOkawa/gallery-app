@@ -34,7 +34,7 @@
 
             <TextView
                 android:id="@+id/tvViewImageId"
-                style="@style/AppTextView"
+                style="@style/AppTextViewLarge"
                 android:layout_gravity="start|center_vertical"
                 android:layout_margin="@dimen/view_image_details_margin"
                 android:textStyle="bold"

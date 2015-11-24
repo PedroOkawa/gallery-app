@@ -15,58 +15,78 @@
             type="boolean"/>
     </data>
 
-    <ScrollView
-        android:id="@+id/svActivityDetails"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/color_primary">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <ScrollView
+            android:id="@+id/svActivityDetails"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/color_primary">
 
-            <include
-                android:id="@+id/viewImageDetails"
-                layout="@layout/view_image_details"
-                bind:imageData="@{imageData}"/>
-
-            <!-- LOADING LAYOUT (IT SHOW WHEN THE LIST IS EMPTY) -->
-
-            <include
-                android:id="@+id/loadingLayout"
-                layout="@layout/view_initial_loading"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/activity_details_content_loading_margin"
-                bind:visible="@{loading}"/>
+                android:background="@color/color_primary">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="@{loading ? View.GONE : View.VISIBLE}">
+                <include
+                    android:id="@+id/viewImageDetails"
+                    layout="@layout/view_image_details"
+                    bind:imageData="@{imageData}"/>
 
-                <TextView
-                    android:id="@+id/tvActivityDetailsContributor"
-                    style="@style/AppTextView"
-                    android:layout_margin="@dimen/activity_details_content_text_margin"/>
+                <!-- LOADING LAYOUT (IT SHOW WHEN THE LIST IS EMPTY) -->
 
-                <TextView
-                    android:id="@+id/tvActivityDetailsCategories"
-                    style="@style/AppTextView"
-                    android:layout_margin="@dimen/activity_details_content_text_margin"/>
+                <include
+                    android:id="@+id/loadingLayout"
+                    layout="@layout/view_initial_loading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_details_content_loading_margin"
+                    bind:visible="@{loading}"
+                    android:layout_below="@+id/viewImageDetails"/>
 
-                <TextView
-                    style="@style/AppTextView"
-                    android:text="@{imageData.description}"
-                    android:layout_margin="@dimen/activity_details_content_text_margin"/>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="@{loading ? View.GONE : View.VISIBLE}"
+                    android:layout_below="@+id/viewImageDetails">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvActivityDetailsContributor"
+                        style="@style/AppTextViewLarge"
+                        android:textColor="@color/color_primary_dark"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/activity_details_content_text_margin"/>
 
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvActivityDetailsCategories"
+                        style="@style/AppTextViewMedium"
+                        android:textColor="@color/color_primary_dark"
+                        android:layout_margin="@dimen/activity_details_content_text_margin"/>
 
-    </ScrollView>
+                    <TextView
+                        style="@style/AppTextViewMedium"
+                        android:textColor="@color/color_primary_dark"
+                        android:text="@{imageData.description}"
+                        android:layout_margin="@dimen/activity_details_content_text_margin"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <!-- TOOLBAR -->
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_height="@dimen/abc_action_bar_default_height_material"
+            android:layout_width="match_parent"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@android:color/transparent"/>
+
+    </RelativeLayout>
 
 </layout>

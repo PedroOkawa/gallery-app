@@ -6,15 +6,24 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
-        <item name="android:statusBarColor">@color/color_accent</item>
     </style>
 
-    <!-- BASE APPLICATION TEXT VIEW THEME -->
-    <style name="AppTextView">
-        <item name="android:textSize">@dimen/app_text_size</item>
+    <!-- BASE APPLICATION SMALL TEXT VIEW THEME -->
+    <style name="AppTextViewSmall">
+        <item name="android:textSize">@dimen/app_small_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <!-- BASE APPLICATION LARGE TEXT VIEW THEME -->
+    <style name="AppTextViewMedium" parent="AppTextViewSmall">
+        <item name="android:textSize">@dimen/app_medium_text_size</item>
+    </style>
+
+    <!-- BASE APPLICATION LARGE TEXT VIEW THEME -->
+    <style name="AppTextViewLarge" parent="AppTextViewSmall">
+        <item name="android:textSize">@dimen/app_large_text_size</item>
     </style>
 
 </resources>

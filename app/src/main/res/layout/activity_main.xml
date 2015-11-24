@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/tools"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -22,10 +23,30 @@
 
         <!-- MAIN CONTENT -->
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/color_primary">
+
+            <!-- TOOLBAR -->
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_height="@dimen/abc_action_bar_default_height_material"
+                android:layout_width="match_parent"
+                android:minHeight="?attr/actionBarSize"
+                android:background="@color/color_accent"
+                app:titleTextColor="@android:color/white"/>
+
+            <!-- LOADING LAYOUT (IT SHOW WHEN THE LIST IS EMPTY) -->
+
+            <include
+                android:id="@+id/loadingLayout"
+                layout="@layout/view_initial_loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                bind:visible="@{loading}"/>
 
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/srActivityMainImages"
@@ -42,25 +63,7 @@
 
             </android.support.v4.widget.SwipeRefreshLayout>
 
-            <!-- LOADING LAYOUT (IT SHOW WHEN THE LIST IS EMPTY) -->
-
-            <include
-                android:id="@+id/loadingLayout"
-                layout="@layout/view_initial_loading"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                bind:visible="@{loading}"/>
-
-            <!-- TOOLBAR -->
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_height="@dimen/abc_action_bar_default_height_material"
-                android:layout_width="match_parent"
-                android:minHeight="?attr/actionBarSize"
-                android:background="@color/color_toolbar"/>
-
-        </RelativeLayout>
+        </LinearLayout>
 
         <!-- NAVIGATION VIEW -->
 

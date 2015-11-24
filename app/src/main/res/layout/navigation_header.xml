@@ -28,11 +28,12 @@
         <!-- UPDAY TEXT -->
 
         <TextView
-            style="@style/AppTextView"
+            style="@style/AppTextViewSmall"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginBottom="@dimen/navigation_view_header_content_margin_bottom"
-            android:text="@string/navigation_view_header_text"/>
+            android:text="@string/navigation_view_header_text"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 </layout>

@@ -1,8 +1,13 @@
 package com.okawa.pedro.galleryapp.ui.details;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IntegerRes;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -27,6 +32,7 @@ import greendao.ImageData;
 public class DetailsActivity extends BaseActivity implements DetailsView {
 
     private ActivityDetailsBinding mBinding;
+    private ImageData mImageData;
 
     @Inject
     DetailsPresenter mDetailsPresenter;
@@ -39,6 +45,11 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     @Override
     protected void doOnCreated(AppComponent appComponent, Bundle saveInstanceState) {
         mBinding = (ActivityDetailsBinding) getDataBinding();
+
+        setSupportActionBar(mBinding.toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_back);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         long imageId = getIntent().getLongExtra(CallManager.IMAGE_ID, -1);
 
@@ -76,6 +87,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     @Override
     public void loadImageData(ImageData imageData) {
+        this.mImageData = imageData;
         /* IMAGE */
         Glide.with(this)
                 .load(imageData.getImageURL())
@@ -127,5 +139,40 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 .append(getString(R.string.contributor_label))
                 .append(" ").append(contributor);
         mBinding.tvActivityDetailsContributor.setText(contributorBuffer.toString());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_details_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_share:
+                share();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void share() {
+        if (mImageData != null) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TITLE, mImageData.getId());
+            String message = mImageData.getDescription() + "\n" +
+                    mImageData.getContributor() + "\n\n" + mImageData.getImageURL();
+            intent.putExtra(Intent.EXTRA_TEXT, message);
+
+            startActivity(Intent
+                    .createChooser(intent, getString(R.string.activity_details_intent_share)));
+        }
     }
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- MAIN ADAPTER -->
-    <dimen name="adapter_main_card_margin">6dp</dimen>
+    <dimen name="adapter_main_card_margin">10dp</dimen>
     <dimen name="adapter_main_card_elevation">8dp</dimen>
 
     <!-- TYPE ADAPTER -->
     <dimen name="adapter_type_item_margin">10dp</dimen>
-    <dimen name="adapter_type_icon_type_size">32dp</dimen>
+    <dimen name="adapter_type_icon_type_size">24dp</dimen>
     <dimen name="adapter_type_icon_type_margin">6dp</dimen>
 
     <!-- VIEW IMAGE DETAILS -->
@@ -25,8 +25,10 @@
 
     <!-- DETAILS ACTIVITY -->
     <dimen name="activity_details_content_loading_margin">28dp</dimen>
-    <dimen name="activity_details_content_text_margin">10dp</dimen>
+    <dimen name="activity_details_content_text_margin">16dp</dimen>
 
     <!-- TEXT VIEW STYLE -->
-    <dimen name="app_text_size">16sp</dimen>
+    <dimen name="app_small_text_size">14sp</dimen>
+    <dimen name="app_medium_text_size">16sp</dimen>
+    <dimen name="app_large_text_size">18sp</dimen>
 </resources>

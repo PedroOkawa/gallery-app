@@ -37,7 +37,8 @@ public class TypeAdapter extends SimpleAdapter<String, AdapterTypeBinding> {
     }
 
     @Override
-    protected void doOnBindViewHolder(SimpleViewHolder holder, AdapterTypeBinding binding, int position, final String type) {
+    protected void doOnBindViewHolder(SimpleViewHolder holder,
+                                      AdapterTypeBinding binding, int position, final String type) {
         if(mOnTypeTouchListener != null) {
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override

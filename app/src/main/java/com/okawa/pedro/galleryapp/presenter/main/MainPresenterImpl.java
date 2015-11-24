@@ -40,6 +40,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
     private ShutterStockPresenter mShutterStockPresenter;
     private ImageAdapter mImageAdapter;
     private OnMainRecyclerViewListener mOnMainRecyclerViewListener;
+    private ActivityMainBinding mActivityMainBinding;
 
     public MainPresenterImpl(MainView mainView, ImageRepository imageRepository,
                              CategoryRepository categoryRepository,
@@ -53,29 +54,32 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
 
     @Override
     public void defineViewsBehaviour(ViewDataBinding viewDataBinding) {
-        ActivityMainBinding activityMainBinding = (ActivityMainBinding) viewDataBinding;
+        mActivityMainBinding = (ActivityMainBinding) viewDataBinding;
+
+        /* TOOLBAR */
+        mActivityMainBinding.toolbar.setTitle(mType.toUpperCase());
 
         /* TOUCH LISTENER BEHAVIOUR */
 
-        activityMainBinding.setOnViewTouchListener(this);
+        mActivityMainBinding.setOnViewTouchListener(this);
 
         /* RECYCLER VIEW (ADAPTER) BEHAVIOUR */
 
-        mImageAdapter = (ImageAdapter) activityMainBinding.rvActivityMainImages.getAdapter();
+        mImageAdapter = (ImageAdapter) mActivityMainBinding.rvActivityMainImages.getAdapter();
         mImageAdapter.setOnImageTouchListener(this);
 
         /* RECYCLER VIEW BEHAVIOUR */
 
         mOnMainRecyclerViewListener =
                 new OnMainRecyclerViewListener(
-                        (GridLayoutManager) activityMainBinding
+                        (GridLayoutManager) mActivityMainBinding
                                 .rvActivityMainImages.getLayoutManager());
 
-        activityMainBinding.rvActivityMainImages.addOnScrollListener(mOnMainRecyclerViewListener);
+        mActivityMainBinding.rvActivityMainImages.addOnScrollListener(mOnMainRecyclerViewListener);
 
         /* SWIPE TO REFRESH BEHAVIOUR */
 
-        activityMainBinding
+        mActivityMainBinding
                 .srActivityMainImages
                 .setOnRefreshListener(
                         new SwipeRefreshLayout
@@ -91,7 +95,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
 
         /* NAVIGATION VIEW BEHAVIOUR */
 
-        ((TypeAdapter)activityMainBinding.nvLayout.rvNavigationView.getAdapter())
+        ((TypeAdapter)mActivityMainBinding.nvLayout.rvNavigationView.getAdapter())
                 .setOnTypeTouchListener(this);
     }
 
@@ -150,6 +154,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
     public void onTypeTouched(String type) {
         if(!this.mType.equals(type)) {
             this.mType = type;
+            mActivityMainBinding.toolbar.setTitle(mType.toUpperCase());
             mShutterStockPresenter.definePageSearch(type, mImageRepository.getCurrentPage(type));
             resetAdapter();
 

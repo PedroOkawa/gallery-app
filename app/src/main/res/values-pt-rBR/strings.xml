@@ -6,6 +6,10 @@
     <!-- NAVIGATION VIEW (FOOTER) -->
     <string name="navigation_view_footer_text">GIT DO PROJETO</string>
 
+    <!-- DETAILS ACTIVITY -->
+    <string name="activity_details_menu_share">Compartilhar</string>
+    <string name="activity_details_intent_share">Compartilhar imagem</string>
+
     <!-- MISC -->
     <string name="contributor_label">Contributor: </string>
     <string name="category_label">Categorias: </string>

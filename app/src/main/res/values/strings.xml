@@ -8,6 +8,10 @@
     <!-- NAVIGATION VIEW (FOOTER) -->
     <string name="navigation_view_footer_text">PROJECT\'S GIT</string>
 
+    <!-- DETAILS ACTIVITY -->
+    <string name="activity_details_menu_share">Share</string>
+    <string name="activity_details_intent_share">Share image</string>
+
     <!-- MISC -->
     <string name="github_uri">https://github.com/PedroOkawa/gallery-app</string>
     <string name="contributor_label">Contributor: </string>
