@@ -6,6 +6,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import com.okawa.pedro.galleryapp.ui.main.MainActivity;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -28,7 +29,7 @@ public class DetailsActivityTest {
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
 
-    @Test
+    @Before
     public void setup() {
         sleep(INITIAL_DELAY);
     }
