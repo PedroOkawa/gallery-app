@@ -1,33 +1,20 @@
 language: android
-jdk: openjdk7
 cache: false
 
 env:
   global:
-    - ADB_INSTALL_TIMEOUT=20
+    - ADB_INSTALL_TIMEOUT=8
 
 android:
   components:
-    - tools
-    - build-tools-23.0.2
+    - build-tools-23.0.1
     - android-23
     - extra-android-m2repository
+    - extra-google-m2repository
     - sys-img-armeabi-v7a-android-21
 
 before_install:
-  # Disable services enabled by default
-  # http://docs.travis-ci.com/user/database-setup/#MySQL
-  - sudo /etc/init.d/mysql stop
-  - sudo /etc/init.d/postgresql stop
-  # The following did not work reliable
-  # - sudo service mysql stop
-  # - sudo service postgresql stop
-
-install:
-  # Ensure Gradle wrapper is executable, download wrapper and show version
-  - chmod +x ./gradlew; ls -l gradlew; ./gradlew wrapper -v
-  # Download and show android dependencies
-  # - ./gradlew androidDependencies
+  - chmod +x gradlew
 
 before_script:
   - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
@@ -35,5 +22,4 @@ before_script:
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
-script:
-    - ./gradlew connectedAndroidTest
+script: ./gradlew clean connectedAndroidTest
