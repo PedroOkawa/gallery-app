@@ -18,6 +18,7 @@ install:
   - chmod +x ./gradlew; ls -l gradlew; ./gradlew wrapper -v
   # Download and show android dependencies
   # - ./gradlew androidDependencies
+  - travis_wait mvn install
 
 before_script:
   - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a

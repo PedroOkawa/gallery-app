@@ -33,6 +33,8 @@ import greendao.ImageData;
 public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
         OnViewTouchListener, OnImageTouchListener, OnTypeTouchListener {
 
+    private static final String TEST_SUIT_CLASS = "com.okawa.pedro.galleryapp.GalleryAppTests";
+
     private AtomicBoolean mIsRunningTest;
     private String mType = ImageData.TYPE_ALL;
 
@@ -110,7 +112,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
             boolean isTest;
 
             try {
-                Class.forName("com.okawa.pedro.galleryapp.GalleryAppTests");
+                Class.forName(TEST_SUIT_CLASS);
                 isTest = true;
             } catch (ClassNotFoundException e) {
                 isTest = false;
@@ -138,9 +140,9 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
     }
 
     @Override
-    public void onDataError(String message) {
+    public void onDataError() {
         mMainView.hideProgress();
-        mMainView.onError(message);
+        mMainView.onError();
     }
 
     @Override

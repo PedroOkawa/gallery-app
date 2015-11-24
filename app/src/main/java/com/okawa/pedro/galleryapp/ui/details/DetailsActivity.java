@@ -94,8 +94,8 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     @Override
-    public void onError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    public void onError() {
+        Toast.makeText(this, getString(R.string.connection_error_message), Toast.LENGTH_SHORT).show();
         finish();
     }
 

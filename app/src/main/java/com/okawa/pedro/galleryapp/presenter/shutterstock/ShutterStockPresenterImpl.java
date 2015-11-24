@@ -1,5 +1,6 @@
 package com.okawa.pedro.galleryapp.presenter.shutterstock;
 
+import com.crashlytics.android.Crashlytics;
 import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.model.Contributor;
@@ -126,7 +127,8 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        onDataRequestListener.onDataError(e.getMessage());
+                        Crashlytics.log(e.getMessage());
+                        onDataRequestListener.onDataError();
                     }
 
                     @Override
@@ -173,7 +175,8 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        onDataRequestListener.onDataError(e.getMessage());
+                        Crashlytics.log(e.getMessage());
+                        onDataRequestListener.onDataError();
                     }
 
                     @Override

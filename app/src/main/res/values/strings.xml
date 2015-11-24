@@ -17,4 +17,5 @@
     <string name="contributor_label">Contributor: </string>
     <string name="id_label">ID: </string>
     <string name="category_label">Categories: </string>
+    <string name="connection_error_message">Sorry, it seems that you\'re not online</string>
 </resources>

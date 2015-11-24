@@ -13,4 +13,5 @@
     <!-- MISC -->
     <string name="contributor_label">Contributor: </string>
     <string name="category_label">Categorias: </string>
+    <string name="connection_error_message">Hum, parece que você não está online</string>
 </resources>

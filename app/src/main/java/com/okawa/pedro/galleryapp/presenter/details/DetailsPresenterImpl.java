@@ -76,8 +76,8 @@ public class DetailsPresenterImpl implements DetailsPresenter, OnDataRequestList
     }
 
     @Override
-    public void onDataError(String message) {
-        mDetailsView.onError(message);
+    public void onDataError() {
+        mDetailsView.onError();
     }
 
     @Override

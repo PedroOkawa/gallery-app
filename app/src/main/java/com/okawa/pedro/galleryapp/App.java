@@ -12,7 +12,6 @@ import io.fabric.sdk.android.Fabric;
  * Created by pokawa on 19/11/15.
  */
 public class App extends Application {
-    private static final String DATABASE_NAME = "gallery.realm";
 
     private AppComponent mAppComponent;
 

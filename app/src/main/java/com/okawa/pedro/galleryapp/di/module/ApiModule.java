@@ -4,6 +4,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
 
+import com.crashlytics.android.Crashlytics;
 import com.okawa.pedro.galleryapp.App;
 import com.okawa.pedro.galleryapp.BuildConfig;
 import com.okawa.pedro.galleryapp.database.CategoryRepository;
@@ -52,13 +53,18 @@ public class ApiModule {
             InputStream inputStream = app.getAssets().open("api.properties");
             properties.load(inputStream);
 
-            username = properties.getProperty("username");
-            password = properties.getProperty("password");
+            username = new String(
+                    Base64.decode(properties.getProperty("username").getBytes("UTF-8"),
+                            Base64.DEFAULT), "UTF-8");
+            password = new String(
+                    Base64.decode(properties.getProperty("password").getBytes("UTF-8"),
+                            Base64.DEFAULT), "UTF-8");
+
+            Log.d("TEST", "USERNAME: " + username);
+            Log.d("TEST", "PASSWORD: " + password);
+
         } catch (IOException e) {
-            /*
-                INCLUDE CRASHLYTICS (FABRIC)
-             */
-            e.printStackTrace();
+            Crashlytics.log(e.getMessage());
         }
 
         return new Pair<>(username, password);

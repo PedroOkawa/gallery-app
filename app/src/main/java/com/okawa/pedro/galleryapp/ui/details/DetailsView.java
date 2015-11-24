@@ -10,7 +10,7 @@ public interface DetailsView {
     void showProgress();
     void hideProgress();
     void changeStatusBarColor(int color);
-    void onError(String message);
+    void onError();
     void loadImageData(ImageData imageData);
     void loadContributorsData(String contributor);
 
