@@ -23,6 +23,7 @@ import com.okawa.pedro.galleryapp.util.listener.OnRecyclerViewThresholdListener;
 import com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import greendao.ImageData;
 
@@ -32,6 +33,7 @@ import greendao.ImageData;
 public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
         OnViewTouchListener, OnImageTouchListener, OnTypeTouchListener {
 
+    private AtomicBoolean mIsRunningTest;
     private String mType = ImageData.TYPE_ALL;
 
     private MainView mMainView;
@@ -55,6 +57,10 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
     @Override
     public void defineViewsBehaviour(ViewDataBinding viewDataBinding) {
         mActivityMainBinding = (ActivityMainBinding) viewDataBinding;
+
+        if(isRunningTest()) {
+            mMainView.autoUnlockScreen();
+        }
 
         /* TOOLBAR */
         mActivityMainBinding.toolbar.setTitle(mType.toUpperCase());
@@ -97,6 +103,23 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
 
         ((TypeAdapter)mActivityMainBinding.nvLayout.rvNavigationView.getAdapter())
                 .setOnTypeTouchListener(this);
+    }
+
+    public synchronized boolean isRunningTest () {
+        if (null == mIsRunningTest) {
+            boolean isTest;
+
+            try {
+                Class.forName("com.okawa.pedro.galleryapp.GalleryAppTests");
+                isTest = true;
+            } catch (ClassNotFoundException e) {
+                isTest = false;
+            }
+
+            mIsRunningTest = new AtomicBoolean(isTest);
+        }
+
+        return mIsRunningTest.get();
     }
 
     @Override
