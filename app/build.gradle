@@ -44,6 +44,13 @@ android {
             res.srcDirs = ['src/main/res']
         }
     }
+
+    tasks.whenTaskAdded { task ->
+        if (task.name.equals("lint")) {
+            task.enabled = false
+        }
+    }
+
     lintOptions {
         abortOnError false
     }
