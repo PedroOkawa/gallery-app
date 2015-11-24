@@ -147,6 +147,18 @@ public class ImageData {
 
     // KEEP METHODS - put your custom methods here
 
+    public boolean isPhoto() {
+        return imageType.equals(TYPE_PHOTO);
+    }
+
+    public boolean isIllustration() {
+        return imageType.equals(TYPE_ILLUSTRATION);
+    }
+
+    public boolean isVector() {
+        return imageType.equals(TYPE_VECTOR);
+    }
+
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
     public List<CategoryData> getCategoryDataList() {
         if (categoryDataList == null) {

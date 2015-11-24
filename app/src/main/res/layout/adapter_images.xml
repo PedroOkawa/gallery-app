@@ -13,17 +13,33 @@
     <FrameLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/view_image_card_height"
         android:layout_margin="@dimen/adapter_main_card_margin"
         android:elevation="@dimen/adapter_main_card_elevation"
         android:clipToPadding="false"
         android:outlineProvider="bounds"
         android:foreground="?android:attr/selectableItemBackground">
 
-        <include
-            android:id="@+id/viewImageDetails"
-            layout="@layout/view_image_details"
-            bind:imageData="@{imageData}"/>
+        <!-- IMAGE -->
+
+        <ImageView
+            android:id="@+id/ivViewImageCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <RelativeLayout
+            android:id="@+id/rlImageInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom" >
+
+            <include
+                android:id="@+id/viewImageInfo"
+                layout="@layout/view_image_info"
+                bind:imageData="@{imageData}"/>
+
+        </RelativeLayout>
 
     </FrameLayout>
 

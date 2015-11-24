@@ -50,11 +50,11 @@ public class ImageAdapter extends SimpleAdapter<ImageData, AdapterImagesBinding>
                 public void onClick(View v) {
                     /* DEFINE PARAMETERS TO MAKE TRANSITION (IMAGE VIEW AND DETAILS LAYOUT) */
                     Pair<View, String> image =
-                            new Pair<View, String>(binding.viewImageDetails.ivViewImageCard,
+                            new Pair<View, String>(binding.ivViewImageCard,
                                     CallManager.IMAGE);
 
                     Pair<View, String> details =
-                            new Pair<View, String>(binding.viewImageDetails.llViewImageDetails,
+                            new Pair<View, String>(binding.viewImageInfo.rlViewImageDetails,
                                     CallManager.DETAILS);
 
                     /* CALLS THE TOUCH LISTENER (MAIN PRESENTER) */
@@ -71,31 +71,13 @@ public class ImageAdapter extends SimpleAdapter<ImageData, AdapterImagesBinding>
         Glide.with(mContext)
                 .load(imageData.getImageURL())
                 .thumbnail(Glide.with(mContext).load(imageData.getImageURL()).centerCrop())
-                .placeholder(R.mipmap.ic_placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .dontAnimate()
                 .centerCrop()
-                .into(binding.viewImageDetails.ivViewImageCard);
-
-        /* TYPE */
-        @IntegerRes int iconResource = imageData.getImageType().equals(ImageData.TYPE_PHOTO) ?
-                R.mipmap.ic_photo :
-                imageData.getImageType().equals(ImageData.TYPE_ILLUSTRATION) ?
-                        R.mipmap.ic_illustration:
-                        R.mipmap.ic_vector;
-
-        Glide.with(mContext)
-                .load(iconResource)
-                .thumbnail(Glide.with(mContext).load(iconResource).fitCenter())
-                .dontAnimate()
-                .fitCenter()
-                .into(binding.viewImageDetails.ivViewImageType);
+                .into(binding.ivViewImageCard);
 
         /* ID */
-        StringBuffer stringBuffer = new StringBuffer()
-                .append(mContext.getString(R.string.id_label))
-                .append(" ").append(imageData.getImageId());
-        binding.viewImageDetails.tvViewImageId.setText(stringBuffer.toString());
+        binding.viewImageInfo.tvImageId.setText(String.valueOf(imageData.getImageId()));
 
         binding.setImageData(imageData);
     }

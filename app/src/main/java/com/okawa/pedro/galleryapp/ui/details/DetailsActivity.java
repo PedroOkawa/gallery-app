@@ -47,17 +47,15 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         mBinding = (ActivityDetailsBinding) getDataBinding();
 
         setSupportActionBar(mBinding.toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_back);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         long imageId = getIntent().getLongExtra(CallManager.IMAGE_ID, -1);
 
-        ViewCompat.setTransitionName(mBinding
-                .viewImageDetails.ivViewImageCard, CallManager.IMAGE);
+        ViewCompat.setTransitionName(mBinding.ivViewImageCard, CallManager.IMAGE);
 
-        ViewCompat.setTransitionName(mBinding
-                .viewImageDetails.llViewImageDetails, CallManager.DETAILS);
+        ViewCompat.setTransitionName(mBinding.viewImageInfo.rlViewImageDetails, CallManager.DETAILS);
 
         DaggerDetailsComponent
                 .builder()
@@ -95,27 +93,13 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .dontAnimate()
                 .centerCrop()
-                .into(mBinding.viewImageDetails.ivViewImageCard);
-
-        /* TYPE */
-        @IntegerRes int iconResource = imageData.getImageType().equals(ImageData.TYPE_PHOTO) ?
-                R.mipmap.ic_photo :
-                imageData.getImageType().equals(ImageData.TYPE_ILLUSTRATION) ?
-                        R.mipmap.ic_illustration:
-                        R.mipmap.ic_vector;
-
-        Glide.with(this)
-                .load(iconResource)
-                .thumbnail(Glide.with(this).load(iconResource).fitCenter())
-                .dontAnimate()
-                .fitCenter()
-                .into(mBinding.viewImageDetails.ivViewImageType);
+                .into(mBinding.ivViewImageCard);
 
         /* ID */
         StringBuffer imageIdBuffer = new StringBuffer()
                 .append(getString(R.string.id_label))
                 .append(" ").append(imageData.getImageId());
-        mBinding.viewImageDetails.tvViewImageId.setText(imageIdBuffer.toString());
+        mBinding.viewImageInfo.tvImageId.setText(imageIdBuffer.toString());
 
         /* CATEGORIES */
         String divider = "";

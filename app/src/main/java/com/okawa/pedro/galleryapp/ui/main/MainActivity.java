@@ -8,8 +8,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.okawa.pedro.galleryapp.BuildConfig;
 import com.okawa.pedro.galleryapp.R;
 import com.okawa.pedro.galleryapp.di.component.AppComponent;
 import com.okawa.pedro.galleryapp.di.component.DaggerMainComponent;
@@ -51,8 +53,10 @@ public class MainActivity extends BaseActivity implements MainView {
     protected void doOnCreated(AppComponent appComponent, Bundle saveInstanceState) {
         mBinding = (ActivityMainBinding) getDataBinding();
 
+        unlockScreenForTests();
+
         setSupportActionBar(mBinding.toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_menu);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -74,7 +78,7 @@ public class MainActivity extends BaseActivity implements MainView {
         types.add(ImageData.TYPE_VECTOR);
 
         mBinding.nvLayout.rvNavigationView.setLayoutManager(new LinearLayoutManager(this));
-        mBinding.nvLayout.rvNavigationView.setAdapter(new TypeAdapter(this, types));
+        mBinding.nvLayout.rvNavigationView.setAdapter(new TypeAdapter(types));
 
         DaggerMainComponent
                 .builder()
@@ -84,6 +88,19 @@ public class MainActivity extends BaseActivity implements MainView {
                 .inject(this);
 
         mMainPresenter.defineViewsBehaviour(mBinding);
+    }
+
+    private void unlockScreenForTests() {
+        if(BuildConfig.DEBUG) {
+            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                            WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                            WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        }
     }
 
     @Override

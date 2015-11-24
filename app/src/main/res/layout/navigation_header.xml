@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/color_accent"
+        android:background="@color/color_primary_dark"
         android:onClick="@{onViewTouchListener.onViewTouched}">
 
         <!-- UPDAY LOGO -->
@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/navigation_view_header_content_margin_top"
             android:scaleType="center"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/ic_launcher"/>
 
         <!-- UPDAY TEXT -->
 

@@ -24,7 +24,7 @@
             android:gravity="center"
             android:layout_margin="@dimen/navigation_view_footer_text_margin"
             android:drawablePadding="@dimen/navigation_view_footer_drawable_padding"
-            android:drawableStart="@mipmap/ic_github"
+            android:drawableStart="@drawable/ic_github"
             android:text="@string/navigation_view_footer_text"
             android:textStyle="bold"/>
 

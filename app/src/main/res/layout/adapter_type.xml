@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+
+        <import type="greendao.ImageData"/>
+
+        <variable
+            name="type"
+            type="String"/>
+
+    </data>
+
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -13,18 +24,20 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/adapter_type_item_margin">
 
+            <!-- TYPE ICON (PHOTO / ILLUSTRATION / VECTOR) -->
+
             <ImageView
                 android:id="@+id/ivViewImageType"
-                android:layout_width="@dimen/adapter_type_icon_type_size"
-                android:layout_height="@dimen/adapter_type_icon_type_size"
-                android:layout_margin="@dimen/adapter_type_icon_type_margin"
-                android:layout_gravity="center_vertical"
-                android:scaleType="center"/>
+                android:layout_width="@dimen/view_image_icon_type_size"
+                android:layout_height="@dimen/view_image_icon_type_size"
+                android:layout_margin="@dimen/view_image_icon_type_margin"
+                android:layout_gravity="start|center_vertical"
+                android:scaleType="fitCenter"
+                android:src="@{type.equals(ImageData.TYPE_ALL) ? @drawable/ic_all_types : type.equals(ImageData.TYPE_PHOTO) ? @drawable/ic_photo : type.equals(ImageData.TYPE_ILLUSTRATION) ? @drawable/ic_illustration : @drawable/ic_vector }"/>
 
             <TextView
                 android:id="@+id/tvAdapterType"
                 style="@style/AppTextViewSmall"
-                android:textColor="@color/color_accent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="20dp"
                 android:maxLines="1"

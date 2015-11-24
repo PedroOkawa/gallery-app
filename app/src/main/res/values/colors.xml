@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">@color/indigo_100</color>
-    <color name="color_primary_dark">@color/indigo_700</color>
-    <color name="color_accent">@color/indigo_300</color>
+    <color name="color_primary">@color/indigo_200</color>
+    <color name="color_primary_dark">@color/indigo_400</color>
+    <color name="color_accent">@color/indigo_A100</color>
 
-    <color name="color_image_details">@color/color_black_alpha_77</color>
+    <color name="color_image_details">@color/color_black_alpha_7F</color>
     <color name="color_progress_background">@color/color_grey_9494B2</color>
 
-    <color name="color_black_alpha_77">#77000000</color>
+    <color name="color_black_alpha_7F">#7F000000</color>
     <color name="color_grey_9494B2">#9494B2</color>
 
 </resources>

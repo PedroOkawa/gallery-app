@@ -22,17 +22,23 @@
         <ScrollView
             android:id="@+id/svActivityDetails"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/color_primary">
+            android:layout_height="match_parent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_primary">
+                android:layout_height="wrap_content">
+
+                <!-- IMAGE -->
+
+                <ImageView
+                    android:id="@+id/ivViewImageCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
 
                 <include
-                    android:id="@+id/viewImageDetails"
-                    layout="@layout/view_image_details"
+                    android:id="@+id/viewImageInfo"
+                    layout="@layout/view_image_info"
                     bind:imageData="@{imageData}"/>
 
                 <!-- LOADING LAYOUT (IT SHOW WHEN THE LIST IS EMPTY) -->
@@ -43,15 +49,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/activity_details_content_loading_margin"
-                    bind:visible="@{loading}"
-                    android:layout_below="@+id/viewImageDetails"/>
+                    bind:visible="@{loading}"/>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="@{loading ? View.GONE : View.VISIBLE}"
-                    android:layout_below="@+id/viewImageDetails">
+                    android:visibility="@{loading ? View.GONE : View.VISIBLE}">
 
                     <TextView
                         android:id="@+id/tvActivityDetailsContributor"

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="imageData"
+            type="greendao.ImageData"/>
+
+    </data>
+
+    <!-- DETAILS (ID AND TYPE ICON) -->
+
+    <RelativeLayout
+        android:id="@+id/rlViewImageDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/color_image_details" >
+
+        <ImageView
+            android:id="@+id/ivImageId"
+            android:layout_width="@dimen/adapter_type_icon_type_size"
+            android:layout_height="@dimen/adapter_type_icon_type_size"
+            android:src="@drawable/ic_key"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"/>
+
+        <TextView
+            android:id="@+id/tvImageId"
+            style="@style/AppTextViewLarge"
+            android:layout_width="fill_parent"
+            android:layout_toLeftOf="@+id/ivImageType"
+            android:layout_toStartOf="@+id/ivImageType"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/ivImageId"
+            android:layout_toEndOf="@+id/ivImageId"/>
+
+        <ImageView
+            android:id="@+id/ivImageType"
+            android:layout_width="@dimen/adapter_type_icon_type_size"
+            android:layout_height="@dimen/adapter_type_icon_type_size"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_toLeftOf="@+id/tvImageType"
+            android:layout_toStartOf="@+id/tvImageType"
+            android:src="@{imageData.isPhoto ? @drawable/ic_photo : imageData.isIllustration() ? @drawable/ic_illustration : @drawable/ic_vector }" />
+
+        <TextView
+            android:id="@+id/tvImageType"
+            style="@style/AppTextViewLarge"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:text="@{imageData.imageType}"/>
+
+    </RelativeLayout>
+</layout>
