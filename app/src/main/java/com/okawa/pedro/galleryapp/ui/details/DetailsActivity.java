@@ -1,6 +1,7 @@
 package com.okawa.pedro.galleryapp.ui.details;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IntegerRes;
 import android.support.v4.view.GravityCompat;
@@ -8,6 +9,7 @@ import android.support.v4.view.ViewCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -46,6 +48,14 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     protected void doOnCreated(AppComponent appComponent, Bundle saveInstanceState) {
         mBinding = (ActivityDetailsBinding) getDataBinding();
 
+        //DRAW OVER STATUS BAR
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getDecorView()
+                    .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+        }
+
         setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -54,7 +64,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         long imageId = getIntent().getLongExtra(CallManager.IMAGE_ID, -1);
 
         ViewCompat.setTransitionName(mBinding.ivViewImageCard, CallManager.IMAGE);
-
         ViewCompat.setTransitionName(mBinding.viewImageInfo.rlViewImageDetails, CallManager.DETAILS);
 
         DaggerDetailsComponent
@@ -64,7 +73,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 .build()
                 .inject(this);
 
-        mDetailsPresenter.defineViewsBehaviour(imageId);
+        mDetailsPresenter.defineViewsBehaviour(this, mBinding, imageId);
     }
 
     @Override
@@ -75,6 +84,13 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     @Override
     public void hideProgress() {
         mBinding.setLoading(false);
+    }
+
+    @Override
+    public void changeStatusBarColor(int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(color);
+        }
     }
 
     @Override
@@ -90,16 +106,13 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         Glide.with(this)
                 .load(imageData.getImageURL())
                 .thumbnail(Glide.with(this).load(imageData.getImageURL()).centerCrop().dontAnimate())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .dontAnimate()
                 .centerCrop()
                 .into(mBinding.ivViewImageCard);
 
         /* ID */
-        StringBuffer imageIdBuffer = new StringBuffer()
-                .append(getString(R.string.id_label))
-                .append(" ").append(imageData.getImageId());
-        mBinding.viewImageInfo.tvImageId.setText(imageIdBuffer.toString());
+        mBinding.viewImageInfo.tvImageId.setText(String.valueOf(imageData.getImageId()));
 
         /* CATEGORIES */
         String divider = "";

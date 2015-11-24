@@ -1,5 +1,7 @@
 package com.okawa.pedro.galleryapp.ui.details;
 
+import android.content.Context;
+
 import greendao.ImageData;
 
 /**
@@ -9,6 +11,7 @@ public interface DetailsView {
 
     void showProgress();
     void hideProgress();
+    void changeStatusBarColor(int color);
     void onError(String message);
     void loadImageData(ImageData imageData);
     void loadContributorsData(String contributor);

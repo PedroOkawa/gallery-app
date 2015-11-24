@@ -71,7 +71,6 @@ public class ImageAdapter extends SimpleAdapter<ImageData, AdapterImagesBinding>
         Glide.with(mContext)
                 .load(imageData.getImageURL())
                 .thumbnail(Glide.with(mContext).load(imageData.getImageURL()).centerCrop())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .dontAnimate()
                 .centerCrop()
                 .into(binding.ivViewImageCard);

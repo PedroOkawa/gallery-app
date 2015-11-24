@@ -1,6 +1,15 @@
 package com.okawa.pedro.galleryapp.presenter.details;
 
+import android.content.Context;
+import android.databinding.ViewDataBinding;
+import android.os.Build;
+
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
+import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
+import com.okawa.pedro.galleryapp.R;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
+import com.okawa.pedro.galleryapp.databinding.ActivityDetailsBinding;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.details.DetailsView;
 import com.okawa.pedro.galleryapp.util.listener.OnDataRequestListener;
@@ -18,6 +27,12 @@ public class DetailsPresenterImpl implements DetailsPresenter, OnDataRequestList
     private ImageRepository mImageRepository;
     private ShutterStockPresenter mShutterStockPresenter;
 
+    private ActivityDetailsBinding mActivityDetailsBinding;
+
+    private int mFlexibleSpaceHeight;
+    private int mStatusBarColor;
+    private int mBaseColor;
+
     public DetailsPresenterImpl(DetailsView detailsView, ImageRepository imageRepository,
                                 ShutterStockPresenter shutterStockPresenter) {
 
@@ -27,12 +42,59 @@ public class DetailsPresenterImpl implements DetailsPresenter, OnDataRequestList
     }
 
     @Override
-    public void defineViewsBehaviour(long imageId) {
+    public void defineViewsBehaviour(Context context, ViewDataBinding viewDataBinding, long imageId) {
         mDetailsView.showProgress();
-        mImageData = mImageRepository.getImageDataById(imageId);
 
+        mActivityDetailsBinding = (ActivityDetailsBinding) viewDataBinding;
+
+        mImageData = mImageRepository.getImageDataById(imageId);
         mDetailsView.loadImageData(mImageData);
+
+        mFlexibleSpaceHeight = context.getResources()
+                .getDimensionPixelSize(R.dimen.view_image_card_height);
+
+        mBaseColor = context.getResources()
+                .getColor(R.color.color_primary);
+
+        mStatusBarColor = context.getResources().getColor(R.color.black);
+
+        mActivityDetailsBinding.svActivityDetails.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
+            @Override
+            public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+                updateScroll(scrollY);
+            }
+
+            @Override
+            public void onDownMotionEvent() {
+            }
+
+            @Override
+            public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+            }
+        });
+
+        ScrollUtils.addOnGlobalLayoutListener(mActivityDetailsBinding.getRoot(), new Runnable() {
+            @Override
+            public void run() {
+                updateScroll(mActivityDetailsBinding.svActivityDetails.getCurrentScrollY());
+            }
+        });
+
         requestData();
+    }
+
+    private void updateScroll(int scrollY) {
+        float alpha = Math.min(1, (float) scrollY /
+                (mFlexibleSpaceHeight - mActivityDetailsBinding.rlImageInfo.getHeight() - 25));
+
+        mActivityDetailsBinding.toolbar
+                .setBackgroundColor(ScrollUtils.getColorWithAlpha(alpha, mBaseColor));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mDetailsView.changeStatusBarColor(ScrollUtils.getColorWithAlpha(alpha / 4, mStatusBarColor));
+        }
+
+        mActivityDetailsBinding.rlImageInfo
+                .setAlpha(1 - ((float) scrollY / (mFlexibleSpaceHeight / 3)));
     }
 
     @Override

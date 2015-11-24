@@ -19,10 +19,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
             android:id="@+id/svActivityDetails"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -33,13 +35,27 @@
                 <ImageView
                     android:id="@+id/ivViewImageCard"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/view_image_card_height"
                     android:scaleType="centerCrop"/>
 
-                <include
-                    android:id="@+id/viewImageInfo"
-                    layout="@layout/view_image_info"
-                    bind:imageData="@{imageData}"/>
+                <RelativeLayout
+                    android:id="@+id/rlImageInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/ivViewImageCard">
+
+                    <include
+                        android:id="@+id/viewImageInfo"
+                        layout="@layout/view_image_info"
+                        bind:imageData="@{imageData}"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/gradient"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_image_card_height"
+                    android:background="@drawable/gradient_overlay" />
 
                 <!-- LOADING LAYOUT (IT SHOW WHEN THE LIST IS EMPTY) -->
 
@@ -49,13 +65,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/activity_details_content_loading_margin"
-                    bind:visible="@{loading}"/>
+                    bind:visible="@{loading}"
+                    android:layout_below="@+id/ivViewImageCard"/>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="@{loading ? View.GONE : View.VISIBLE}">
+                    android:visibility="@{loading ? View.GONE : View.VISIBLE}"
+                    android:layout_below="@+id/ivViewImageCard">
 
                     <TextView
                         android:id="@+id/tvActivityDetailsContributor"
@@ -80,7 +98,7 @@
 
             </RelativeLayout>
 
-        </ScrollView>
+        </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
 
         <!-- TOOLBAR -->
 
