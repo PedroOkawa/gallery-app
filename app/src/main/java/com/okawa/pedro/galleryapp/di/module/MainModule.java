@@ -1,7 +1,5 @@
 package com.okawa.pedro.galleryapp.di.module;
 
-import android.databinding.ViewDataBinding;
-
 import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;

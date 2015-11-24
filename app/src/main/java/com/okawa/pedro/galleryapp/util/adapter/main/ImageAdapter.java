@@ -6,6 +6,7 @@ import android.support.v4.util.Pair;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.okawa.pedro.galleryapp.R;
 import com.okawa.pedro.galleryapp.databinding.AdapterImagesBinding;
 import com.okawa.pedro.galleryapp.util.adapter.commun.SimpleAdapter;
@@ -71,6 +72,7 @@ public class ImageAdapter extends SimpleAdapter<ImageData, AdapterImagesBinding>
                 .load(imageData.getImageURL())
                 .thumbnail(Glide.with(mContext).load(imageData.getImageURL()).centerCrop())
                 .placeholder(R.mipmap.ic_placeholder)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .dontAnimate()
                 .centerCrop()
                 .into(binding.viewImageDetails.ivViewImageCard);

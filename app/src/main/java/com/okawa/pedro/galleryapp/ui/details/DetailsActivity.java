@@ -80,7 +80,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         Glide.with(this)
                 .load(imageData.getImageURL())
                 .thumbnail(Glide.with(this).load(imageData.getImageURL()).centerCrop().dontAnimate())
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .dontAnimate()
                 .centerCrop()
                 .into(mBinding.viewImageDetails.ivViewImageCard);
@@ -96,7 +96,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 .load(iconResource)
                 .thumbnail(Glide.with(this).load(iconResource).fitCenter())
                 .dontAnimate()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .fitCenter()
                 .into(mBinding.viewImageDetails.ivViewImageType);
 

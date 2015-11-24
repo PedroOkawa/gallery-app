@@ -11,6 +11,7 @@ import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenterImpl;
+import com.okawa.pedro.galleryapp.util.manager.ParserManager;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -131,10 +132,18 @@ public class ApiModule {
     @Provides
     public ShutterStockPresenter provideShutterStockPresenter(
             ShutterStockInterface shutterStockInterface,
+            ParserManager parserManager,
             ImageRepository imageRepository,
             CategoryRepository categoryRepository) {
         return new ShutterStockPresenterImpl(shutterStockInterface,
+                parserManager,
                 imageRepository,
                 categoryRepository);
+    }
+
+    @Singleton
+    @Provides
+    public ParserManager provideParserModule() {
+        return new ParserManager();
     }
 }

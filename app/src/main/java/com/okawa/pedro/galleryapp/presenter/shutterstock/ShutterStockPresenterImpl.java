@@ -2,19 +2,17 @@ package com.okawa.pedro.galleryapp.presenter.shutterstock;
 
 import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
-import com.okawa.pedro.galleryapp.model.Categories;
 import com.okawa.pedro.galleryapp.model.Contributor;
 import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.model.Response;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
 import com.okawa.pedro.galleryapp.util.listener.OnDataRequestListener;
+import com.okawa.pedro.galleryapp.util.manager.ParserManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import greendao.CategoryData;
 import greendao.ImageData;
 import rx.Observable;
 import rx.Observer;
@@ -39,13 +37,16 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
     private long mCurrentPage = INITIAL_PAGE;
 
     private ShutterStockInterface mShutterStockInterface;
+    private ParserManager mParserManager;
     private ImageRepository mImageRepository;
     private CategoryRepository mCategoryRepository;
 
     public ShutterStockPresenterImpl(ShutterStockInterface shutterStockInterface,
+                                     ParserManager parserManager,
                                      ImageRepository imageRepository,
                                      CategoryRepository categoryRepository) {
         this.mShutterStockInterface = shutterStockInterface;
+        this.mParserManager = parserManager;
         this.mImageRepository = imageRepository;
         this.mCategoryRepository = categoryRepository;
     }
@@ -90,7 +91,10 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                 .flatMap(new Func1<Data, Observable<ImageData>>() {
                     @Override
                     public Observable<ImageData> call(Data data) {
-                        return Observable.just(parseData(data));
+                        /* PERSIST CATEGORY ON DATABASE */
+                        new Thread(new CategoryPersistence(data)).start();
+
+                        return Observable.just(mParserManager.parseData(data));
                     }
                 })
                 /* DEFINE RETRY (3 TIMES) */
@@ -112,7 +116,7 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
 
                     @Override
                     public void onCompleted() {
-                        if(recall) {
+                        if (recall) {
                             /* RECALLS THE SERVICE INSIDE THE SAME THREAD */
                             onDataRequestListener.requestData();
                         } else {
@@ -137,7 +141,7 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                          BECAUSE IT'S POSSIBLE LOAD AN ALREADY RECORDED PAGE CONSIDERING THE FILTERS
                          IN THAT CASE MAKES ANOTHER SEARCH
                         */
-                        if(previousTotal == currentTotal) {
+                        if (previousTotal == currentTotal) {
                             recall = true;
                         }
                     }
@@ -200,23 +204,6 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
         mCurrentPageAllObjects = INITIAL_PAGE;
     }
 
-    /* PARSE DATA AND PERSIST THE CATEGORY ON DATABASE */
-    private ImageData parseData(Data data) {
-        /* PERSIST CATEGORY ON DATABASE */
-        new Thread(new CategoryPersistence(data)).start();
-
-        /* PARSE DATA RETRIEVED TO IMAGE DATA */
-        ImageData imageData = new ImageData();
-
-        imageData.setImageId(data.getId());
-        imageData.setDescription(data.getDescription());
-        imageData.setImageType(data.getImage_type());
-        imageData.setContributorId(data.getContributor().getId());
-        imageData.setImageURL(data.getAssets().getPreview().getUrl());
-
-        return imageData;
-    }
-
     /*
      THREAD CREATED TO SAVE THE IMAGE'S CATEGORIES INTO THE DATABASE
      */
@@ -231,17 +218,7 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
         @Override
         public void run() {
             mCategoryRepository.deleteCategoryDataForImageId(mData.getId());
-            
-            List<CategoryData> categories = new ArrayList<>();
-            for(Categories category : mData.getCategories()) {
-                CategoryData categoryData = new CategoryData();
-                categoryData.setCategoryId(category.getId());
-                categoryData.setName(category.getName());
-                categoryData.setImageId(mData.getId());
-                categories.add(categoryData);
-            }
-
-            mCategoryRepository.insertOrReplaceInTx(categories);
+            mCategoryRepository.insertOrReplaceInTx(mParserManager.parseCategories(mData));
         }
     }
 }

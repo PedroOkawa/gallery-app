@@ -10,7 +10,6 @@ import greendao.DaoSession;
  * Created by pokawa on 21/11/15.
  */
 public class CategoryRepository {
-    private static int SELECT_LIMIT = 20;
     private DaoSession mDaoSession;
 
     public CategoryRepository(DaoSession daoSession) {

@@ -18,6 +18,10 @@ public class ImageRepository {
         this.mDaoSession = daoSession;
     }
 
+    public List<ImageData> getAllImages() {
+        return mDaoSession.getImageDataDao().loadAll();
+    }
+
     public void insertOrReplace(ImageData imageData) {
         mDaoSession.getImageDataDao().insertOrReplace(imageData);
     }

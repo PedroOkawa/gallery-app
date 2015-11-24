@@ -28,5 +28,5 @@
     <dimen name="activity_details_content_text_margin">10dp</dimen>
 
     <!-- TEXT VIEW STYLE -->
-    <dimen name="app_text_size">20sp</dimen>
+    <dimen name="app_text_size">16sp</dimen>
 </resources>

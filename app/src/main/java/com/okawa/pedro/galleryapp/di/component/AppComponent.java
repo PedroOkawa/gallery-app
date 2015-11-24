@@ -12,6 +12,7 @@ import com.okawa.pedro.galleryapp.di.module.TransitionModule;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
 import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.util.manager.CallManager;
+import com.okawa.pedro.galleryapp.util.manager.ParserManager;
 
 import javax.inject.Singleton;
 
@@ -39,6 +40,7 @@ public interface AppComponent {
     Retrofit provideRetrofit();
     ShutterStockInterface provideShutterStockInterface();
     ShutterStockPresenter provideShutterStockPresenter();
+    ParserManager provideParserManager();
     DaoSession provideDaoSession();
     ImageRepository provideImageRepository();
     CategoryRepository provideCategoryRepository();
