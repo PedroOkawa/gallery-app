@@ -35,7 +35,7 @@
                 android:layout_height="@dimen/abc_action_bar_default_height_material"
                 android:layout_width="match_parent"
                 android:minHeight="?attr/actionBarSize"
-                android:background="@color/color_accent"
+                android:background="@color/color_primary_dark"
                 app:titleTextColor="@android:color/white"/>
 
             <!-- LOADING LAYOUT (IT SHOW WHEN THE LIST IS EMPTY) -->

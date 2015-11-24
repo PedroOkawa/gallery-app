@@ -60,17 +60,6 @@ public class GalleryAppTests {
         sleep(INTERACTION_DELAY);
     }
 
-//    @Test
-//    public void testShare() {
-//        onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
-//                .perform(RecyclerViewActions.scrollToPosition(0),
-//                        RecyclerViewActions.actionOnItemAtPosition(0, click()));
-//
-//        sleep(INTERACTION_DELAY);
-//
-//        onView(withId(R.id.action_share)).perform(click());
-//    }
-
     @Test
     public void openAllImagesOptionAndScrollItem() {
         openDrawer(R.id.drawerLayout);
