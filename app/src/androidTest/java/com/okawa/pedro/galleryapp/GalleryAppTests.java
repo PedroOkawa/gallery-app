@@ -40,8 +40,8 @@ public class GalleryAppTests {
     private static final int INDEX_ILLUSTRATION = 2;
     private static final int INDEX_VECTOR = 3;
 
-    private static final int INITIAL_DELAY = 2000;
-    private static final int INTERACTION_DELAY = 1000;
+    private static final int INITIAL_DELAY = 5000;
+    private static final int INTERACTION_DELAY = 10000;
 
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
