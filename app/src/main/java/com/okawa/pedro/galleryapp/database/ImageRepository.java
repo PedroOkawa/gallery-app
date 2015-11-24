@@ -32,15 +32,6 @@ public class ImageRepository {
 
     public ImageData getImageDataById(long imageId) {
         return mDaoSession.getImageDataDao()
-                /*
-
-                SHUTTER STOCK API IS RETURNING REPEATED IMAGE IDS:
-                E.G.: PAGED SEARCH 3 & 4 RETURNS THE SAME ID: 323097338
-
-                https://api.shutterstock.com/v2/images/search?page=3
-                https://api.shutterstock.com/v2/images/search?page=4
-
-                */
                 .queryBuilder().where(ImageDataDao.Properties.ImageId.eq(imageId)).unique();
     }
 

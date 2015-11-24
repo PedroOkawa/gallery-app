@@ -2,6 +2,8 @@ package com.okawa.pedro.galleryapp;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.LargeTest;
 
 import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.ui.main.MainActivity;
@@ -9,6 +11,7 @@ import com.okawa.pedro.galleryapp.ui.main.MainActivity;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import greendao.ImageData;
 
@@ -25,6 +28,8 @@ import static org.hamcrest.Matchers.allOf;
 /**
  * Created by pokawa on 24/11/15.
  */
+@RunWith(AndroidJUnit4.class)
+@LargeTest
 public class ImagesListTest {
 
     private static final int INITIAL_DELAY = 2000;

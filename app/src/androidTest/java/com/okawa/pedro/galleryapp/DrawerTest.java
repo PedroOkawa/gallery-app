@@ -2,6 +2,7 @@ package com.okawa.pedro.galleryapp;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.okawa.pedro.galleryapp.ui.main.MainActivity;
@@ -9,12 +10,12 @@ import com.okawa.pedro.galleryapp.ui.main.MainActivity;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import greendao.ImageData;
 
 import static android.os.SystemClock.sleep;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
@@ -27,6 +28,7 @@ import static org.hamcrest.Matchers.allOf;
 /**
  * Created by pokawa on 24/11/15.
  */
+@RunWith(AndroidJUnit4.class)
 @LargeTest
 public class DrawerTest {
 

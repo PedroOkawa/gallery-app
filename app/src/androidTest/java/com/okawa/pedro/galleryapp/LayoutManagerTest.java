@@ -1,12 +1,14 @@
 package com.okawa.pedro.galleryapp;
 
 import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.okawa.pedro.galleryapp.ui.main.MainActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static android.os.SystemClock.sleep;
 import static android.support.test.espresso.Espresso.onView;
@@ -15,6 +17,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 /**
  * Created by pokawa on 24/11/15.
  */
+@RunWith(AndroidJUnit4.class)
 @LargeTest
 public class LayoutManagerTest {
 
