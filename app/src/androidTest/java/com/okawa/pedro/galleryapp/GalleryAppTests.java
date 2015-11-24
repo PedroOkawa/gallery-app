@@ -168,7 +168,7 @@ public class GalleryAppTests {
     }
 
     @Test
-    public void openImagesNoFilter() {
+    public void openAllImages() {
         openDrawer(R.id.drawerLayout);
 
         onView(allOf(withId(R.id.rvNavigationView), isDisplayed()))
