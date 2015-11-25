@@ -1,11 +1,8 @@
 package com.okawa.pedro.galleryapp.util.manager;
 
-import android.util.Log;
-
 import com.crashlytics.android.Crashlytics;
 import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
-import com.okawa.pedro.galleryapp.di.module.ApiModule;
 import com.okawa.pedro.galleryapp.model.Contributor;
 import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.model.Response;
@@ -29,6 +26,8 @@ import rx.schedulers.Schedulers;
  * Created by pokawa on 25/11/15.
  */
 public class ShutterStockManager {
+
+    public static final int CONNECTION_TIMEOUT = 60;
 
     private static final long INITIAL_PAGE = 1;
     private static final int TOTAL_RETRIES = 3;
@@ -113,7 +112,7 @@ public class ShutterStockManager {
                  */
                 .toList()
                 /* DEFINES A REQUEST TIMEOUT */
-                .timeout(ApiModule.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                .timeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
                 /* SENDS THE DATA TO THE MAIN PRESENTER */
                 .subscribe(new Observer<List<ImageData>>() {
 
@@ -172,7 +171,7 @@ public class ShutterStockManager {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 /* DEFINES A REQUEST TIMEOUT */
-                .timeout(ApiModule.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                .timeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
                 /* REQUEST CONTRIBUTOR DATA */
                 .subscribe(new Observer<Contributor>() {
                     @Override

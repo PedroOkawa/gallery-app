@@ -36,12 +36,13 @@ import retrofit.RxJavaCallAdapterFactory;
  */
 @Module
 public class ApiModule {
+
+    private static final String UTF_8 = "UTF-8";
+
     private static final String PREFIX = "https://";
     private static final String URL = "api.shutterstock.com/";
     private static final String VERSION = "v2/";
     private static final String BASE_URL = PREFIX.concat(URL).concat(VERSION);
-
-    public static final int CONNECTION_TIMEOUT = 15;
 
     @Singleton
     @Provides
@@ -55,11 +56,11 @@ public class ApiModule {
             properties.load(inputStream);
 
             username = new String(
-                    Base64.decode(properties.getProperty("username").getBytes("UTF-8"),
-                            Base64.DEFAULT), "UTF-8");
+                    Base64.decode(properties.getProperty("username").getBytes(UTF_8),
+                            Base64.DEFAULT), UTF_8);
             password = new String(
-                    Base64.decode(properties.getProperty("password").getBytes("UTF-8"),
-                            Base64.DEFAULT), "UTF-8");
+                    Base64.decode(properties.getProperty("password").getBytes(UTF_8),
+                            Base64.DEFAULT), UTF_8);
         } catch (IOException e) {
             Crashlytics.log(e.getMessage());
         }
@@ -72,7 +73,7 @@ public class ApiModule {
     OkHttpClient provideOkHttpClient(final Pair<String, String> credentials) {
         OkHttpClient client = new OkHttpClient();
 
-        client.setConnectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS);
+        client.setConnectTimeout(0, TimeUnit.MILLISECONDS);
         client.interceptors().add(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
