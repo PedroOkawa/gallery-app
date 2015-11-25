@@ -57,6 +57,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
         mActivityMainBinding = (ActivityMainBinding) viewDataBinding;
 
         /* TOOLBAR */
+
         mActivityMainBinding.toolbar.setTitle(mType.toUpperCase());
 
         /* TOUCH LISTENER BEHAVIOUR */

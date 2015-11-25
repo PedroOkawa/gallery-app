@@ -59,10 +59,6 @@ public class ApiModule {
             password = new String(
                     Base64.decode(properties.getProperty("password").getBytes("UTF-8"),
                             Base64.DEFAULT), "UTF-8");
-
-            Log.d("TEST", "USERNAME: " + username);
-            Log.d("TEST", "PASSWORD: " + password);
-
         } catch (IOException e) {
             Crashlytics.log(e.getMessage());
         }

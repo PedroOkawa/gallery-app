@@ -48,13 +48,16 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     protected void doOnCreated(AppComponent appComponent, Bundle saveInstanceState) {
         mBinding = (ActivityDetailsBinding) getDataBinding();
 
-        //DRAW OVER STATUS BAR
+        /* DRAW OVER STATUS BAR */
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().getDecorView()
                     .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                             View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
             getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
         }
+
+        /* DEFINES TOOLBAR BACK BUTTON */
 
         setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
@@ -63,8 +66,12 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
         long imageId = getIntent().getLongExtra(CallManager.IMAGE_ID, -1);
 
+        /* CREATES THE LINK TO THE TRANSITION ANIMATION */
+
         ViewCompat.setTransitionName(mBinding.ivViewImageCard, CallManager.IMAGE);
         ViewCompat.setTransitionName(mBinding.viewImageInfo.rlViewImageDetails, CallManager.DETAILS);
+
+        /* INJECT DEPENDENCY (COMPONENT) */
 
         DaggerDetailsComponent
                 .builder()
@@ -158,6 +165,8 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /* SHARE BUTTON ACTION */
 
     public void share() {
         if (mImageData != null) {

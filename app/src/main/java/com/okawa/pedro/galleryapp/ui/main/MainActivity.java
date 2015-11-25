@@ -51,21 +51,31 @@ public class MainActivity extends BaseActivity implements MainView {
     protected void doOnCreated(AppComponent appComponent, Bundle saveInstanceState) {
         mBinding = (ActivityMainBinding) getDataBinding();
 
+        /* DEFINES TOOLBAR HOME BUTTON */
+
         setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        /* DEFINES THE CONTENT PROGRESS BAR LOADING COLOR SCHEMA */
 
         mBinding.srActivityMainImages.setColorSchemeResources(
                 R.color.color_primary,
                 R.color.color_primary_dark,
                 R.color.color_accent);
 
+        /* INITIALIZE THE APP WITH CONTENT PROGRESS BAR LOADING */
+
         mBinding.setLoading(true);
+
+        /* CREATES THE IMAGE LIST */
 
         mAutoGridLayoutManager = new AutoGridLayoutManager(this);
         mBinding.rvActivityMainImages.setLayoutManager(mAutoGridLayoutManager);
         mBinding.rvActivityMainImages.setAdapter(new ImageAdapter(this, new ArrayList<ImageData>()));
+
+        /* DEFINES THE NAVIGATION VIEW LIST (FILTERS) */
 
         ArrayList<String> types = new ArrayList<>();
         types.add(ImageData.TYPE_ALL);
@@ -73,8 +83,12 @@ public class MainActivity extends BaseActivity implements MainView {
         types.add(ImageData.TYPE_ILLUSTRATION);
         types.add(ImageData.TYPE_VECTOR);
 
+        /* CREATES THE FILTER LIST */
+
         mBinding.nvLayout.rvNavigationView.setLayoutManager(new LinearLayoutManager(this));
         mBinding.nvLayout.rvNavigationView.setAdapter(new TypeAdapter(types));
+
+        /* INJECT DEPENDENCY (COMPONENT) */
 
         DaggerMainComponent
                 .builder()
