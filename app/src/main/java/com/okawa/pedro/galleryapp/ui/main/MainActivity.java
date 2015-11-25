@@ -8,10 +8,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.okawa.pedro.galleryapp.BuildConfig;
 import com.okawa.pedro.galleryapp.R;
 import com.okawa.pedro.galleryapp.di.component.AppComponent;
 import com.okawa.pedro.galleryapp.di.component.DaggerMainComponent;
@@ -97,18 +95,6 @@ public class MainActivity extends BaseActivity implements MainView {
     public void hideProgress() {
         mBinding.setLoading(false);
         mBinding.srActivityMainImages.setRefreshing(false);
-    }
-
-    @Override
-    public void autoUnlockScreen() {
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
     }
 
     @Override

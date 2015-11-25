@@ -11,7 +11,6 @@ public interface MainView {
 
     void showProgress();
     void hideProgress();
-    void autoUnlockScreen();
     void onError();
     void closeNavigation();
     void openDetails(long imageId, Pair<View, String>... params);
