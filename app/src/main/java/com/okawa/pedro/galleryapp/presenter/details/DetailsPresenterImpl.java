@@ -10,9 +10,9 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.okawa.pedro.galleryapp.R;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.databinding.ActivityDetailsBinding;
-import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.details.DetailsView;
 import com.okawa.pedro.galleryapp.util.listener.OnDataRequestListener;
+import com.okawa.pedro.galleryapp.util.manager.ShutterStockManager;
 
 import greendao.ImageData;
 
@@ -25,7 +25,7 @@ public class DetailsPresenterImpl implements DetailsPresenter, OnDataRequestList
 
     private DetailsView mDetailsView;
     private ImageRepository mImageRepository;
-    private ShutterStockPresenter mShutterStockPresenter;
+    private ShutterStockManager mShutterStockManager;
 
     private ActivityDetailsBinding mActivityDetailsBinding;
 
@@ -34,11 +34,11 @@ public class DetailsPresenterImpl implements DetailsPresenter, OnDataRequestList
     private int mBaseColor;
 
     public DetailsPresenterImpl(DetailsView detailsView, ImageRepository imageRepository,
-                                ShutterStockPresenter shutterStockPresenter) {
+                                ShutterStockManager shutterStockManager) {
 
         this.mDetailsView = detailsView;
         this.mImageRepository = imageRepository;
-        this.mShutterStockPresenter = shutterStockPresenter;
+        this.mShutterStockManager = shutterStockManager;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class DetailsPresenterImpl implements DetailsPresenter, OnDataRequestList
 
     @Override
     public void requestData() {
-        mShutterStockPresenter.loadContributorData(this,
+        mShutterStockManager.loadContributorData(this,
                 mImageData.getImageId(), mImageData.getContributorId());
     }
 

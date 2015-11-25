@@ -4,8 +4,8 @@ import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenter;
 import com.okawa.pedro.galleryapp.presenter.main.MainPresenterImpl;
-import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.main.MainView;
+import com.okawa.pedro.galleryapp.util.manager.ShutterStockManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -30,10 +30,10 @@ public class MainModule {
     public MainPresenter provideMainPresenter(MainView mainView,
                                               ImageRepository imageRepository,
                                               CategoryRepository categoryRepository,
-                                              ShutterStockPresenter shutterStockPresenter) {
+                                              ShutterStockManager shutterStockManager) {
         return new MainPresenterImpl(mainView,
                 imageRepository,
                 categoryRepository,
-                shutterStockPresenter);
+                shutterStockManager);
     }
 }

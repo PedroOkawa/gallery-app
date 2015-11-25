@@ -12,7 +12,6 @@ import com.okawa.pedro.galleryapp.R;
 import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.databinding.ActivityMainBinding;
-import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.main.MainView;
 import com.okawa.pedro.galleryapp.util.adapter.main.TypeAdapter;
 import com.okawa.pedro.galleryapp.util.adapter.main.ImageAdapter;
@@ -21,6 +20,7 @@ import com.okawa.pedro.galleryapp.util.listener.OnDataRequestListener;
 import com.okawa.pedro.galleryapp.util.listener.OnImageTouchListener;
 import com.okawa.pedro.galleryapp.util.listener.OnRecyclerViewThresholdListener;
 import com.okawa.pedro.galleryapp.util.listener.OnViewTouchListener;
+import com.okawa.pedro.galleryapp.util.manager.ShutterStockManager;
 
 import java.util.List;
 
@@ -37,19 +37,19 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
     private MainView mMainView;
     private ImageRepository mImageRepository;
     private CategoryRepository mCategoryRepository;
-    private ShutterStockPresenter mShutterStockPresenter;
+    private ShutterStockManager mShutterStockManager;
     private ImageAdapter mImageAdapter;
     private OnMainRecyclerViewListener mOnMainRecyclerViewListener;
     private ActivityMainBinding mActivityMainBinding;
 
     public MainPresenterImpl(MainView mainView, ImageRepository imageRepository,
                              CategoryRepository categoryRepository,
-                             ShutterStockPresenter shutterStockPresenter) {
+                             ShutterStockManager shutterStockManager) {
 
         this.mMainView = mainView;
         this.mImageRepository = imageRepository;
         this.mCategoryRepository = categoryRepository;
-        this.mShutterStockPresenter = shutterStockPresenter;
+        this.mShutterStockManager = shutterStockManager;
     }
 
     @Override
@@ -89,7 +89,8 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
                             public void onRefresh() {
                                 mImageRepository.clearImageData();
                                 mCategoryRepository.clearCategoryData();
-                                mShutterStockPresenter.resetPageSearch();
+                                mShutterStockManager.resetPageSearch();
+                                loadNextPage();
                                 resetAdapter();
                             }
                         });
@@ -98,6 +99,9 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
 
         ((TypeAdapter)mActivityMainBinding.nvLayout.rvNavigationView.getAdapter())
                 .setOnTypeTouchListener(this);
+
+        /* MAKES THE FIRST CALL */
+        loadNextPage();
     }
 
     @Override
@@ -110,7 +114,7 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
         } else {
 
             mMainView.showProgress();
-            mShutterStockPresenter.loadImageData(this, mType);
+            mShutterStockManager.loadImageData(this, mType);
 
         }
     }
@@ -129,12 +133,6 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
     @Override
     public void onCompleted() {
         loadDataFromDB(mImageRepository.getPagedImageData(mImageAdapter.getItemCount(), mType));
-    }
-
-    private void loadDataFromDB(List<ImageData> imageDataList) {
-        mImageAdapter.addDataSet(imageDataList);
-        mImageAdapter.notifyDataSetChanged();
-        mMainView.hideProgress();
     }
 
     @Override
@@ -156,12 +154,21 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
         if(!this.mType.equals(type)) {
             this.mType = type;
             mActivityMainBinding.toolbar.setTitle(mType.toUpperCase());
-            mShutterStockPresenter.definePageSearch(type, mImageRepository.getCurrentPage(type));
+            mShutterStockManager.definePageSearch(type, mImageRepository.getCurrentPage(type));
             resetAdapter();
 
             loadNextPage();
         }
         mMainView.closeNavigation();
+    }
+
+    /*
+     RETRIEVE UPDATED DATA FROM DATABASE
+     */
+    private void loadDataFromDB(List<ImageData> imageDataList) {
+        mImageAdapter.addDataSet(imageDataList);
+        mImageAdapter.notifyDataSetChanged();
+        mMainView.hideProgress();
     }
 
     /*
@@ -180,7 +187,9 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
 
         @Override
         public void onVisibleThreshold() {
-            loadNextPage();
+            if(!isReset()) {
+                loadNextPage();
+            }
         }
     }
 }

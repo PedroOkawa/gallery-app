@@ -10,9 +10,8 @@ import com.okawa.pedro.galleryapp.BuildConfig;
 import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
-import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
-import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenterImpl;
 import com.okawa.pedro.galleryapp.util.manager.ParserManager;
+import com.okawa.pedro.galleryapp.util.manager.ShutterStockManager;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -41,6 +40,8 @@ public class ApiModule {
     private static final String URL = "api.shutterstock.com/";
     private static final String VERSION = "v2/";
     private static final String BASE_URL = PREFIX.concat(URL).concat(VERSION);
+
+    public static final int CONNECTION_TIMEOUT = 15;
 
     @Singleton
     @Provides
@@ -71,7 +72,7 @@ public class ApiModule {
     OkHttpClient provideOkHttpClient(final Pair<String, String> credentials) {
         OkHttpClient client = new OkHttpClient();
 
-        client.setConnectTimeout(0, TimeUnit.MILLISECONDS);
+        client.setConnectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS);
         client.interceptors().add(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -132,12 +133,12 @@ public class ApiModule {
 
     @Singleton
     @Provides
-    public ShutterStockPresenter provideShutterStockPresenter(
+    public ShutterStockManager provideShutterStockManager(
             ShutterStockInterface shutterStockInterface,
             ParserManager parserManager,
             ImageRepository imageRepository,
             CategoryRepository categoryRepository) {
-        return new ShutterStockPresenterImpl(shutterStockInterface,
+        return new ShutterStockManager(shutterStockInterface,
                 parserManager,
                 imageRepository,
                 categoryRepository);

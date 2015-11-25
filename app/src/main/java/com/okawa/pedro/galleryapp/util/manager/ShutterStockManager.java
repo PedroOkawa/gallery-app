@@ -1,18 +1,21 @@
-package com.okawa.pedro.galleryapp.presenter.shutterstock;
+package com.okawa.pedro.galleryapp.util.manager;
+
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.okawa.pedro.galleryapp.database.CategoryRepository;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
+import com.okawa.pedro.galleryapp.di.module.ApiModule;
 import com.okawa.pedro.galleryapp.model.Contributor;
 import com.okawa.pedro.galleryapp.model.Data;
 import com.okawa.pedro.galleryapp.model.Response;
 import com.okawa.pedro.galleryapp.network.ShutterStockInterface;
 import com.okawa.pedro.galleryapp.util.listener.OnDataRequestListener;
-import com.okawa.pedro.galleryapp.util.manager.ParserManager;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import greendao.ImageData;
 import rx.Observable;
@@ -23,9 +26,9 @@ import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by pokawa on 20/11/15.
+ * Created by pokawa on 25/11/15.
  */
-public class ShutterStockPresenterImpl implements ShutterStockPresenter {
+public class ShutterStockManager {
 
     private static final long INITIAL_PAGE = 1;
     private static final int TOTAL_RETRIES = 3;
@@ -42,10 +45,10 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
     private ImageRepository mImageRepository;
     private CategoryRepository mCategoryRepository;
 
-    public ShutterStockPresenterImpl(ShutterStockInterface shutterStockInterface,
-                                     ParserManager parserManager,
-                                     ImageRepository imageRepository,
-                                     CategoryRepository categoryRepository) {
+    public ShutterStockManager(ShutterStockInterface shutterStockInterface,
+                               ParserManager parserManager,
+                               ImageRepository imageRepository,
+                               CategoryRepository categoryRepository) {
         this.mShutterStockInterface = shutterStockInterface;
         this.mParserManager = parserManager;
         this.mImageRepository = imageRepository;
@@ -56,7 +59,6 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
      IMAGE SEARCH SECTION
      */
 
-    @Override
     public void loadImageData(final OnDataRequestListener onDataRequestListener, String type) {
 
         /*
@@ -110,6 +112,8 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                  IS LOADED
                  */
                 .toList()
+                /* DEFINES A REQUEST TIMEOUT */
+                .timeout(ApiModule.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
                 /* SENDS THE DATA TO THE MAIN PRESENTER */
                 .subscribe(new Observer<List<ImageData>>() {
 
@@ -121,6 +125,7 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                             /* RECALLS THE SERVICE INSIDE THE SAME THREAD */
                             onDataRequestListener.requestData();
                         } else {
+
                             onDataRequestListener.onCompleted();
                         }
                     }
@@ -154,7 +159,6 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
      CONTRIBUTOR SEARCH SECTION
      */
 
-    @Override
     public void loadContributorData(final OnDataRequestListener onDataRequestListener,
                                     final long imageId, long contributorId) {
 
@@ -167,6 +171,9 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                 .contributorDetails(contributorId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                /* DEFINES A REQUEST TIMEOUT */
+                .timeout(ApiModule.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                /* REQUEST CONTRIBUTOR DATA */
                 .subscribe(new Observer<Contributor>() {
                     @Override
                     public void onCompleted() {
@@ -192,7 +199,6 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
                 });
     }
 
-    @Override
     public void definePageSearch(String type, long page) {
         if(type.equals(ImageData.TYPE_ALL)) {
             this.mCurrentPage = mCurrentPageAllObjects;
@@ -201,7 +207,6 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
         }
     }
 
-    @Override
     public void resetPageSearch() {
         mCurrentPage = INITIAL_PAGE;
         mCurrentPageAllObjects = INITIAL_PAGE;
@@ -224,4 +229,5 @@ public class ShutterStockPresenterImpl implements ShutterStockPresenter {
             mCategoryRepository.insertOrReplaceInTx(mParserManager.parseCategories(mData));
         }
     }
+
 }

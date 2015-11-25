@@ -3,8 +3,8 @@ package com.okawa.pedro.galleryapp.di.module;
 import com.okawa.pedro.galleryapp.database.ImageRepository;
 import com.okawa.pedro.galleryapp.presenter.details.DetailsPresenter;
 import com.okawa.pedro.galleryapp.presenter.details.DetailsPresenterImpl;
-import com.okawa.pedro.galleryapp.presenter.shutterstock.ShutterStockPresenter;
 import com.okawa.pedro.galleryapp.ui.details.DetailsView;
+import com.okawa.pedro.galleryapp.util.manager.ShutterStockManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -28,9 +28,9 @@ public class DetailsModule {
     @Provides
     public DetailsPresenter provideMainPresenter(DetailsView detailsView,
                                                  ImageRepository imageRepository,
-                                                 ShutterStockPresenter shutterStockPresenter) {
+                                                 ShutterStockManager shutterStockManager) {
         return new DetailsPresenterImpl(detailsView,
                 imageRepository,
-                shutterStockPresenter);
+                shutterStockManager);
     }
 }
