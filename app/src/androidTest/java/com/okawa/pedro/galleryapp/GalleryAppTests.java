@@ -36,10 +36,10 @@ public class GalleryAppTests {
     private static final int INDEX_ILLUSTRATION = 2;
     private static final int INDEX_VECTOR = 3;
 
-    private static final int TOTAL_OBJECTS_OPEN = 5;
+    private static final int TOTAL_OBJECTS_OPEN = 10;
 
-    private static final int INITIAL_DELAY = 2000;
-    private static final int INTERACTION_DELAY = 1000;
+    private static final int INITIAL_DELAY = 1000;
+    private static final int INTERACTION_DELAY = 500;
 
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
@@ -57,30 +57,30 @@ public class GalleryAppTests {
         onView(isRoot()).perform(OrientationChangeAction.orientationPortrait());
         sleep(INTERACTION_DELAY);
     }
-//
-//    @Test
-//    public void openAllImagesOptionAndScrollItem() {
-//        openDrawer(R.id.drawerLayout);
-//        sleep(INTERACTION_DELAY);
-//
-//        onView(allOf(withId(R.id.rvNavigationView), isDisplayed()))
-//                .perform(RecyclerViewActions.scrollToPosition(INDEX_ALL),
-//                        RecyclerViewActions.actionOnItemAtPosition(INDEX_ALL, click()));
-//
-//        onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
-//                .perform(RecyclerViewActions.scrollToPosition(0),
-//                        RecyclerViewActions.actionOnItemAtPosition(0, click()));
-//
-//        onView(isRoot()).perform(OrientationChangeAction.orientationLandscape());
-//
-//        sleep(INTERACTION_DELAY);
-//
-//        onView(withId(R.id.svActivityDetails)).perform(swipeUp());
-//
-//        sleep(INTERACTION_DELAY);
-//
-//        onView(isRoot()).perform(OrientationChangeAction.orientationPortrait());
-//    }
+
+    @Test
+    public void openAllImagesOptionAndScrollItem() {
+        openDrawer(R.id.drawerLayout);
+        sleep(INTERACTION_DELAY);
+
+        onView(allOf(withId(R.id.rvNavigationView), isDisplayed()))
+                .perform(RecyclerViewActions.scrollToPosition(INDEX_ALL),
+                        RecyclerViewActions.actionOnItemAtPosition(INDEX_ALL, click()));
+
+        onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
+                .perform(RecyclerViewActions.scrollToPosition(0),
+                        RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        onView(isRoot()).perform(OrientationChangeAction.orientationLandscape());
+
+        sleep(INTERACTION_DELAY);
+
+        onView(withId(R.id.svActivityDetails)).perform(swipeUp());
+
+        sleep(INTERACTION_DELAY);
+
+        onView(isRoot()).perform(OrientationChangeAction.orientationPortrait());
+    }
 //
 //    @Test
 //    public void openPhotosOptionAndScrollItem() {
