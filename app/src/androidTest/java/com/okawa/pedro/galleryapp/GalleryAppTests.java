@@ -37,7 +37,6 @@ import static org.hamcrest.Matchers.allOf;
 @LargeTest
 public class GalleryAppTests {
 
-    private static final int NO_TYPE_DEFINED = -1;
     private static final int INDEX_ALL = 0;
     private static final int INDEX_PHOTO = 1;
     private static final int INDEX_ILLUSTRATION = 2;
@@ -45,8 +44,8 @@ public class GalleryAppTests {
 
     private static final int TOTAL_OBJECTS_OPEN = 5;
 
-    private static final int INITIAL_DELAY = 4000;
-    private static final int INTERACTION_DELAY = 2000;
+    private static final int INITIAL_DELAY = 1000;
+    private static final int INTERACTION_DELAY = 500;
 
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
@@ -94,7 +93,8 @@ public class GalleryAppTests {
         openNavigationOption(INDEX_ALL);
 
         for(int i = 0; i < TOTAL_OBJECTS_OPEN; i++) {
-            checkDetailsActivityContent(i, NO_TYPE_DEFINED);
+            checkDetailsActivityContent(i);
+            goBackList();
         }
     }
 
@@ -223,6 +223,17 @@ public class GalleryAppTests {
     }
 
     private void checkDetailsActivityContent(int position, @StringRes int stringId) {
+        checkDetailsActivityContent(position);
+
+        onView(withId(R.id.tvImageType))
+                .check(ViewAssertions.matches(withText(stringId)));
+
+        sleep(INTERACTION_DELAY);
+
+        goBackList();
+    }
+
+    private void checkDetailsActivityContent(int position) {
         sleep(INTERACTION_DELAY);
 
         onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
@@ -231,10 +242,7 @@ public class GalleryAppTests {
 
         sleep(INTERACTION_DELAY);
 
-        if(stringId != -1) {
-            onView(withId(R.id.tvImageType))
-                    .check(ViewAssertions.matches(withText(stringId)));
-        }
+        onView(withId(R.id.svActivityDetails)).perform(swipeUp());
 
         sleep(INTERACTION_DELAY);
 
@@ -245,7 +253,9 @@ public class GalleryAppTests {
                 .check(ViewAssertions.matches(isDisplayed()));
 
         sleep(INTERACTION_DELAY);
+    }
 
+    private void goBackList() {
         pressBack();
 
         sleep(INTERACTION_DELAY);
