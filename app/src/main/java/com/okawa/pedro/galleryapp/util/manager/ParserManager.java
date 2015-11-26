@@ -21,7 +21,7 @@ public class ParserManager {
 
         imageData.setImageId(data.getId());
         imageData.setDescription(data.getDescription());
-        imageData.setImageType(data.getImage_type());
+        imageData.setImageType(convertType(data.getImage_type()));
         imageData.setContributorId(data.getContributor().getId());
         imageData.setImageURL(data.getAssets().getPreview().getUrl());
 
@@ -39,4 +39,16 @@ public class ParserManager {
         }
         return categories;
     }
+
+    private int convertType(String type) {
+        switch(type) {
+            case ImageData.TYPE_PHOTO:
+                return ImageData.TYPE_PHOTO_ID;
+            case ImageData.TYPE_ILLUSTRATION:
+                return ImageData.TYPE_ILLUSTRATION_ID;
+            default:
+                return ImageData.TYPE_VECTOR_ID;
+        }
+    }
+
 }

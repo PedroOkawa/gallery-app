@@ -7,7 +7,7 @@
 
         <variable
             name="type"
-            type="String"/>
+            type="int"/>
 
     </data>
 
@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/adapter_type_item_margin">
 
-            <!-- TYPE ICON (PHOTO / ILLUSTRATION / VECTOR) -->
+            <!-- TYPE ICON (PHOTO / ILLUSTRATION / VECTOR / ALL) -->
 
             <ImageView
                 android:id="@+id/ivViewImageType"
@@ -33,13 +33,13 @@
                 android:layout_margin="@dimen/view_image_icon_type_margin"
                 android:layout_gravity="start|center_vertical"
                 android:scaleType="fitCenter"
-                android:src="@{type.equals(ImageData.TYPE_ALL) ? @drawable/ic_all_types : type.equals(ImageData.TYPE_PHOTO) ? @drawable/ic_photo : type.equals(ImageData.TYPE_ILLUSTRATION) ? @drawable/ic_illustration : @drawable/ic_vector }"/>
+                android:src="@{ type == ImageData.TYPE_PHOTO_ID ? @drawable/ic_photo : type == ImageData.TYPE_ILLUSTRATION_ID ? @drawable/ic_illustration : type == ImageData.TYPE_VECTOR_ID ? @drawable/ic_vector : @drawable/ic_all_types }"/>
 
             <TextView
                 android:id="@+id/tvAdapterType"
                 style="@style/AppTextViewSmall"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="@dimen/adapter_type_text_start_margin"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textAllCaps="true"

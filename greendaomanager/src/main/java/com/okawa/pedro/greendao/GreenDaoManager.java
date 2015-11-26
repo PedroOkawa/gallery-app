@@ -37,7 +37,7 @@ public class GreenDaoManager {
 
         image.addIdProperty().primaryKey().autoincrement();
         image.addLongProperty(IMAGE_COLUMN_ID).notNull().unique();
-        image.addStringProperty(IMAGE_COLUMN_TYPE);
+        image.addIntProperty(IMAGE_COLUMN_TYPE);
         image.addStringProperty(IMAGE_COLUMN_URL);
         image.addLongProperty(IMAGE_COLUMN_CONTRIBUTOR_ID).notNull();
         image.addStringProperty(IMAGE_COLUMN_CONTRIBUTOR);

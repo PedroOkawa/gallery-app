@@ -6,6 +6,12 @@
     <!-- NAVIGATION VIEW (FOOTER) -->
     <string name="navigation_view_footer_text">GIT DO PROJETO</string>
 
+    <!-- MAIN ACTIVITY -->
+    <string name="type_all">Todas</string>
+    <string name="type_photo">Foto</string>
+    <string name="type_illustration">Ilustração</string>
+    <string name="type_vector">Vetor</string>
+
     <!-- DETAILS ACTIVITY -->
     <string name="activity_details_menu_share">Compartilhar</string>
     <string name="activity_details_intent_share">Compartilhar imagem</string>

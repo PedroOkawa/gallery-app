@@ -5,6 +5,6 @@ package com.okawa.pedro.galleryapp.util.listener;
  */
 public interface OnTypeTouchListener {
 
-    void onTypeTouched(String type);
+    void onTypeTouched(int type);
 
 }

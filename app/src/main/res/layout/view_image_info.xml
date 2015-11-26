@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="greendao.ImageData"/>
+
         <variable
             name="imageData"
             type="greendao.ImageData"/>
@@ -15,7 +17,7 @@
         android:id="@+id/rlViewImageDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="@dimen/view_image_info_layout_padding"
         android:background="@color/color_image_details" >
 
         <ImageView
@@ -24,8 +26,8 @@
             android:layout_height="@dimen/adapter_type_icon_type_size"
             android:src="@drawable/ic_key"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginRight="@dimen/view_image_info_id_icon_margin_end"
+            android:layout_marginEnd="@dimen/view_image_info_id_icon_margin_end"/>
 
         <TextView
             android:id="@+id/tvImageId"
@@ -42,20 +44,20 @@
             android:layout_width="@dimen/adapter_type_icon_type_size"
             android:layout_height="@dimen/adapter_type_icon_type_size"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="@dimen/view_image_info_type_icon_margin_start"
+            android:layout_marginStart="@dimen/view_image_info_type_icon_margin_start"
+            android:layout_marginRight="@dimen/view_image_info_type_icon_margin_end"
+            android:layout_marginEnd="@dimen/view_image_info_type_icon_margin_end"
             android:layout_toLeftOf="@+id/tvImageType"
             android:layout_toStartOf="@+id/tvImageType"
-            android:src="@{imageData.isPhoto ? @drawable/ic_photo : imageData.isIllustration() ? @drawable/ic_illustration : @drawable/ic_vector }" />
+            android:src="@{ imageData.imageType == ImageData.TYPE_PHOTO_ID ? @drawable/ic_photo : imageData.imageType == ImageData.TYPE_ILLUSTRATION_ID ? @drawable/ic_illustration : @drawable/ic_vector }" />
 
         <TextView
             android:id="@+id/tvImageType"
             style="@style/AppTextViewLarge"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:text="@{imageData.imageType}"/>
+            android:text="@{ imageData.imageType == ImageData.TYPE_PHOTO_ID ? @string/type_photo : imageData.imageType == ImageData.TYPE_ILLUSTRATION_ID ? @string/type_illustration : @string/type_vector }"/>
 
     </RelativeLayout>
 </layout>

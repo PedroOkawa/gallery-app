@@ -23,6 +23,7 @@ import com.okawa.pedro.galleryapp.util.manager.AutoGridLayoutManager;
 import com.okawa.pedro.galleryapp.util.manager.CallManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -51,12 +52,14 @@ public class MainActivity extends BaseActivity implements MainView {
     protected void doOnCreated(AppComponent appComponent, Bundle saveInstanceState) {
         mBinding = (ActivityMainBinding) getDataBinding();
 
-        /* DEFINES TOOLBAR HOME BUTTON */
+        /* DEFINES TOOLBAR HOME BUTTON AND TITLE */
 
         setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mBinding.toolbar.setTitle(R.string.type_all);
 
         /* DEFINES THE CONTENT PROGRESS BAR LOADING COLOR SCHEMA */
 
@@ -75,13 +78,14 @@ public class MainActivity extends BaseActivity implements MainView {
         mBinding.rvActivityMainImages.setLayoutManager(mAutoGridLayoutManager);
         mBinding.rvActivityMainImages.setAdapter(new ImageAdapter(this, new ArrayList<ImageData>()));
 
+
         /* DEFINES THE NAVIGATION VIEW LIST (FILTERS) */
 
         ArrayList<String> types = new ArrayList<>();
-        types.add(ImageData.TYPE_ALL);
-        types.add(ImageData.TYPE_PHOTO);
-        types.add(ImageData.TYPE_ILLUSTRATION);
-        types.add(ImageData.TYPE_VECTOR);
+        types.add(ImageData.TYPE_ALL_ID, getString(R.string.type_all));
+        types.add(ImageData.TYPE_PHOTO_ID, getString(R.string.type_photo));
+        types.add(ImageData.TYPE_ILLUSTRATION_ID, getString(R.string.type_illustration));
+        types.add(ImageData.TYPE_VECTOR_ID, getString(R.string.type_vector));
 
         /* CREATES THE FILTER LIST */
 
@@ -114,6 +118,24 @@ public class MainActivity extends BaseActivity implements MainView {
     @Override
     public void onError() {
         Toast.makeText(this, getString(R.string.connection_error_message), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setToolbarTitle(int type) {
+        switch(type) {
+            case ImageData.TYPE_ALL_ID:
+                mBinding.toolbar.setTitle(getString(R.string.type_all));
+                break;
+            case ImageData.TYPE_PHOTO_ID:
+                mBinding.toolbar.setTitle(getString(R.string.type_photo));
+                break;
+            case ImageData.TYPE_ILLUSTRATION_ID:
+                mBinding.toolbar.setTitle(getString(R.string.type_illustration));
+                break;
+            default:
+                mBinding.toolbar.setTitle(getString(R.string.type_vector));
+                break;
+        }
     }
 
     @Override

@@ -32,7 +32,7 @@ import greendao.ImageData;
 public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
         OnViewTouchListener, OnImageTouchListener, OnTypeTouchListener {
 
-    private String mType = ImageData.TYPE_ALL;
+    private int mType = ImageData.TYPE_ALL_ID;
 
     private MainView mMainView;
     private ImageRepository mImageRepository;
@@ -57,8 +57,6 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
         mActivityMainBinding = (ActivityMainBinding) viewDataBinding;
 
         /* TOOLBAR */
-
-        mActivityMainBinding.toolbar.setTitle(mType.toUpperCase());
 
         /* TOUCH LISTENER BEHAVIOUR */
 
@@ -150,11 +148,11 @@ public class MainPresenterImpl implements MainPresenter, OnDataRequestListener,
     }
 
     @Override
-    public void onTypeTouched(String type) {
-        if(!this.mType.equals(type)) {
+    public void onTypeTouched(int type) {
+        if(this.mType != type) {
             this.mType = type;
-            mActivityMainBinding.toolbar.setTitle(mType.toUpperCase());
-            mShutterStockManager.definePageSearch(type, mImageRepository.getCurrentPage(type));
+            mMainView.setToolbarTitle(type);
+            mShutterStockManager.definePageSearch(mType, mImageRepository.getCurrentPage(type));
             resetAdapter();
 
             loadNextPage();

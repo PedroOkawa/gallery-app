@@ -22,7 +22,7 @@
  * SOFTWARE.
  * 
  */
-package com.okawa.pedro.galleryapp;
+package com.okawa.pedro.galleryapp.actions;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;

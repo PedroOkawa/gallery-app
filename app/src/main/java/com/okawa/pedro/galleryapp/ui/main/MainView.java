@@ -12,6 +12,7 @@ public interface MainView {
     void showProgress();
     void hideProgress();
     void onError();
+    void setToolbarTitle(int type);
     void closeNavigation();
     void openDetails(long imageId, Pair<View, String>... params);
     void openGithub(Intent intent);

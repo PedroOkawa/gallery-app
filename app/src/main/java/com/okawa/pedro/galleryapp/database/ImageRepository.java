@@ -35,22 +35,22 @@ public class ImageRepository {
                 .queryBuilder().where(ImageDataDao.Properties.ImageId.eq(imageId)).unique();
     }
 
-    public List<ImageData> getPagedImageData(int offset, String type) {
-        if(!type.equals(ImageData.TYPE_ALL)) {
+    public List<ImageData> getPagedImageData(int offset, int type) {
+        if(type == ImageData.TYPE_ALL_ID) {
             return mDaoSession.getImageDataDao()
-                    .queryBuilder().where(ImageDataDao.Properties.ImageType.eq(type))
-                    .limit(SELECT_LIMIT).offset(offset).list();
+                    .queryBuilder().limit(SELECT_LIMIT).offset(offset).list();
         }
         return mDaoSession.getImageDataDao()
-                .queryBuilder().limit(SELECT_LIMIT).offset(offset).list();
+                .queryBuilder().where(ImageDataDao.Properties.ImageType.eq(type))
+                .limit(SELECT_LIMIT).offset(offset).list();
     }
 
     public long countImageData() {
         return mDaoSession.getImageDataDao().count();
     }
 
-    public long countImageDataByType(String type) {
-        if(type.equals(ImageData.TYPE_ALL)) {
+    public long countImageDataByType(int type) {
+        if(type == ImageData.TYPE_ALL_ID) {
             return mDaoSession.getImageDataDao().count();
         }
         return mDaoSession.getImageDataDao()
@@ -61,7 +61,7 @@ public class ImageRepository {
         mDaoSession.getImageDataDao().deleteAll();
     }
 
-    public long getCurrentPage(String type) {
+    public long getCurrentPage(int type) {
         long total = countImageDataByType(type);
         if (total == 0) return 1;
         return (long) (Math.ceil(total / SELECT_LIMIT) + 1);

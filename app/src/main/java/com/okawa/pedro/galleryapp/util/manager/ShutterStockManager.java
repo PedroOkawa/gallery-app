@@ -58,7 +58,7 @@ public class ShutterStockManager {
      IMAGE SEARCH SECTION
      */
 
-    public void loadImageData(final OnDataRequestListener onDataRequestListener, String type) {
+    public void loadImageData(final OnDataRequestListener onDataRequestListener, int type) {
 
         /*
          PARAMETERS USED TO LOAD IMAGES FROM SHUTTER STOCK API
@@ -70,8 +70,8 @@ public class ShutterStockManager {
 
         parameters.put(ShutterStockInterface.PARAMETER_VIEW, ShutterStockInterface.PARAMETER_FULL_VALUE);
         parameters.put(ShutterStockInterface.PARAMETER_PAGE, String.valueOf(mCurrentPage++));
-        if(!type.equals(ImageData.TYPE_ALL)) {
-            parameters.put(ShutterStockInterface.PARAMETER_TYPE, type);
+        if(type != ImageData.TYPE_ALL_ID) {
+            parameters.put(ShutterStockInterface.PARAMETER_TYPE, convertType(type));
         } else {
             /* KEEP THE ALL OBJECTS INDEX PAGE UPDATED */
             mCurrentPageAllObjects = mCurrentPage;
@@ -198,8 +198,23 @@ public class ShutterStockManager {
                 });
     }
 
-    public void definePageSearch(String type, long page) {
-        if(type.equals(ImageData.TYPE_ALL)) {
+    /* CONVERT THE TYPE CODE TO A VALID STRING REQUEST */
+
+    private String convertType(int type) {
+        switch(type) {
+            case ImageData.TYPE_PHOTO_ID:
+                return ImageData.TYPE_PHOTO;
+            case ImageData.TYPE_ILLUSTRATION_ID:
+                return ImageData.TYPE_ILLUSTRATION;
+            default:
+                return ImageData.TYPE_VECTOR;
+        }
+    }
+
+    /* PAGE METHODS - MANAGES THE CORRECT PAGE TO REQUEST */
+
+    public void definePageSearch(int type, long page) {
+        if(type == ImageData.TYPE_ALL_ID) {
             this.mCurrentPage = mCurrentPageAllObjects;
         } else {
             this.mCurrentPage = page;

@@ -31,17 +31,17 @@ public class TypeAdapter extends SimpleAdapter<String, AdapterTypeBinding> {
 
     @Override
     protected void doOnBindViewHolder(SimpleViewHolder holder,
-                                      AdapterTypeBinding binding, int position, final String type) {
+                                      AdapterTypeBinding binding, final int position, String type) {
         if(mOnTypeTouchListener != null) {
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnTypeTouchListener.onTypeTouched(type);
+                    mOnTypeTouchListener.onTypeTouched(position);
                 }
             });
         }
 
         binding.tvAdapterType.setText(type);
-        binding.setType(type);
+        binding.setType(position);
     }
 }

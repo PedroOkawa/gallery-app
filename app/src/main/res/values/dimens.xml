@@ -8,6 +8,7 @@
     <dimen name="adapter_type_item_margin">10dp</dimen>
     <dimen name="adapter_type_icon_type_size">24dp</dimen>
     <dimen name="adapter_type_icon_type_margin">6dp</dimen>
+    <dimen name="adapter_type_text_start_margin">20dp</dimen>
 
     <!-- VIEW IMAGE DETAILS -->
     <dimen name="view_image_card_height">300dp</dimen>
@@ -19,9 +20,18 @@
     <dimen name="navigation_view_header_content_margin_top">20dp</dimen>
     <dimen name="navigation_view_header_content_margin_bottom">20dp</dimen>
 
+    <!-- NAVIGATION VIEW -->
+    <dimen name="navigation_view_width">260dp</dimen>
+
     <!-- NAVIGATION VIEW (FOOTER) -->
     <dimen name="navigation_view_footer_drawable_padding">10dp</dimen>
     <dimen name="navigation_view_footer_text_margin">10dp</dimen>
+
+    <!-- VIEW IMAGE INFO -->
+    <dimen name="view_image_info_layout_padding">10dp</dimen>
+    <dimen name="view_image_info_id_icon_margin_end">5dp</dimen>
+    <dimen name="view_image_info_type_icon_margin_start">10dp</dimen>
+    <dimen name="view_image_info_type_icon_margin_end">5dp</dimen>
 
     <!-- DETAILS ACTIVITY -->
     <dimen name="activity_details_content_loading_margin">28dp</dimen>

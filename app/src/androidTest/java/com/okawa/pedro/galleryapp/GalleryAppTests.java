@@ -1,10 +1,14 @@
 package com.okawa.pedro.galleryapp;
 
+import android.support.annotation.StringRes;
+import android.support.test.espresso.NoMatchingViewException;
+import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import com.okawa.pedro.galleryapp.actions.OrientationChangeAction;
 import com.okawa.pedro.galleryapp.ui.main.MainActivity;
 
 import org.junit.Before;
@@ -22,6 +26,8 @@ import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.okawa.pedro.galleryapp.matchers.EditTextMatcher.withText;
+import static com.okawa.pedro.galleryapp.matchers.RecyclerViewMatcher.withRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
 /**
@@ -31,6 +37,7 @@ import static org.hamcrest.Matchers.allOf;
 @LargeTest
 public class GalleryAppTests {
 
+    private static final int NO_TYPE_DEFINED = -1;
     private static final int INDEX_ALL = 0;
     private static final int INDEX_PHOTO = 1;
     private static final int INDEX_ILLUSTRATION = 2;
@@ -60,177 +67,178 @@ public class GalleryAppTests {
 
     @Test
     public void openAllImagesOptionAndScrollItem() {
-        openDrawer(R.id.drawerLayout);
-        sleep(INTERACTION_DELAY);
-
-        onView(allOf(withId(R.id.rvNavigationView), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition(INDEX_ALL),
-                        RecyclerViewActions.actionOnItemAtPosition(INDEX_ALL, click()));
-
-        onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition(0),
-                        RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        onView(isRoot()).perform(OrientationChangeAction.orientationLandscape());
-
-        sleep(INTERACTION_DELAY);
-
-        onView(withId(R.id.svActivityDetails)).perform(swipeUp());
-
-        sleep(INTERACTION_DELAY);
-
-        onView(isRoot()).perform(OrientationChangeAction.orientationPortrait());
+        openNavigationOption(INDEX_ALL);
     }
 
     @Test
     public void openPhotosOptionAndScrollItem() {
-        openDrawer(R.id.drawerLayout);
-        sleep(INTERACTION_DELAY);
-
-        onView(allOf(withId(R.id.rvNavigationView), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition(INDEX_PHOTO),
-                        RecyclerViewActions.actionOnItemAtPosition(INDEX_PHOTO, click()));
-
-        onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition(0),
-                        RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        onView(isRoot()).perform(OrientationChangeAction.orientationLandscape());
-
-        sleep(INTERACTION_DELAY);
-
-        onView(withId(R.id.svActivityDetails)).perform(swipeUp());
-
-        sleep(INTERACTION_DELAY);
-
-        onView(isRoot()).perform(OrientationChangeAction.orientationPortrait());
+        openNavigationOption(INDEX_PHOTO);
+        openDetailsSwipeAndOrientation();
     }
 
     @Test
     public void openIllustrationsOptionAndScrollItem() {
-        openDrawer(R.id.drawerLayout);
-        sleep(INTERACTION_DELAY);
-
-        onView(allOf(withId(R.id.rvNavigationView), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition(INDEX_ILLUSTRATION),
-                        RecyclerViewActions.actionOnItemAtPosition(INDEX_ILLUSTRATION, click()));
-
-        onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition(0),
-                        RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        onView(isRoot()).perform(OrientationChangeAction.orientationLandscape());
-
-        sleep(INTERACTION_DELAY);
-
-        onView(withId(R.id.svActivityDetails)).perform(swipeUp());
-
-        sleep(INTERACTION_DELAY);
-
-        onView(isRoot()).perform(OrientationChangeAction.orientationPortrait());
+        openNavigationOption(INDEX_ILLUSTRATION);
+        openDetailsSwipeAndOrientation();
     }
 
     @Test
     public void openVectorsOptionAndScrollItem() {
-        openDrawer(R.id.drawerLayout);
-        sleep(INTERACTION_DELAY);
-
-        onView(allOf(withId(R.id.rvNavigationView), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition(INDEX_VECTOR),
-                        RecyclerViewActions.actionOnItemAtPosition(INDEX_VECTOR, click()));
-
-        onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition(0),
-                        RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        onView(isRoot()).perform(OrientationChangeAction.orientationLandscape());
-
-        sleep(INTERACTION_DELAY);
-
-        onView(withId(R.id.svActivityDetails)).perform(swipeUp());
-
-        sleep(INTERACTION_DELAY);
-
-        onView(isRoot()).perform(OrientationChangeAction.orientationPortrait());
+        openNavigationOption(INDEX_VECTOR);
+        openDetailsSwipeAndOrientation();
     }
 
     @Test
     public void openAllImages() {
-        openDrawer(R.id.drawerLayout);
+        openNavigationOption(INDEX_ALL);
 
-        onView(allOf(withId(R.id.rvNavigationView), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition(INDEX_ALL),
-                        RecyclerViewActions.actionOnItemAtPosition(INDEX_ALL, click()));
-
-        for (int i = 0; i < TOTAL_OBJECTS_OPEN + 1; i++) {
-
-            onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
-                    .perform(RecyclerViewActions.scrollToPosition(i),
-                            RecyclerViewActions.actionOnItemAtPosition(i, click()));
-
-            sleep(INTERACTION_DELAY);
-            pressBack();
-            sleep(INTERACTION_DELAY);
+        for(int i = 0; i < TOTAL_OBJECTS_OPEN; i++) {
+            checkDetailsActivityContent(i, NO_TYPE_DEFINED);
         }
     }
 
     @Test
     public void openImagesPhoto() {
-        openDrawer(R.id.drawerLayout);
+        openNavigationOption(INDEX_PHOTO);
 
-        onView(allOf(withId(R.id.rvNavigationView), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition(INDEX_PHOTO),
-                        RecyclerViewActions.actionOnItemAtPosition(INDEX_PHOTO, click()));
-
-        for (int i = 0; i < TOTAL_OBJECTS_OPEN + 1; i++) {
-
-            onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
-                    .perform(RecyclerViewActions.scrollToPosition(i),
-                            RecyclerViewActions.actionOnItemAtPosition(i, click()));
-
-            sleep(INTERACTION_DELAY);
-            pressBack();
-            sleep(INTERACTION_DELAY);
+        for(int i = 0; i < TOTAL_OBJECTS_OPEN; i++) {
+            checkDetailsActivityContent(i, R.string.type_photo);
         }
     }
 
     @Test
     public void openImagesIllustration() {
-        openDrawer(R.id.drawerLayout);
+        openNavigationOption(INDEX_ILLUSTRATION);
 
-        onView(allOf(withId(R.id.rvNavigationView), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition(INDEX_ILLUSTRATION),
-                        RecyclerViewActions.actionOnItemAtPosition(INDEX_ILLUSTRATION, click()));
-
-        for (int i = 0; i < TOTAL_OBJECTS_OPEN + 1; i++) {
-
-            onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
-                    .perform(RecyclerViewActions.scrollToPosition(i),
-                            RecyclerViewActions.actionOnItemAtPosition(i, click()));
-
-            sleep(INTERACTION_DELAY);
-            pressBack();
-            sleep(INTERACTION_DELAY);
+        for(int i = 0; i < TOTAL_OBJECTS_OPEN; i++) {
+            checkDetailsActivityContent(i, R.string.type_illustration);
         }
     }
 
     @Test
     public void openImagesVector() {
+        openNavigationOption(INDEX_VECTOR);
+
+        for(int i = 0; i < TOTAL_OBJECTS_OPEN; i++) {
+            checkDetailsActivityContent(i, R.string.type_vector);
+        }
+    }
+
+    @Test(expected = NoMatchingViewException.class)
+    public void checkVectorOnPhotosList() {
+        openNavigationOption(INDEX_PHOTO);
+
+        for(int i = 0; i < TOTAL_OBJECTS_OPEN; i++) {
+            checkTextOnRecyclerItem(i, R.string.type_vector);
+        }
+    }
+
+    @Test(expected = NoMatchingViewException.class)
+    public void checkIllustrationOnPhotosList() {
+        openNavigationOption(INDEX_PHOTO);
+
+        for(int i = 0; i < TOTAL_OBJECTS_OPEN; i++) {
+            checkTextOnRecyclerItem(i, R.string.type_illustration);
+        }
+    }
+
+    @Test(expected = NoMatchingViewException.class)
+    public void checkVectorOnIllustrationsList() {
+        openNavigationOption(INDEX_ILLUSTRATION);
+
+        for(int i = 0; i < TOTAL_OBJECTS_OPEN; i++) {
+            checkTextOnRecyclerItem(i, R.string.type_vector);
+        }
+    }
+
+    @Test(expected = NoMatchingViewException.class)
+    public void checkPhotoOnIllustrationsList() {
+        openNavigationOption(INDEX_ILLUSTRATION);
+
+        for(int i = 0; i < TOTAL_OBJECTS_OPEN; i++) {
+            checkTextOnRecyclerItem(i, R.string.type_photo);
+        }
+    }
+
+    @Test(expected = NoMatchingViewException.class)
+    public void checkPhotoOnVectorsList() {
+        openNavigationOption(INDEX_VECTOR);
+
+        for(int i = 0; i < TOTAL_OBJECTS_OPEN; i++) {
+            checkTextOnRecyclerItem(i, R.string.type_photo);
+        }
+    }
+
+    @Test(expected = NoMatchingViewException.class)
+    public void checkIllustrationOnVectorsList() {
+        openNavigationOption(INDEX_VECTOR);
+
+        for(int i = 0; i < TOTAL_OBJECTS_OPEN; i++) {
+            checkTextOnRecyclerItem(i, R.string.type_illustration);
+        }
+    }
+
+    private void openDetailsSwipeAndOrientation() {
+        onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
+                .perform(RecyclerViewActions.scrollToPosition(0),
+                        RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        onView(isRoot()).perform(OrientationChangeAction.orientationLandscape());
+
+        sleep(INTERACTION_DELAY);
+
+        onView(withId(R.id.svActivityDetails)).perform(swipeUp());
+
+        sleep(INTERACTION_DELAY);
+
+        onView(isRoot()).perform(OrientationChangeAction.orientationPortrait());
+    }
+
+    private void openNavigationOption(int option) {
         openDrawer(R.id.drawerLayout);
 
         onView(allOf(withId(R.id.rvNavigationView), isDisplayed()))
-                .perform(RecyclerViewActions.scrollToPosition(INDEX_VECTOR),
-                        RecyclerViewActions.actionOnItemAtPosition(INDEX_VECTOR, click()));
+                .perform(RecyclerViewActions.scrollToPosition(option),
+                        RecyclerViewActions.actionOnItemAtPosition(option, click()));
 
-        for (int i = 0; i < TOTAL_OBJECTS_OPEN + 1; i++) {
+        sleep(INTERACTION_DELAY);
+    }
 
-            onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
-                    .perform(RecyclerViewActions.scrollToPosition(i),
-                            RecyclerViewActions.actionOnItemAtPosition(i, click()));
+    private void checkTextOnRecyclerItem(int position, @StringRes int stringId) {
+        onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
+                .perform(RecyclerViewActions.scrollToPosition(position));
 
-            sleep(INTERACTION_DELAY);
-            pressBack();
-            sleep(INTERACTION_DELAY);
+        onView(withRecyclerView(R.id.rvActivityMainImages)
+                .atPositionOnView(position, R.id.tvImageType))
+                .check(ViewAssertions.matches(withText(stringId)));
+
+        sleep(INTERACTION_DELAY);
+    }
+
+    private void checkDetailsActivityContent(int position, @StringRes int stringId) {
+        onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
+                .perform(RecyclerViewActions.scrollToPosition(position),
+                        RecyclerViewActions.actionOnItemAtPosition(position, click()));
+
+        sleep(INTERACTION_DELAY);
+
+        if(stringId != -1) {
+            onView(withId(R.id.tvImageType))
+                    .check(ViewAssertions.matches(withText(stringId)));
         }
+
+        sleep(INTERACTION_DELAY);
+
+        onView(withId(R.id.tvActivityDetailsCategories))
+                .check(ViewAssertions.matches(isDisplayed()));
+
+        onView(withId(R.id.tvActivityDetailsContributor))
+                .check(ViewAssertions.matches(isDisplayed()));
+
+        sleep(INTERACTION_DELAY);
+
+        pressBack();
+
+        sleep(INTERACTION_DELAY);
     }
 }
