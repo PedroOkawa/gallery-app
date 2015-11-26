@@ -45,8 +45,8 @@ public class GalleryAppTests {
 
     private static final int TOTAL_OBJECTS_OPEN = 5;
 
-    private static final int INITIAL_DELAY = 1000;
-    private static final int INTERACTION_DELAY = 500;
+    private static final int INITIAL_DELAY = 4000;
+    private static final int INTERACTION_DELAY = 2000;
 
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
