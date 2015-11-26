@@ -28,4 +28,4 @@ Click **[here]** to download apk.
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does it's job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
-   [here]: <https://github.com/PedroOkawa/gallery-res/blob/master/gallery-app.apk>
+   [here]: <https://github.com/PedroOkawa/gallery-res/raw/master/gallery-app.apk>
