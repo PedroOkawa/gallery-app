@@ -27,4 +27,6 @@ App created to request and show data from ShutterStock API
 
 Click **[here]** to download the apk.
 
-[here]: <https://drive.google.com/open?id=0B5_VN1PHBSM8QmV6UkpiSUN4UlE>
+[//]: #
+
+[here]: <https://github.com/PedroOkawa/gallery-res/blob/master/gallery-app.apk>
