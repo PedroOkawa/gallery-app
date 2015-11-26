@@ -68,6 +68,7 @@ public class GalleryAppTests {
     @Test
     public void openAllImagesOptionAndScrollItem() {
         openNavigationOption(INDEX_ALL);
+        openDetailsSwipeAndOrientation();
     }
 
     @Test
@@ -197,6 +198,8 @@ public class GalleryAppTests {
     private void openNavigationOption(int option) {
         openDrawer(R.id.drawerLayout);
 
+        sleep(INTERACTION_DELAY);
+
         onView(allOf(withId(R.id.rvNavigationView), isDisplayed()))
                 .perform(RecyclerViewActions.scrollToPosition(option),
                         RecyclerViewActions.actionOnItemAtPosition(option, click()));
@@ -205,8 +208,12 @@ public class GalleryAppTests {
     }
 
     private void checkTextOnRecyclerItem(int position, @StringRes int stringId) {
+        sleep(INTERACTION_DELAY);
+
         onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
                 .perform(RecyclerViewActions.scrollToPosition(position));
+
+        sleep(INTERACTION_DELAY);
 
         onView(withRecyclerView(R.id.rvActivityMainImages)
                 .atPositionOnView(position, R.id.tvImageType))
@@ -216,6 +223,8 @@ public class GalleryAppTests {
     }
 
     private void checkDetailsActivityContent(int position, @StringRes int stringId) {
+        sleep(INTERACTION_DELAY);
+
         onView(allOf(withId(R.id.rvActivityMainImages), isDisplayed()))
                 .perform(RecyclerViewActions.scrollToPosition(position),
                         RecyclerViewActions.actionOnItemAtPosition(position, click()));
