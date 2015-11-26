@@ -15,7 +15,10 @@ import org.mockito.Mock;
 import java.util.ArrayList;
 import java.util.List;
 
+import greendao.ImageData;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -26,7 +29,7 @@ public class ParserManagerTest {
 
     private static final long IMAGE_ID = 1;
     private static final String DESCRIPTION = "description";
-    private static final String TYPE = "type";
+    private static final String TYPE = ImageData.TYPE_VECTOR;
     private static final String URL = "url";
     private static final long CONTRIBUTOR_ID = 1;
     private static final long CATEGORY_ID_1 = 1;
@@ -77,7 +80,7 @@ public class ParserManagerTest {
         ParserManager parserManager = new ParserManager();
         assertEquals(parserManager.parseData(mData).getImageId(), IMAGE_ID);
         assertEquals(parserManager.parseData(mData).getDescription(), DESCRIPTION);
-        assertEquals(parserManager.parseData(mData).getImageType(), TYPE);
+        assertTrue(parserManager.parseData(mData).getImageType() == ImageData.TYPE_VECTOR_ID);
         assertEquals(parserManager.parseData(mData).getImageURL(), URL);
         assertEquals(parserManager.parseData(mData).getContributorId(), CONTRIBUTOR_ID);
     }
