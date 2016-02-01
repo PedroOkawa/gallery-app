@@ -78,6 +78,6 @@ public class ImageAdapter extends SimpleAdapter<ImageData, AdapterImagesBinding>
         /* ID */
         binding.viewImageInfo.tvImageId.setText(String.valueOf(imageData.getImageId()));
 
-        binding.setImageData(imageData);
+        binding.viewImageInfo.setImageData(imageData);
     }
 }

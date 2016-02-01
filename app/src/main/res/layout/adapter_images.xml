@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/tools">
-
-    <data>
-        <variable
-            name="imageData"
-            type="greendao.ImageData"/>
-    </data>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- CARD LAYOUT -->
 
@@ -36,8 +29,7 @@
 
             <include
                 android:id="@+id/viewImageInfo"
-                layout="@layout/view_image_info"
-                bind:imageData="@{imageData}"/>
+                layout="@layout/view_image_info"/>
 
         </RelativeLayout>
 

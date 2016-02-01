@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.IntegerRes;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -134,6 +135,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         mBinding.tvActivityDetailsCategories.setText(categoriesBuffer.toString());
 
         mBinding.setImageData(imageData);
+        mBinding.viewImageInfo.setImageData(imageData);
     }
 
     @Override
